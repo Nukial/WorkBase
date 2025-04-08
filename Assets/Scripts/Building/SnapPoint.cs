@@ -161,6 +161,7 @@ public class SnapPoint : MonoBehaviour {
         
         // Tính dot product để xác định góc giữa hai vector
         float dotProduct = Vector3.Dot(thisDirection.normalized, otherDirection.normalized);
+        float angle = Vector3.Angle(thisDirection, otherDirection);
         
         // Kiểm tra theo loại kết nối được yêu cầu
         switch (this.connectionType) {
@@ -170,9 +171,9 @@ public class SnapPoint : MonoBehaviour {
             case ConnectionType.Perpendicular:  // Vuông góc (khoảng 90 độ)
                 return Mathf.Abs(dotProduct) <= 0.3f;  // Gần với 0
                 
-            case ConnectionType.Angle45:        // Góc 45 độ
-                float angle = Vector3.Angle(thisDirection, otherDirection);
-                return (angle >= 35f && angle <= 55f) || (angle >= 125f && angle <= 145f);
+            case ConnectionType.Angle45:        // Góc 45 độ hoặc 135 độ
+                // Kiểm tra góc 45 hoặc 135
+                return IsAngle45Compatible(angle);
                 
             case ConnectionType.Parallel:       // Cùng hướng (khoảng 0 độ)
                 return dotProduct >= 0.7f;      // Gần với 1
@@ -180,6 +181,21 @@ public class SnapPoint : MonoBehaviour {
             default:
                 return true; // Mặc định chấp nhận mọi hướng
         }
+    }
+    
+    /// <summary>
+    /// Kiểm tra riêng cho góc 45 độ, hỗ trợ cả góc 45, 135, 225, 315 độ
+    /// </summary>
+    private bool IsAngle45Compatible(float angle) {
+        // Góc 45 +/- 15 độ
+        if (angle >= 30f && angle <= 60f) return true;
+        // Góc 135 +/- 15 độ
+        if (angle >= 120f && angle <= 150f) return true;
+        //// Góc 225 +/- 15 độ (tương đương 135 độ)
+        if (angle >= 210f && angle <= 240f) return true;
+        // Góc 315 +/- 15 độ (tương đương 45 độ)
+        if (angle >= 300f && angle <= 330f) return true;
+        return false;
     }
 
     /// <summary>
@@ -204,9 +220,8 @@ public class SnapPoint : MonoBehaviour {
         // Hai tường nên vuông góc với nhau (gần 90 độ - dot product gần 0)
         bool isPerpendicularConnection = Mathf.Abs(dotProduct) <= 0.3f;
         
-        // Trường hợp 3: Kết nối góc 45 độ
-        // Góc nên gần 45 độ hoặc 135 độ
-        bool is45DegreeConnection = (angle >= 35f && angle <= 55f) || (angle >= 125f && angle <= 145f);
+        // Trường hợp 3: Kết nối góc 45 độ hoặc 135 độ
+        bool is45DegreeConnection = IsAngle45Compatible(angle);
         
         // Trường hợp đặc biệt - kết nối linh hoạt cho WallSide
         // Cho phép cả kết nối thẳng hàng, góc vuông và góc 45 độ
@@ -283,7 +298,7 @@ public class SnapPoint : MonoBehaviour {
     }
 
     /// <summary>
-    /// Tính toán góc xoay quanh trục Y dựa trên loại kết nối và hướng
+    /// Tính toán góc xoay dựa trên loại kết nối và hướng, hỗ trợ snap nhiều góc độ
     /// </summary>
     public Quaternion GetSnappedRotation(SnapPoint otherPoint, Quaternion currentRotation) {
         // Nếu không khóa góc xoay, giữ nguyên góc xoay hiện tại
@@ -293,49 +308,111 @@ public class SnapPoint : MonoBehaviour {
         Vector3 thisDirection = GetDirectionVector();
         Vector3 otherDirection = otherPoint.GetDirectionVector();
         
-        // Loại bỏ thành phần Y để chỉ xoay quanh trục Y
-        thisDirection.y = 0;
-        otherDirection.y = 0;
+        // Xử lý dựa trên hướng của snap point
+        Vector3 targetDirection;
         
-        thisDirection.Normalize();
-        otherDirection.Normalize();
+        switch (connectionType) {
+            case ConnectionType.Opposite:
+                // Ngược hướng với snap point kia
+                targetDirection = -otherDirection;
+                break;
+                
+            case ConnectionType.Perpendicular:
+                // Góc vuông với hướng của snap point kia
+                targetDirection = GetPerpendicularDirection(otherDirection);
+                break;
+                
+            case ConnectionType.Angle45:
+                // Góc 45 độ với hướng của snap point kia
+                targetDirection = Get45DegreeDirection(otherDirection);
+                break;
+                
+            case ConnectionType.Parallel:
+                // Cùng hướng với snap point kia
+                targetDirection = otherDirection;
+                break;
+                
+            default:
+                // Mặc định giữ nguyên hướng hiện tại
+                return currentRotation;
+        }
         
-        // Góc giữa hai hướng
-        float angle = Vector3.SignedAngle(thisDirection, otherDirection, Vector3.up);
+        // Tính góc xoay để đạt được hướng mong muốn
+        Quaternion targetRotation = SnapToNearestStep(targetDirection, currentRotation);
         
-        // Làm tròn góc theo bước xoay
-        float snappedAngle = Mathf.Round(angle / rotationStep) * rotationStep;
-        
-        // Tính góc xoay mới
-        Quaternion targetRotation = Quaternion.Euler(0, snappedAngle, 0);
-        
-        // Áp dụng xoay với tham chiếu tới transform hiện tại
-        Quaternion finalRotation = Quaternion.Euler(
-            currentRotation.eulerAngles.x,
-            snappedAngle,
-            currentRotation.eulerAngles.z
-        );
-        
-        return finalRotation;
+        return targetRotation;
     }
     
     /// <summary>
-    /// Giúp PlayerBuilder duy trì góc xoay do người dùng thiết lập
+    /// Tìm vector vuông góc với vector đã cho
+    /// </summary>
+    private Vector3 GetPerpendicularDirection(Vector3 direction) {
+        // Tạo vector vuông góc bằng cách hoán đổi x,z và đảo dấu
+        return new Vector3(direction.z, direction.y, -direction.x).normalized;
+    }
+    
+    /// <summary>
+    /// Tính vector hướng tạo góc 45 độ với vector đã cho
+    /// </summary>
+    private Vector3 Get45DegreeDirection(Vector3 direction) {
+        // Kết hợp vector gốc và vector vuông góc với tỷ lệ 1:1 để tạo góc 45 độ
+        Vector3 perpendicular = GetPerpendicularDirection(direction);
+        return (direction + perpendicular).normalized;
+    }
+    
+    /// <summary>
+    /// Làm tròn góc xoay đến bội số của rotationStep (mặc định là 45 độ)
+    /// </summary>
+    private Quaternion SnapToNearestStep(Vector3 targetDirection, Quaternion currentRotation) {
+        // Tách góc xoay hiện tại
+        Vector3 currentEuler = currentRotation.eulerAngles;
+        
+        // Tính góc xoay mới từ target direction, giữ nguyên góc X và Z
+        Quaternion lookRotation = Quaternion.LookRotation(targetDirection);
+        Vector3 newEuler = lookRotation.eulerAngles;
+        
+        // Làm tròn góc Y đến bội số của rotationStep
+        float snappedY = Mathf.Round(newEuler.y / rotationStep) * rotationStep;
+        
+        // Tùy thuộc vào hướng snap, có thể cần xoay quanh trục khác
+        switch (snapDirection) {
+            case SnapDirection.Up:
+            case SnapDirection.Down:
+                // Xoay quanh trục Y cho hướng lên/xuống
+                return Quaternion.Euler(currentEuler.x, snappedY, currentEuler.z);
+                
+            case SnapDirection.Forward:
+            case SnapDirection.Back:
+                // Xoay quanh trục Y cho hướng trước/sau
+                return Quaternion.Euler(currentEuler.x, snappedY, currentEuler.z);
+                
+            case SnapDirection.Left:
+            case SnapDirection.Right:
+                // Xoay quanh trục Y cho hướng trái/phải
+                return Quaternion.Euler(currentEuler.x, snappedY, currentEuler.z);
+                
+            default:
+                return Quaternion.Euler(currentEuler.x, snappedY, currentEuler.z);
+        }
+    }
+    
+    /// <summary>
+    /// Giúp duy trì góc xoay do người dùng thiết lập, nhưng vẫn tuân theo bước xoay
     /// </summary>
     public Quaternion PreserveUserRotation(Quaternion currentRotation, Quaternion newRotation) {
-        // Giữ nguyên góc xoay của người dùng khi không yêu cầu khóa góc
+        // Nếu không yêu cầu khóa góc, trả về góc hiện tại
         if (!lockRotation)
             return currentRotation;
             
-        // Nếu có khóa góc, chỉ áp dụng góc xoay theo bước
-        float currentYRotation = currentRotation.eulerAngles.y;
-        float closestStep = Mathf.Round(currentYRotation / rotationStep) * rotationStep;
+        // Tách các thành phần góc xoay
+        Vector3 euler = currentRotation.eulerAngles;
         
-        return Quaternion.Euler(
-            currentRotation.eulerAngles.x,
-            closestStep,
-            currentRotation.eulerAngles.z
-        );
+        // Làm tròn góc Y theo bước xoay
+        float yRotation = euler.y;
+        float snappedY = Mathf.Round(yRotation / rotationStep) * rotationStep;
+        
+        // Áp dụng góc Y đã làm tròn, giữ nguyên X và Z
+        return Quaternion.Euler(euler.x, snappedY, euler.z);
     }
 
     // --- Vẽ Gizmo trong Scene View để dễ dàng hình dung ---

@@ -45,14 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 8
-  acceptedTypes: 08000000090000001400000017000000
+  acceptedTypes: 08000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 5
-  connectionType: 0
+  connectionType: 2
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 1
+  rotationStep: 45
 --- !u!1 &1159351990771520630
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,14 +233,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 8
-  acceptedTypes: 08000000090000001400000017000000
+  acceptedTypes: 08000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 4
-  connectionType: 0
+  connectionType: 2
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 1
+  rotationStep: 45
 --- !u!1 &6690511141199525230
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +296,8 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
 --- !u!1 &8333248201364201094
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,3 +351,5 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45

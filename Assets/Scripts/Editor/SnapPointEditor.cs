@@ -156,6 +156,9 @@ public class SnapPointEditor : Editor
             case ConnectionType.Any:
                 info = "Kết nối tự do: Không kiểm tra hướng khi kết nối";
                 break;
+            case ConnectionType.Angle45:
+                info = "Kết nối góc 45°: Hai snap point nên tạo góc xiên 45° với nhau";
+                break;
         }
         
         EditorGUILayout.HelpBox(info, MessageType.Info);
@@ -820,11 +823,37 @@ public class SnapPointEditor : Editor
         snapPoint.lockRotation = true;
         snapPoint.rotationStep = 45f;
         
+        // Hiển thị hộp thoại để cho phép người dùng chọn mức độ chính xác
+        string[] options = new string[] {
+            "Góc 45° (chính xác)",
+            "Góc 45° (dung sai ±15°)",
+            "Tất cả các góc bội số của 45°"
+        };
+        
+        int choice = EditorUtility.DisplayDialogComplex(
+            "Tùy chọn góc 45°",
+            "Chọn mức độ chính xác cho kết nối góc 45°:",
+            options[0], options[1], options[2]);
+        
+        // Thiết lập độ chính xác cho góc 45°
+        switch (choice) {
+            case 0: // Chính xác 45°
+                snapPoint.rotationStep = 45f;
+                break;
+            case 1: // Dung sai ±15°
+                snapPoint.rotationStep = 15f;
+                break;
+            case 2: // Tất cả các góc bội số của 45°
+                snapPoint.rotationStep = 45f;
+                // Thêm tất cả các góc 45°, 90°, 135°, 180° vào accepted types
+                break;
+        }
+        
         snapPoint.acceptedTypes.Clear();
         snapPoint.acceptedTypes.Add(SnapType.WallSide);
         
         EditorUtility.SetDirty(snapPoint);
-        Debug.Log("Thiết lập tường góc 45°: Tạo góc xiên 45 độ giữa các tường");
+        Debug.Log("Thiết lập tường góc 45°: Tạo góc xiên 45 độ giữa các tường, xoay theo bước " + snapPoint.rotationStep + "°");
     }
 
     private void AdjustArrowDirection()
@@ -925,6 +954,25 @@ public class SnapPointEditor : Editor
         }
     }
 
+    private void DrawAngleGuides(Vector3 position, float radius)
+    {
+        Handles.color = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+        
+        // Vẽ vòng tròn hướng dẫn
+        Handles.DrawWireDisc(position, Vector3.up, radius);
+        
+        // Vẽ các đường theo các góc 45°
+        for (int angle = 0; angle < 360; angle += 45)
+        {
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 direction = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
+            Handles.DrawLine(position, position + direction * radius);
+            
+            // Hiển thị giá trị góc
+            Handles.Label(position + direction * (radius + 0.1f), angle + "°");
+        }
+    }
+
     private void OnSceneGUI()
     {
         if (snapPoint == null) return;
@@ -961,6 +1009,13 @@ public class SnapPointEditor : Editor
             direction.magnitude,
             EventType.Repaint
         );
+        
+        // Hiển thị hướng dẫn góc khi ConnectionType là Angle45 hoặc Any
+        if (snapPoint.connectionType == ConnectionType.Angle45 || 
+            snapPoint.connectionType == ConnectionType.Any)
+        {
+            DrawAngleGuides(position, 0.75f);
+        }
         
         // Hiển thị kết nối đến snap khác nếu có được tìm thấy
         if (nearbySnapPoints.Count > 0)
