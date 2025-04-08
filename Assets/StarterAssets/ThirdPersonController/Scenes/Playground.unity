@@ -292,23 +292,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildCamera: {fileID: 2095687680}
-  buildDistance: 10
+  buildDistance: 15
   placementLayerMask:
     serializedVersion: 2
     m_Bits: 257
-  snapDetectionRadius: 1
-  snapMaxDistance: 0.5
+  snapDetectionRadius: 2.5
+  snapMaxDistance: 1.5
   allBuildablePieces:
   - {fileID: 11400000, guid: 586097dd63808d64ba691f8367122079, type: 2}
+  - {fileID: 11400000, guid: 1dc95fdaeaacbb54cbec1a61b30b6801, type: 2}
   currentPieceSO: {fileID: 11400000, guid: 586097dd63808d64ba691f8367122079, type: 2}
   previewInstance: {fileID: 1159351990771520630, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
   activeBaseStorage: {fileID: 1731482395}
   validPlacementMaterial: {fileID: 2100000, guid: cbe4126e8c5346340a129809d8b3155e, type: 2}
   invalidPlacementMaterial: {fileID: 2100000, guid: f40b5c4b21e744e48addfa466873ba26, type: 2}
-  snappedMaterial: {fileID: 2100000, guid: 32367f12dc37b74419c5faa3d6f17fcd, type: 2}
   isBuildingMode: 0
   canPlaceCurrentPreview: 0
   isPreviewSnapped: 0
+  useAdvancedSnap: 1
+  applyRotationDuringSnap: 1
+  snapTolerance: 0.1
+  snapPriorityDistance: 2
+  snapStabilityThreshold: 0.5
+  maxCacheSize: 5
 --- !u!4 &784113865
 Transform:
   m_ObjectHideFlags: 0
@@ -825,6 +831,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224550d8054d09b44abb76d3dbb3d22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storedResourceEntries:
+  - resource: {fileID: 11400000, guid: 54309aa9eb1842647876c5f92b32cada, type: 2}
+    amount: 100000
 --- !u!136 &1731482396
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1103,6 +1112,10 @@ PrefabInstance:
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: GroundLayers.m_Bits
+      value: 257
       objectReference: {fileID: 0}
     - target: {fileID: 4523139366846529165, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Layer

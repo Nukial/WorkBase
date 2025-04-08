@@ -49,6 +49,10 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 5
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &1159351990771520630
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +82,7 @@ Transform:
   m_GameObject: {fileID: 1159351990771520630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 11.27006, y: 0.000000008652822, z: -15.487022}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -210,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 2275382499612325949}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.44, y: 2.3155, z: 0}
+  m_LocalPosition: {x: -2.4400005, y: 2.3155, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -229,10 +233,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 8
-  acceptedTypes: 08000000
+  acceptedTypes: 080000001200000015000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 4
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &6690511141199525230
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +290,10 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &8333248201364201094
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,3 +343,7 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 3
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6843124715696167716}
   - component: {fileID: 962518191329618312}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,6 +49,9 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 5
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &2022671492203802754
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +62,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4055143643278946151}
   - component: {fileID: 3789267472495490403}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +101,9 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 5
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &5568574504773695091
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1996856522106649320}
   - component: {fileID: 2470226616734277265}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +130,7 @@ Transform:
   m_GameObject: {fileID: 5568574504773695091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.511, y: 0.153, z: 0.073}
+  m_LocalPosition: {x: -2.5109997, y: 0.153, z: 0.072999954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147,6 +153,9 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &5956685648871756438
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285894564457593694}
   - component: {fileID: 1323509708796101230}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +182,7 @@ Transform:
   m_GameObject: {fileID: 5956685648871756438}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.493, y: 0.153, z: 0.073}
+  m_LocalPosition: {x: 2.493, y: 0.153, z: 0.072999954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -196,6 +205,9 @@ MonoBehaviour:
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
 --- !u!1 &7564636611156017616
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +221,7 @@ GameObject:
   - component: {fileID: 8328509268577167364}
   - component: {fileID: 4282854172872116063}
   - component: {fileID: 6988206702977871566}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor_Flat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 7564636611156017616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 7.561487, y: 0.000000004332387, z: -24.795488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

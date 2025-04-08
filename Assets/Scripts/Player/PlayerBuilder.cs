@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerBuilder : MonoBehaviour {
     public Camera buildCamera;
     public float buildDistance = 10f;
     public LayerMask placementLayerMask;
+    [Tooltip("Layer mask dùng để kiểm tra va chạm khi đặt building. Chỉ định các layer cần kiểm tra va chạm")]
+    public LayerMask collisionCheckMask;
+    public bool showCollisionCheck = false;
     public float snapDetectionRadius = 1f;
     public float snapMaxDistance = 0.5f;
     public List<BuildingPieceSO> allBuildablePieces;
@@ -42,7 +46,30 @@ public class PlayerBuilder : MonoBehaviour {
     // Số lượng tối đa preview trong cache
     public int maxCacheSize = 5;
 
+    // Thêm biến để theo dõi danh mục được chọn hiện tại
+    private PieceCategory currentCategory = PieceCategory.Foundation;
+    private int currentPieceIndex = 0;
+
+    // Thêm mapping từ phím số đến danh mục
+    private Dictionary<KeyCode, PieceCategory> categoryKeyMapping = new Dictionary<KeyCode, PieceCategory>() {
+        { KeyCode.Alpha1, PieceCategory.Foundation },
+        { KeyCode.Alpha2, PieceCategory.Wall },
+        { KeyCode.Alpha3, PieceCategory.Floor },
+        { KeyCode.Alpha4, PieceCategory.Roof },
+        { KeyCode.Alpha5, PieceCategory.Utility }
+    };
+
+    [Header("Snap Settings")]
+    public bool respectSnapDirection = true; // Mới: tùy chọn tôn trọng hướng của snap point
+    [Tooltip("Hiển thị thông tin về loại kết nối snap khi debug")]
+    public bool showConnectionTypeInfo = false;
+    public float minDirectionDotProduct = -0.7f; // Mới: giá trị dot product tối thiểu để snap (mặc định đòi hỏi khá ngược hướng)
+    public bool showSnapDebug = false; // Mới: hiển thị hướng snap khi debug
+
     void Update() {
+        // Xử lý phím tắt để thay đổi danh mục và phần tử
+        CheckForCategoryAndPieceSelection();
+
         if (Input.GetKeyDown(KeyCode.B)) {
             ToggleBuildMode();
         }
@@ -67,6 +94,72 @@ public class PlayerBuilder : MonoBehaviour {
             } else {
                 hasValidRaycastHit = false;
             }
+        }
+    }
+
+    // Phương thức mới để kiểm tra phím tắt và thay đổi danh mục/piece
+    private void CheckForCategoryAndPieceSelection() {
+        if (!isBuildingMode) return;
+
+        // Kiểm tra phím số để chọn danh mục
+        foreach (var categoryMapping in categoryKeyMapping) {
+            if (Input.GetKeyDown(categoryMapping.Key)) {
+                SelectCategory(categoryMapping.Value);
+                return;
+            }
+        }
+
+        // Kiểm tra phím mũi tên để chuyển đổi giữa các pieces
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Period)) {
+            SelectNextPiece();
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Comma)) {
+            SelectPreviousPiece();
+        }
+    }
+
+    // Phương thức để chọn danh mục
+    public void SelectCategory(PieceCategory category) {
+        currentCategory = category;
+
+        // Lấy pieces thuộc danh mục được chọn
+        var piecesInCategory = allBuildablePieces.Where(p => p.category == category).ToList();
+
+        if (piecesInCategory.Count > 0) {
+            // Reset index và chọn piece đầu tiên trong danh mục
+            currentPieceIndex = 0;
+            SetSelectedPiece(piecesInCategory[currentPieceIndex]);
+
+            // Hiển thị thông báo
+            Debug.Log($"Switched to category: {category} - Selected: {currentPieceSO.pieceName}");
+        } else {
+            Debug.Log($"No pieces available in category: {category}");
+        }
+    }
+
+    // Phương thức để chọn piece tiếp theo trong danh mục hiện tại
+    public void SelectNextPiece() {
+        var piecesInCategory = allBuildablePieces.Where(p => p.category == currentCategory).ToList();
+
+        if (piecesInCategory.Count > 0) {
+            currentPieceIndex = (currentPieceIndex + 1) % piecesInCategory.Count;
+            SetSelectedPiece(piecesInCategory[currentPieceIndex]);
+
+            // Hiển thị thông báo
+            Debug.Log($"Selected: {currentPieceSO.pieceName} ({currentPieceIndex + 1}/{piecesInCategory.Count})");
+        }
+    }
+
+    // Phương thức để chọn piece trước đó trong danh mục hiện tại
+    public void SelectPreviousPiece() {
+        var piecesInCategory = allBuildablePieces.Where(p => p.category == currentCategory).ToList();
+
+        if (piecesInCategory.Count > 0) {
+            currentPieceIndex = (currentPieceIndex - 1 + piecesInCategory.Count) % piecesInCategory.Count;
+            SetSelectedPiece(piecesInCategory[currentPieceIndex]);
+
+            // Hiển thị thông báo
+            Debug.Log($"Selected: {currentPieceSO.pieceName} ({currentPieceIndex + 1}/{piecesInCategory.Count})");
         }
     }
 
@@ -302,6 +395,13 @@ public class PlayerBuilder : MonoBehaviour {
         public Vector3 offset;
     }
 
+    private struct SnapCandidate {
+        public SnapPoint sourceSnap;
+        public SnapPoint targetSnap;
+        public float distance;
+        public Vector3 offset;
+    }
+
     SnapResult FindBestSnap() {
         SnapResult result = new SnapResult {
             sourceSnap = null,
@@ -327,14 +427,44 @@ public class PlayerBuilder : MonoBehaviour {
         if (previewSnapPoints.Length == 0)
             return result;
 
+        // Debug visualization
+        if (showSnapDebug) {
+            foreach (var snap in previewSnapPoints) {
+                Debug.DrawRay(snap.transform.position, snap.GetDirectionVector(), Color.yellow, 0.1f);
+            }
+        }
+
+        List<SnapCandidate> candidates = new List<SnapCandidate>();
+
         foreach (var col in colliders) {
             BuildingPiece bp = col.GetComponent<BuildingPiece>();
             if (bp == null) continue;
 
             foreach (var targetSnap in bp.snapPoints) {
+                // Debug visualization 
+                if (showSnapDebug) {
+                    Debug.DrawRay(targetSnap.transform.position, targetSnap.GetDirectionVector(), Color.blue, 0.1f);
+                    
+                    // Hiển thị loại kết nối nếu được bật
+                    if (showConnectionTypeInfo) {
+                        string connType = targetSnap.connectionType.ToString();
+                        Debug.DrawLine(targetSnap.transform.position, 
+                            targetSnap.transform.position + Vector3.up * 0.2f, 
+                            GetConnectionTypeColor(targetSnap.connectionType), 0.1f);
+                    }
+                }
+
                 foreach (var sourceSnap in previewSnapPoints) {
+                    // Sử dụng phương thức CanSnapTo mới của SnapPoint
                     if (sourceSnap.CanSnapTo(targetSnap)) {
                         float dist = Vector3.Distance(sourceSnap.transform.position, targetSnap.transform.position);
+
+                        // Hiển thị debug visuals nếu cần
+                        if (respectSnapDirection && showSnapDebug && dist < snapMaxDistance) {
+                            // Hiển thị kết nối với màu tương ứng theo loại kết nối
+                            Color lineColor = GetConnectionTypeColor(sourceSnap.connectionType);
+                            Debug.DrawLine(sourceSnap.transform.position, targetSnap.transform.position, lineColor, 0.1f);
+                        }
 
                         // Chỉ ưu tiên snap hiện tại nếu chúng ta không đang cố gắng thoát khỏi snap
                         bool isCurrentSnap = (lastSnapTarget != null && targetSnap.transform == lastSnapTarget);
@@ -346,47 +476,92 @@ public class PlayerBuilder : MonoBehaviour {
                             priorityMultiplier = 0.7f; // Giảm 30% khoảng cách cho snap hiện tại nếu không cố thoát
                         }
 
+                        // Thêm vào danh sách ứng cử viên
                         if (dist * priorityMultiplier < result.distance) {
-                            result.distance = dist;
-                            result.sourceSnap = sourceSnap;
-                            result.targetSnap = targetSnap;
-                            result.offset = targetSnap.transform.position - sourceSnap.transform.position;
+                            candidates.Add(new SnapCandidate {
+                                sourceSnap = sourceSnap,
+                                targetSnap = targetSnap,
+                                distance = dist * priorityMultiplier,
+                                offset = targetSnap.transform.position - sourceSnap.transform.position
+                            });
                         }
                     }
                 }
             }
         }
 
+        // Sắp xếp ứng cử viên theo khoảng cách và chọn cái tốt nhất
+        candidates.Sort((a, b) => a.distance.CompareTo(b.distance));
+        
+        if (candidates.Count > 0) {
+            var best = candidates[0];
+            result.sourceSnap = best.sourceSnap;
+            result.targetSnap = best.targetSnap;
+            result.distance = best.distance;
+            result.offset = best.offset;
+        }
+
         return result;
+    }
+
+    private Color GetConnectionTypeColor(ConnectionType type) {
+        switch (type) {
+            case ConnectionType.Opposite:
+                return new Color(1f, 0.5f, 0, 1); // Orange
+            case ConnectionType.Perpendicular:
+                return new Color(0, 0.8f, 0.8f, 1); // Cyan
+            case ConnectionType.Parallel:
+                return new Color(1f, 0.8f, 0.2f, 1); // Yellow
+            default:
+                return new Color(0.8f, 0.8f, 0.8f, 1); // White
+        }
     }
 
     void ApplySnapResult(SnapResult result) {
         if (result.sourceSnap != null && result.targetSnap != null) {
+            // Lưu lại rotation gốc để khôi phục nếu không áp dụng rotation
+            Quaternion originalRotation = previewInstance.transform.rotation;
+
+            // Tính toán offset vị trí
             Vector3 offset = result.offset;
 
-            // Position alignment always happens
+            // Di chuyển preview đến vị trí snap
             previewInstance.transform.position = result.targetSnap.transform.position -
-                                               (result.sourceSnap.transform.position - previewInstance.transform.position);
+                                (result.sourceSnap.transform.position - previewInstance.transform.position);
 
-            // Only apply rotation if the option is enabled
+            // Nếu bật tính năng áp dụng rotation trong snap
             if (applyRotationDuringSnap) {
-                Quaternion rotationDifference = Quaternion.Inverse(result.sourceSnap.transform.rotation) * previewInstance.transform.rotation;
+                // Tính toán sự chênh lệch giữa hướng của hai snap point
+                Quaternion sourceToLocalRotation = Quaternion.Inverse(result.sourceSnap.transform.rotation);
+                Quaternion rotationDifference = sourceToLocalRotation * previewInstance.transform.rotation;
+                
+                // Áp dụng rotation mới dựa trên hướng đối tượng đích
                 previewInstance.transform.rotation = result.targetSnap.transform.rotation * rotationDifference;
             }
 
+            // Áp dụng các offset trực quan nếu bật chế độ nâng cao
             if (useAdvancedSnap) {
-                previewInstance.transform.position += result.targetSnap.transform.rotation * result.targetSnap.visualOffset;
-                // Only apply advanced rotation if rotation is enabled
+                // Luôn áp dụng offset vị trí
+                Vector3 visualPositionOffset = result.targetSnap.transform.rotation * result.targetSnap.visualOffset;
+                previewInstance.transform.position += visualPositionOffset;
+                
+                // Chỉ áp dụng offset góc xoay nếu được phép
                 if (applyRotationDuringSnap) {
                     previewInstance.transform.rotation *= result.targetSnap.visualRotationOffset;
                 }
             }
+            
+            // Debug visualization nếu cần
+            if (showSnapDebug) {
+                // Hiển thị kết nối snap thành công
+                Debug.DrawLine(result.sourceSnap.transform.position, result.targetSnap.transform.position, 
+                    Color.magenta, 0.5f);
+                
+                // Hiển thị hướng sau khi snap
+                Debug.DrawRay(previewInstance.transform.position, previewInstance.transform.forward * 0.5f, 
+                    Color.cyan, 0.5f);
+            }
         }
-    }
-
-    // Add a method to toggle rotation adjustment
-    public void ToggleRotationDuringSnap() {
-        applyRotationDuringSnap = !applyRotationDuringSnap;
     }
 
     void UpdatePreviewMaterial() {
@@ -395,10 +570,51 @@ public class PlayerBuilder : MonoBehaviour {
     }
 
     void CheckPlacementValidity() {
-        Collider[] colliders = Physics.OverlapBox(previewInstance.transform.position, previewInstance.transform.localScale / 2, previewInstance.transform.rotation, placementLayerMask);
-        bool noCollision = colliders.Length <= 1;
+        if (previewInstance == null) return;
+        
+        // Sử dụng collisionCheckMask thay vì placementLayerMask
+        Vector3 boxSize = previewInstance.transform.localScale / 2;
+        
+        // Điều chỉnh kích thước box để phù hợp hơn với hình dạng thực tế
+        Renderer[] renderers = previewInstance.GetComponentsInChildren<Renderer>();
+        if (renderers.Length > 0) {
+            // Tính Bounds dựa trên tất cả renderer
+            Bounds combinedBounds = new Bounds(renderers[0].bounds.center, Vector3.zero);
+            foreach (Renderer rend in renderers) {
+                combinedBounds.Encapsulate(rend.bounds);
+            }
+            
+            // Quy đổi kích thước sang local space của preview
+            boxSize = combinedBounds.size / 2;
+        }
+        
+        // Kiểm tra va chạm với collisionCheckMask
+        Collider[] colliders = Physics.OverlapBox(
+            previewInstance.transform.position, 
+            boxSize, 
+            previewInstance.transform.rotation, 
+            collisionCheckMask
+        );
+        
+        // Debug visualization
+        if (showCollisionCheck) {
+            Matrix4x4 matrix = Matrix4x4.TRS(
+                previewInstance.transform.position,
+                previewInstance.transform.rotation,
+                boxSize * 2
+            );
+            
+            Color debugColor = colliders.Length <= 0 ? Color.green : Color.red;
+            Debug.DrawLine(previewInstance.transform.position, previewInstance.transform.position + Vector3.up * 2, debugColor);
+            
+            // Log số lượng colliders va chạm
+            if (colliders.Length > 0) {
+                Debug.Log($"Colliding with {colliders.Length} objects: {string.Join(", ", colliders.Select(c => c.name))}");
+            }
+        }
+        
+        bool noCollision = colliders.Length <= 0;
         bool hasResources = activeBaseStorage != null && activeBaseStorage.CheckResources(currentPieceSO.requiredResource, currentPieceSO.resourceCost);
-
         bool hasStructuralSupport = true;
 
         if (isPreviewSnapped && lastUsedSourceSnap != null) {
@@ -483,5 +699,47 @@ public class PlayerBuilder : MonoBehaviour {
         foreach (var preview in previewCache.Values) {
             Destroy(preview);
         }
+    }
+
+    // Thêm phương thức OnDrawGizmos để hiển thị vùng kiểm tra va chạm trong Editor
+    void OnDrawGizmos() {
+        if (previewInstance != null && showCollisionCheck) {
+            Vector3 boxSize = previewInstance.transform.localScale / 2;
+            
+            Renderer[] renderers = previewInstance.GetComponentsInChildren<Renderer>();
+            if (renderers.Length > 0) {
+                Bounds combinedBounds = new Bounds(renderers[0].bounds.center, Vector3.zero);
+                foreach (Renderer rend in renderers) {
+                    combinedBounds.Encapsulate(rend.bounds);
+                }
+                boxSize = combinedBounds.size / 2;
+            }
+            
+            Gizmos.color = canPlaceCurrentPreview ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
+            Gizmos.matrix = Matrix4x4.TRS(
+                previewInstance.transform.position,
+                previewInstance.transform.rotation,
+                Vector3.one
+            );
+            Gizmos.DrawCube(Vector3.zero, boxSize * 2);
+        }
+    }
+
+    // Thêm phương thức để bật/tắt tùy chọn tôn trọng hướng snap
+    public void ToggleRespectSnapDirection() {
+        respectSnapDirection = !respectSnapDirection;
+        Debug.Log($"Respect snap direction: {respectSnapDirection}");
+    }
+
+    // Thêm phương thức để bật/tắt debug snap
+    public void ToggleSnapDebug() {
+        showSnapDebug = !showSnapDebug;
+        Debug.Log($"Snap debug visualization: {showSnapDebug}");
+    }
+
+    // Thêm phương thức để bật/tắt hiển thị thông tin về loại kết nối
+    public void ToggleConnectionTypeInfo() {
+        showConnectionTypeInfo = !showConnectionTypeInfo;
+        Debug.Log($"Connection type info: {showConnectionTypeInfo}");
     }
 }
