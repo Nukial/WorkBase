@@ -1502,19 +1502,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
       propertyPath: acceptedTypes.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
-      propertyPath: 'acceptedTypes.Array.data[2]'
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
-      propertyPath: 'acceptedTypes.Array.data[3]'
+      propertyPath: 'acceptedTypes.Array.data[2]'
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
-      propertyPath: 'acceptedTypes.Array.data[4]'
+      propertyPath: 'acceptedTypes.Array.data[3]'
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
+      propertyPath: 'acceptedTypes.Array.data[4]'
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7736824424913922097, guid: 91ad7bf144749b04ab484a680630a040, type: 3}
       propertyPath: allowedConnectionTypes.Array.size
@@ -1857,6 +1857,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 962518191329618312, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
+      propertyPath: acceptedTypes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 962518191329618312, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
+      propertyPath: 'acceptedTypes.Array.data[0]'
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 962518191329618312, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
+      propertyPath: 'acceptedTypes.Array.data[1]'
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 962518191329618312, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
+      propertyPath: 'acceptedTypes.Array.data[2]'
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 962518191329618312, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
+      propertyPath: 'acceptedTypes.Array.data[3]'
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7564636611156017616, guid: e7a79a14190d3d34f93236ba7164d734, type: 3}
       propertyPath: m_Name
       value: Floor_Flat
