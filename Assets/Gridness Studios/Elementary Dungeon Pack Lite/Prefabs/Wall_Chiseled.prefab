@@ -182,11 +182,9 @@ MonoBehaviour:
   health: 100
   snapPoints:
   - {fileID: 7736824424913922097}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 3253239070020283055}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8115263809635386909}
+  - {fileID: 2295477295380489766}
   isGrounded: 1
 --- !u!1 &2275382499612325949
 GameObject:
