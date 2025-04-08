@@ -63,6 +63,7 @@ public enum SnapType {
 public enum ConnectionType {
     Opposite,       // Ngược hướng nhau (dot product gần -1): ví dụ nối 2 thanh thẳng
     Perpendicular,  // Vuông góc với nhau (dot product gần 0): ví dụ góc tường, thanh ngang với cột
+    Angle45,        // Góc 45 độ (dot product gần 0.7 hoặc -0.7): tạo góc xiên
     Parallel,       // Cùng hướng (dot product gần 1): ví dụ nối sàn với mái
     Any             // Không quan tâm đến hướng (chấp nhận mọi hướng)
 }
@@ -97,6 +98,13 @@ public class SnapPoint : MonoBehaviour {
 
     [Tooltip("Hiển thị các vector hướng (debug)")]
     public bool showDirectionVectors = false;
+
+    [Header("Thiết lập góc xoay")]
+    [Tooltip("Cho phép khóa góc xoay khi snap vào điểm này")]
+    public bool lockRotation = false;
+    
+    [Tooltip("Góc bước khi xoay (15, 45, 90 độ)")]
+    public float rotationStep = 45f;
 
     // Enum xác định hướng của snap point
     public enum SnapDirection {
@@ -141,6 +149,11 @@ public class SnapPoint : MonoBehaviour {
         // Nếu một trong hai snap point chấp nhận mọi hướng, luôn trả về true
         if (this.connectionType == ConnectionType.Any || other.connectionType == ConnectionType.Any)
             return true;
+            
+        // Thêm trường hợp đặc biệt cho kết nối tường-tường
+        if (this.pointType == SnapType.WallSide && other.pointType == SnapType.WallSide) {
+            return IsWallConnectionCompatible(other);
+        }
 
         // Lấy vector hướng của cả hai snap point
         Vector3 thisDirection = GetDirectionVector();
@@ -157,11 +170,66 @@ public class SnapPoint : MonoBehaviour {
             case ConnectionType.Perpendicular:  // Vuông góc (khoảng 90 độ)
                 return Mathf.Abs(dotProduct) <= 0.3f;  // Gần với 0
                 
+            case ConnectionType.Angle45:        // Góc 45 độ
+                float angle = Vector3.Angle(thisDirection, otherDirection);
+                return (angle >= 35f && angle <= 55f) || (angle >= 125f && angle <= 145f);
+                
             case ConnectionType.Parallel:       // Cùng hướng (khoảng 0 độ)
                 return dotProduct >= 0.7f;      // Gần với 1
                 
             default:
                 return true; // Mặc định chấp nhận mọi hướng
+        }
+    }
+
+    /// <summary>
+    /// Phương thức đặc biệt để kiểm tra tính tương thích của kết nối tường-tường
+    /// Hỗ trợ cả kết nối nối tiếp (thẳng hàng), góc vuông và góc 45 độ
+    /// </summary>
+    /// <param name="other">Điểm snap của tường khác</param>
+    /// <returns>True nếu có thể kết nối</returns>
+    private bool IsWallConnectionCompatible(SnapPoint other) {
+        Vector3 thisDirection = GetDirectionVector();
+        Vector3 otherDirection = other.GetDirectionVector();
+        
+        // Tính dot product để xác định góc giữa hai vector
+        float dotProduct = Vector3.Dot(thisDirection.normalized, otherDirection.normalized);
+        float angle = Vector3.Angle(thisDirection, otherDirection);
+        
+        // Trường hợp 1: Kết nối nối tiếp (thẳng hàng)
+        // Hai tường nên đối diện nhau (gần 180 độ - dot product gần -1)
+        bool isOppositeConnection = dotProduct <= -0.7f;
+        
+        // Trường hợp 2: Kết nối góc vuông (vuông góc với nhau)
+        // Hai tường nên vuông góc với nhau (gần 90 độ - dot product gần 0)
+        bool isPerpendicularConnection = Mathf.Abs(dotProduct) <= 0.3f;
+        
+        // Trường hợp 3: Kết nối góc 45 độ
+        // Góc nên gần 45 độ hoặc 135 độ
+        bool is45DegreeConnection = (angle >= 35f && angle <= 55f) || (angle >= 125f && angle <= 145f);
+        
+        // Trường hợp đặc biệt - kết nối linh hoạt cho WallSide
+        // Cho phép cả kết nối thẳng hàng, góc vuông và góc 45 độ
+        if (connectionType == ConnectionType.Any) {
+            return isOppositeConnection || isPerpendicularConnection || is45DegreeConnection;
+        }
+        
+        // Kiểm tra dựa trên loại kết nối được yêu cầu
+        switch (connectionType) {
+            case ConnectionType.Opposite:
+                return isOppositeConnection;
+                
+            case ConnectionType.Perpendicular:
+                return isPerpendicularConnection;
+                
+            case ConnectionType.Angle45:
+                return is45DegreeConnection;
+                
+            case ConnectionType.Parallel:
+                return dotProduct >= 0.7f;  // Cùng hướng (gần 0 độ)
+                
+            default:
+                return false;
         }
     }
     
@@ -214,6 +282,62 @@ public class SnapPoint : MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// Tính toán góc xoay quanh trục Y dựa trên loại kết nối và hướng
+    /// </summary>
+    public Quaternion GetSnappedRotation(SnapPoint otherPoint, Quaternion currentRotation) {
+        // Nếu không khóa góc xoay, giữ nguyên góc xoay hiện tại
+        if (!lockRotation) return currentRotation;
+        
+        // Lấy hướng của cả hai snap points
+        Vector3 thisDirection = GetDirectionVector();
+        Vector3 otherDirection = otherPoint.GetDirectionVector();
+        
+        // Loại bỏ thành phần Y để chỉ xoay quanh trục Y
+        thisDirection.y = 0;
+        otherDirection.y = 0;
+        
+        thisDirection.Normalize();
+        otherDirection.Normalize();
+        
+        // Góc giữa hai hướng
+        float angle = Vector3.SignedAngle(thisDirection, otherDirection, Vector3.up);
+        
+        // Làm tròn góc theo bước xoay
+        float snappedAngle = Mathf.Round(angle / rotationStep) * rotationStep;
+        
+        // Tính góc xoay mới
+        Quaternion targetRotation = Quaternion.Euler(0, snappedAngle, 0);
+        
+        // Áp dụng xoay với tham chiếu tới transform hiện tại
+        Quaternion finalRotation = Quaternion.Euler(
+            currentRotation.eulerAngles.x,
+            snappedAngle,
+            currentRotation.eulerAngles.z
+        );
+        
+        return finalRotation;
+    }
+    
+    /// <summary>
+    /// Giúp PlayerBuilder duy trì góc xoay do người dùng thiết lập
+    /// </summary>
+    public Quaternion PreserveUserRotation(Quaternion currentRotation, Quaternion newRotation) {
+        // Giữ nguyên góc xoay của người dùng khi không yêu cầu khóa góc
+        if (!lockRotation)
+            return currentRotation;
+            
+        // Nếu có khóa góc, chỉ áp dụng góc xoay theo bước
+        float currentYRotation = currentRotation.eulerAngles.y;
+        float closestStep = Mathf.Round(currentYRotation / rotationStep) * rotationStep;
+        
+        return Quaternion.Euler(
+            currentRotation.eulerAngles.x,
+            closestStep,
+            currentRotation.eulerAngles.z
+        );
+    }
+
     // --- Vẽ Gizmo trong Scene View để dễ dàng hình dung ---
     void OnDrawGizmos() {
         // Thay đổi màu dựa trên loại snap
@@ -252,6 +376,9 @@ public class SnapPoint : MonoBehaviour {
                 break;
             case ConnectionType.Parallel:
                 Gizmos.color = new Color(1f, 0.8f, 0.2f, 1); // Yellow for parallel
+                break;
+            case ConnectionType.Angle45:
+                Gizmos.color = new Color(0.5f, 0.5f, 1f, 1); // Blue for 45-degree angle
                 break;
             case ConnectionType.Any:
                 Gizmos.color = new Color(0.8f, 0.8f, 0.8f, 1); // White for any

@@ -66,6 +66,9 @@ public class PlayerBuilder : MonoBehaviour {
     public float minDirectionDotProduct = -0.7f; // Mới: giá trị dot product tối thiểu để snap (mặc định đòi hỏi khá ngược hướng)
     public bool showSnapDebug = false; // Mới: hiển thị hướng snap khi debug
 
+    // Thêm biến để theo dõi xem người dùng đã xoay thủ công chưa
+    private bool hasUserRotation = false;
+
     void Update() {
         // Xử lý phím tắt để thay đổi danh mục và phần tử
         CheckForCategoryAndPieceSelection();
@@ -77,10 +80,10 @@ public class PlayerBuilder : MonoBehaviour {
         if (isBuildingMode && currentPieceSO != null) {
             HandlePreviewUpdate();
             if (Input.GetKeyDown(KeyCode.Q)) {
-                RotatePreview(-15f);
+                RotatePreview(-45f);
             }
             if (Input.GetKeyDown(KeyCode.E)) {
-                RotatePreview(15f);
+                RotatePreview(45f);
             }
             if (Input.GetMouseButtonDown(0)) {
                 TryPlacePiece();
@@ -517,9 +520,24 @@ public class PlayerBuilder : MonoBehaviour {
         }
     }
 
+    // Thêm phương thức này để phát hiện loại góc giữa hai tường
+    private string DetectWallConnectionType(SnapPoint sourceSnap, SnapPoint targetSnap) {
+        if (sourceSnap.pointType != SnapType.WallSide || targetSnap.pointType != SnapType.WallSide)
+            return "Không phải kết nối tường";
+            
+        Vector3 sourceDir = sourceSnap.GetDirectionVector();
+        Vector3 targetDir = targetSnap.GetDirectionVector();
+        float angle = Vector3.Angle(sourceDir, targetDir);
+        
+        if (angle > 165f) return "Nối tiếp";
+        if (angle > 75f && angle < 105f) return "Góc vuông";
+        
+        return "Góc " + angle.ToString("F0") + "°";
+    }
+
     void ApplySnapResult(SnapResult result) {
         if (result.sourceSnap != null && result.targetSnap != null) {
-            // Lưu lại rotation gốc để khôi phục nếu không áp dụng rotation
+            // Lưu lại rotation gốc để duy trì góc xoay do người dùng thiết lập
             Quaternion originalRotation = previewInstance.transform.rotation;
 
             // Tính toán offset vị trí
@@ -529,14 +547,36 @@ public class PlayerBuilder : MonoBehaviour {
             previewInstance.transform.position = result.targetSnap.transform.position -
                                 (result.sourceSnap.transform.position - previewInstance.transform.position);
 
-            // Nếu bật tính năng áp dụng rotation trong snap
+            // Xử lý góc xoay đặc biệt
             if (applyRotationDuringSnap) {
                 // Tính toán sự chênh lệch giữa hướng của hai snap point
                 Quaternion sourceToLocalRotation = Quaternion.Inverse(result.sourceSnap.transform.rotation);
                 Quaternion rotationDifference = sourceToLocalRotation * previewInstance.transform.rotation;
                 
                 // Áp dụng rotation mới dựa trên hướng đối tượng đích
-                previewInstance.transform.rotation = result.targetSnap.transform.rotation * rotationDifference;
+                Quaternion targetRotation = result.targetSnap.transform.rotation * rotationDifference;
+                
+                // Kiểm tra xem người dùng đã điều chỉnh góc xoay hay chưa
+                if (hasUserRotation) {
+                    // Duy trì góc xoay do người dùng thiết lập (nếu không khóa)
+                    previewInstance.transform.rotation = result.sourceSnap.PreserveUserRotation(originalRotation, targetRotation);
+                } else {
+                    // Hoặc sử dụng rotation được đề xuất từ snap point
+                    previewInstance.transform.rotation = result.targetSnap.GetSnappedRotation(result.sourceSnap, targetRotation);
+                }
+            } else {
+                // Nếu không áp dụng rotation trong snap, vẫn cần tuân thủ rotationStep nếu có
+                if (result.sourceSnap.lockRotation) {
+                    float currentYRotation = originalRotation.eulerAngles.y;
+                    float step = result.sourceSnap.rotationStep;
+                    float closestStep = Mathf.Round(currentYRotation / step) * step;
+                    
+                    previewInstance.transform.rotation = Quaternion.Euler(
+                        originalRotation.eulerAngles.x,
+                        closestStep,
+                        originalRotation.eulerAngles.z
+                    );
+                }
             }
 
             // Áp dụng các offset trực quan nếu bật chế độ nâng cao
@@ -560,6 +600,15 @@ public class PlayerBuilder : MonoBehaviour {
                 // Hiển thị hướng sau khi snap
                 Debug.DrawRay(previewInstance.transform.position, previewInstance.transform.forward * 0.5f, 
                     Color.cyan, 0.5f);
+            }
+
+            // Hiển thị loại kết nối nếu là kết nối tường-tường
+            if (result.sourceSnap != null && result.targetSnap != null &&
+                result.sourceSnap.pointType == SnapType.WallSide && 
+                result.targetSnap.pointType == SnapType.WallSide && showSnapDebug) {
+                
+                string connectionType = DetectWallConnectionType(result.sourceSnap, result.targetSnap);
+                Debug.Log("Loại kết nối tường: " + connectionType);
             }
         }
     }
@@ -635,7 +684,27 @@ public class PlayerBuilder : MonoBehaviour {
 
     public void RotatePreview(float angle) {
         if (previewInstance != null) {
+            // Đánh dấu rằng người dùng đã tự điều chỉnh rotation
+            hasUserRotation = true;
+            
+            // Xoay preview theo góc xoay cung cấp
             previewInstance.transform.Rotate(Vector3.up, angle);
+            
+            // Kiểm tra xem có đang áp dụng snap nào với rotationStep không
+            if (isPreviewSnapped && lastUsedSourceSnap != null && lastUsedSourceSnap.lockRotation) {
+                // Xoay theo các bậc thang của rotationStep
+                float currentYRotation = previewInstance.transform.eulerAngles.y;
+                float step = lastUsedSourceSnap.rotationStep;
+                float closestStep = Mathf.Round(currentYRotation / step) * step;
+                
+                // Áp dụng rotation làm tròn theo step
+                previewInstance.transform.rotation = Quaternion.Euler(
+                    previewInstance.transform.eulerAngles.x,
+                    closestStep,
+                    previewInstance.transform.eulerAngles.z
+                );
+            }
+            
             // Cập nhật lastPreviewRotation để giữ góc xoay khi đổi pieces
             lastPreviewRotation = previewInstance.transform.rotation;
         }

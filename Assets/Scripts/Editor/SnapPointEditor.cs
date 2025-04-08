@@ -334,6 +334,29 @@ public class SnapPointEditor : Editor
             SetStairFloorConnectionPreset();
         }
         
+        // Thêm nút thiết lập cho tường nối tiếp và tường góc
+        if (GUILayout.Button(new GUIContent("Thiết lập Tường Nối Tiếp", "Cấu hình tự động cho tường nối tiếp thẳng hàng"), GUILayout.Height(30)))
+        {
+            SetWallLineConnectionPreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Thiết lập Tường Góc Vuông", "Cấu hình tự động cho tường góc vuông với nhau"), GUILayout.Height(30)))
+        {
+            SetWallCornerConnectionPreset();
+        }
+        
+        // Thêm nút thiết lập kết hợp cho tường
+        if (GUILayout.Button(new GUIContent("Tường Đa Kết Nối", "Cho phép tường kết nối cả thẳng hàng và góc vuông"), GUILayout.Height(30)))
+        {
+            SetWallFlexibleConnectionPreset();
+        }
+        
+        // Thêm nút thiết lập cho kết nối góc 45 độ
+        if (GUILayout.Button(new GUIContent("Tường Góc 45°", "Cấu hình tự động cho tường kết nối góc 45 độ"), GUILayout.Height(30)))
+        {
+            SetWall45DegreeConnectionPreset();
+        }
+        
         EditorGUILayout.EndVertical();
     }
 
@@ -744,6 +767,64 @@ public class SnapPointEditor : Editor
 
         EditorUtility.SetDirty(snapPoint);
         Debug.Log($"Thiết lập kết nối Sàn-Tường: {options[choice]}");
+    }
+
+    private void SetWallLineConnectionPreset()
+    {
+        snapPoint.pointType = SnapType.WallSide;
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log("Thiết lập tường nối tiếp: Sử dụng hướng ngược nhau (Opposite) để kết nối các tường thẳng hàng");
+    }
+
+    private void SetWallCornerConnectionPreset()
+    {
+        snapPoint.pointType = SnapType.WallSide;
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Perpendicular;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log("Thiết lập tường góc: Sử dụng hướng vuông góc (Perpendicular) để kết nối các tường theo góc 90 độ");
+    }
+
+    private void SetWallFlexibleConnectionPreset()
+    {
+        snapPoint.pointType = SnapType.WallSide;
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Any;  // Sử dụng Any để chấp nhận nhiều loại kết nối
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log("Thiết lập tường đa kết nối: Có thể kết nối cả thẳng hàng và góc vuông");
+    }
+
+    private void SetWall45DegreeConnectionPreset()
+    {
+        snapPoint.pointType = SnapType.WallSide;
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Angle45;
+        snapPoint.providesSupport = true;
+        snapPoint.lockRotation = true;
+        snapPoint.rotationStep = 45f;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log("Thiết lập tường góc 45°: Tạo góc xiên 45 độ giữa các tường");
     }
 
     private void AdjustArrowDirection()
