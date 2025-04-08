@@ -17,6 +17,7 @@ public class PlayerBuilder : MonoBehaviour {
     public bool canPlaceCurrentPreview;
     public bool isPreviewSnapped;
     public bool useAdvancedSnap;
+    public bool applyRotationDuringSnap = false; // Added option to control rotation during snap
     public float snapTolerance = 0.1f; // ngưỡng để giữ snap nếu chưa thay đổi nhiều
     private Transform lastSnapTarget; // Lưu kết quả snap từ frame trước
     private SnapPoint lastUsedSourceSnap; // Lưu điểm snap nguồn đã dùng
@@ -33,6 +34,13 @@ public class PlayerBuilder : MonoBehaviour {
     private Vector3 lastRaycastHitPoint;
     private float mouseMovementThreshold = 1.5f; // Ngưỡng chuyển động chuột để bỏ snap
     private bool hasValidRaycastHit = false; // Kiểm tra nếu raycast hit thành công
+
+    // Cache của preview instances
+    private Dictionary<BuildingPieceSO, GameObject> previewCache = new Dictionary<BuildingPieceSO, GameObject>();
+    private Quaternion lastPreviewRotation = Quaternion.identity; // Lưu góc xoay khi đổi pieces
+
+    // Số lượng tối đa preview trong cache
+    public int maxCacheSize = 5;
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.B)) {
@@ -67,29 +75,93 @@ public class PlayerBuilder : MonoBehaviour {
         if (isBuildingMode) {
             activeBaseStorage = FindNearestBaseStorage();
             if (currentPieceSO != null) {
-                InstantiatePreview();
+                GetOrCreatePreviewInstance();
             }
         } else {
+            // Khi tắt build mode, ẩn preview thay vì hủy
             if (previewInstance) {
-                Destroy(previewInstance);
+                previewInstance.SetActive(false);
             }
         }
     }
 
     public void SetSelectedPiece(BuildingPieceSO pieceSO) {
+        if (pieceSO == currentPieceSO) return; // Không thay đổi nếu là piece hiện tại
+
+        // Lưu lại rotation từ preview trước nếu có
+        if (previewInstance != null) {
+            lastPreviewRotation = previewInstance.transform.rotation;
+            // Ẩn preview hiện tại thay vì hủy
+            previewInstance.SetActive(false);
+        }
+
         currentPieceSO = pieceSO;
-        if (previewInstance) Destroy(previewInstance);
-        InstantiatePreview();
+
+        if (isBuildingMode) {
+            GetOrCreatePreviewInstance();
+        }
+    }
+
+    private void GetOrCreatePreviewInstance() {
+        // Nếu không có piece hoặc không ở buidingMode, không làm gì cả
+        if (currentPieceSO == null || !isBuildingMode) return;
+
+        // Kiểm tra xem có trong cache không
+        if (previewCache.TryGetValue(currentPieceSO, out GameObject cachedPreview)) {
+            previewInstance = cachedPreview;
+            previewInstance.SetActive(true);
+        } else {
+            InstantiatePreview();
+
+            // Thêm vào cache
+            previewCache[currentPieceSO] = previewInstance;
+
+            // Xóa các instance cũ nếu cache quá lớn
+            if (previewCache.Count > maxCacheSize) {
+                CleanupOldestCacheEntry();
+            }
+        }
+
+        // Áp dụng rotation đã lưu từ trước
+        previewInstance.transform.rotation = lastPreviewRotation;
+
+        // Đảm bảo material được cập nhật
+        ApplyPreviewMaterial(invalidPlacementMaterial);
+    }
+
+    private void CleanupOldestCacheEntry() {
+        // Tìm entry đầu tiên (oldest) để xóa
+        BuildingPieceSO oldestKey = null;
+
+        foreach (var key in previewCache.Keys) {
+            if (key != currentPieceSO) {
+                oldestKey = key;
+                break;
+            }
+        }
+
+        if (oldestKey != null) {
+            // Hủy gameObject nếu nó không phải là previewInstance hiện tại
+            if (previewCache[oldestKey] != previewInstance) {
+                Destroy(previewCache[oldestKey]);
+            }
+            previewCache.Remove(oldestKey);
+        }
     }
 
     void InstantiatePreview() {
-        if (currentPieceSO != null && currentPieceSO.prefab != null) {
-            previewInstance = Instantiate(currentPieceSO.prefab);
-            foreach (Collider col in previewInstance.GetComponentsInChildren<Collider>()) {
-                col.enabled = false;
+        if (currentPieceSO != null) {
+            // Sử dụng phương thức GetPreviewPrefab để lấy prefab thích hợp
+            GameObject prefabToUse = currentPieceSO.GetPreviewPrefab();
+
+            if (prefabToUse != null) {
+                previewInstance = Instantiate(prefabToUse);
+                foreach (Collider col in previewInstance.GetComponentsInChildren<Collider>()) {
+                    col.enabled = false;
+                }
+                SetLayerRecursively(previewInstance, LayerMask.NameToLayer("Ignore Raycast"));
+                ApplyPreviewMaterial(invalidPlacementMaterial);
             }
-            SetLayerRecursively(previewInstance, LayerMask.NameToLayer("Ignore Raycast"));
-            ApplyPreviewMaterial(invalidPlacementMaterial);
         }
     }
 
@@ -292,17 +364,29 @@ public class PlayerBuilder : MonoBehaviour {
         if (result.sourceSnap != null && result.targetSnap != null) {
             Vector3 offset = result.offset;
 
+            // Position alignment always happens
             previewInstance.transform.position = result.targetSnap.transform.position -
                                                (result.sourceSnap.transform.position - previewInstance.transform.position);
 
-            Quaternion rotationDifference = Quaternion.Inverse(result.sourceSnap.transform.rotation) * previewInstance.transform.rotation;
-            previewInstance.transform.rotation = result.targetSnap.transform.rotation * rotationDifference;
+            // Only apply rotation if the option is enabled
+            if (applyRotationDuringSnap) {
+                Quaternion rotationDifference = Quaternion.Inverse(result.sourceSnap.transform.rotation) * previewInstance.transform.rotation;
+                previewInstance.transform.rotation = result.targetSnap.transform.rotation * rotationDifference;
+            }
 
             if (useAdvancedSnap) {
                 previewInstance.transform.position += result.targetSnap.transform.rotation * result.targetSnap.visualOffset;
-                previewInstance.transform.rotation *= result.targetSnap.visualRotationOffset;
+                // Only apply advanced rotation if rotation is enabled
+                if (applyRotationDuringSnap) {
+                    previewInstance.transform.rotation *= result.targetSnap.visualRotationOffset;
+                }
             }
         }
+    }
+
+    // Add a method to toggle rotation adjustment
+    public void ToggleRotationDuringSnap() {
+        applyRotationDuringSnap = !applyRotationDuringSnap;
     }
 
     void UpdatePreviewMaterial() {
@@ -336,6 +420,8 @@ public class PlayerBuilder : MonoBehaviour {
     public void RotatePreview(float angle) {
         if (previewInstance != null) {
             previewInstance.transform.Rotate(Vector3.up, angle);
+            // Cập nhật lastPreviewRotation để giữ góc xoay khi đổi pieces
+            lastPreviewRotation = previewInstance.transform.rotation;
         }
     }
 
@@ -374,6 +460,28 @@ public class PlayerBuilder : MonoBehaviour {
         obj.layer = newLayer;
         foreach (Transform child in obj.transform) {
             SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
+
+    // Thêm phương thức để dọn dẹp cache khi cần
+    public void ClearPreviewCache() {
+        foreach (var preview in previewCache.Values) {
+            if (preview != previewInstance) { // Không hủy preview đang sử dụng
+                Destroy(preview);
+            }
+        }
+        previewCache.Clear();
+
+        // Thêm lại preview hiện tại vào cache nếu có
+        if (previewInstance != null && currentPieceSO != null) {
+            previewCache[currentPieceSO] = previewInstance;
+        }
+    }
+
+    void OnDestroy() {
+        // Dọn dẹp tất cả prefabs trong cache khi component bị hủy
+        foreach (var preview in previewCache.Values) {
+            Destroy(preview);
         }
     }
 }

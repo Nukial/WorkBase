@@ -183,7 +183,7 @@ MonoBehaviour:
   - {fileID: 3253239070020283055}
   - {fileID: 0}
   - {fileID: 0}
-  isGrounded: 0
+  isGrounded: 1
 --- !u!1 &2275382499612325949
 GameObject:
   m_ObjectHideFlags: 0

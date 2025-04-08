@@ -120,9 +120,5 @@ public class SnapPoint : MonoBehaviour {
 
         // Vẽ một hình cầu nhỏ tại vị trí điểm snap
         Gizmos.DrawWireSphere(transform.position, 0.08f); // Giảm kích thước một chút
-
-        // Vẽ hướng của điểm snap (hữu ích để debug xoay)
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 0.2f);
     }
 }
