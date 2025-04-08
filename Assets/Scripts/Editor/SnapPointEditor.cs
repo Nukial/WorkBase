@@ -9,6 +9,7 @@ public class SnapPointEditor : Editor
     private SnapPoint snapPoint;
     private bool showTestOptions = false;
     private bool showVisualization = false;
+    private bool showHotkeys = true;
     private List<SnapPoint> nearbySnapPoints = new List<SnapPoint>();
     private Dictionary<SnapPoint, bool> compatibilityResults = new Dictionary<SnapPoint, bool>();
     
@@ -49,6 +50,13 @@ public class SnapPointEditor : Editor
         DisplaySnapTypeInfo(snapPoint.pointType);
         
         EditorGUILayout.PropertyField(snapDirection);
+        
+        // Phím tắt thiết lập loại kết nối
+        showHotkeys = EditorGUILayout.Foldout(showHotkeys, "Phím tắt kết nối nhanh");
+        if (showHotkeys)
+        {
+            DrawHotkeyButtons();
+        }
         
         // Thêm phần điều khiển tự động điều chỉnh kết nối
         EditorGUILayout.PropertyField(autoAdjustConnection);
@@ -116,6 +124,178 @@ public class SnapPointEditor : Editor
 
             DrawCompatibilityResults();
         }
+        
+        // Xử lý phím tắt khi focus vào cửa sổ Inspector
+        HandleHotkeys();
+    }
+
+    private void DrawHotkeyButtons()
+    {
+        EditorGUILayout.BeginVertical("box");
+        
+        EditorGUILayout.LabelField("Các phím tắt thiết lập kết nối:", EditorStyles.boldLabel);
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        // Nút thiết lập kết nối ngược hướng (Opposite)
+        GUI.backgroundColor = snapPoint.connectionType == ConnectionType.Opposite ? 
+            new Color(1f, 0.5f, 0, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("1 - Ngược hướng", "Thiết lập kết nối ngược hướng (180°)")))
+        {
+            SetConnectionType(ConnectionType.Opposite);
+        }
+        
+        // Nút thiết lập kết nối vuông góc (Perpendicular)
+        GUI.backgroundColor = snapPoint.connectionType == ConnectionType.Perpendicular ? 
+            new Color(0, 0.8f, 0.8f, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("2 - Vuông góc", "Thiết lập kết nối vuông góc (90°)")))
+        {
+            SetConnectionType(ConnectionType.Perpendicular);
+        }
+        
+        GUI.backgroundColor = Color.white;
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        // Nút thiết lập kết nối góc 45° (Angle45)
+        GUI.backgroundColor = snapPoint.connectionType == ConnectionType.Angle45 ? 
+            new Color(0.5f, 0.5f, 1f, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("3 - Góc 45°", "Thiết lập kết nối góc 45°")))
+        {
+            SetConnectionType(ConnectionType.Angle45);
+        }
+        
+        // Nút thiết lập kết nối song song (Parallel)
+        GUI.backgroundColor = snapPoint.connectionType == ConnectionType.Parallel ? 
+            new Color(1f, 0.8f, 0.2f, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("4 - Song song", "Thiết lập kết nối song song (0°)")))
+        {
+            SetConnectionType(ConnectionType.Parallel);
+        }
+        
+        GUI.backgroundColor = Color.white;
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        // Nút thiết lập kết nối tự do (Any)
+        GUI.backgroundColor = snapPoint.connectionType == ConnectionType.Any ? 
+            new Color(0.8f, 0.8f, 0.8f, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("5 - Tự do", "Thiết lập kết nối tự do (mọi góc)")))
+        {
+            SetConnectionType(ConnectionType.Any);
+        }
+        
+        // Nút thiết lập tự động điều chỉnh kết nối
+        GUI.backgroundColor = snapPoint.autoAdjustConnection ? 
+            new Color(0.5f, 0.8f, 0.5f, 1) : Color.white;
+        if (GUILayout.Button(new GUIContent("0 - Tự động", "Bật/tắt tự động điều chỉnh kết nối")))
+        {
+            ToggleAutoAdjustConnection();
+        }
+        
+        GUI.backgroundColor = Color.white;
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.HelpBox("Phím 1-5: Thiết lập loại kết nối cụ thể\nPhím 0: Bật/tắt tự động điều chỉnh kết nối", MessageType.Info);
+        
+        EditorGUILayout.EndVertical();
+    }
+
+    private void HandleHotkeys()
+    {
+        // Chỉ xử lý phím tắt khi cửa sổ Inspector đang focus
+        if (Event.current != null && Event.current.type == EventType.KeyDown)
+        {
+            bool handled = false;
+            
+            // Phím tắt cho các loại kết nối
+            switch (Event.current.keyCode)
+            {
+                case KeyCode.Alpha1:
+                case KeyCode.Keypad1:
+                    SetConnectionType(ConnectionType.Opposite);
+                    handled = true;
+                    break;
+                    
+                case KeyCode.Alpha2:
+                case KeyCode.Keypad2:
+                    SetConnectionType(ConnectionType.Perpendicular);
+                    handled = true;
+                    break;
+                    
+                case KeyCode.Alpha3:
+                case KeyCode.Keypad3:
+                    SetConnectionType(ConnectionType.Angle45);
+                    handled = true;
+                    break;
+                    
+                case KeyCode.Alpha4:
+                case KeyCode.Keypad4:
+                    SetConnectionType(ConnectionType.Parallel);
+                    handled = true;
+                    break;
+                    
+                case KeyCode.Alpha5:
+                case KeyCode.Keypad5:
+                    SetConnectionType(ConnectionType.Any);
+                    handled = true;
+                    break;
+                    
+                case KeyCode.Alpha0:
+                case KeyCode.Keypad0:
+                    ToggleAutoAdjustConnection();
+                    handled = true;
+                    break;
+            }
+            
+            if (handled)
+            {
+                Event.current.Use();
+                Repaint();
+            }
+        }
+    }
+
+    private void SetConnectionType(ConnectionType type)
+    {
+        // Thiết lập loại kết nối và tắt chế độ tự động
+        snapPoint.connectionType = type;
+        snapPoint.autoAdjustConnection = false;
+        
+        // Nếu đặt thành Angle45, tự động bật khóa góc xoay và đặt bước xoay 45 độ
+        if (type == ConnectionType.Angle45)
+        {
+            snapPoint.lockRotation = true;
+            snapPoint.rotationStep = 45f;
+        }
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log($"Đã đặt loại kết nối: {type}");
+        
+        // Vẽ lại Inspector
+        Repaint();
+    }
+
+    private void ToggleAutoAdjustConnection()
+    {
+        // Đảo trạng thái tự động điều chỉnh kết nối
+        snapPoint.autoAdjustConnection = !snapPoint.autoAdjustConnection;
+        
+        if (snapPoint.autoAdjustConnection && snapPoint.allowedConnectionTypes.Count == 0)
+        {
+            // Nếu bật tự động và chưa có loại kết nối nào được chọn, thêm mặc định
+            snapPoint.allowedConnectionTypes.Add(ConnectionType.Opposite);
+            snapPoint.allowedConnectionTypes.Add(ConnectionType.Perpendicular);
+            snapPoint.allowedConnectionTypes.Add(ConnectionType.Angle45);
+        }
+        
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log($"Tự động điều chỉnh kết nối: {(snapPoint.autoAdjustConnection ? "Bật" : "Tắt")}");
+        
+        // Vẽ lại Inspector
+        Repaint();
     }
 
     private void DisplaySnapTypeInfo(SnapType type)
