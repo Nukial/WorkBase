@@ -1,14 +1,31 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 [CustomEditor(typeof(SnapPoint))]
 public class SnapPointEditor : Editor
 {
     private SnapPoint snapPoint;
     private bool showTestOptions = false;
+    private bool showPresets = true;
+    private bool showVisualization = false;
     private List<SnapPoint> nearbySnapPoints = new List<SnapPoint>();
     private Dictionary<SnapPoint, bool> compatibilityResults = new Dictionary<SnapPoint, bool>();
+    
+    // Mẫu màu cho các loại SnapPoint khác nhau
+    private Dictionary<string, Color> categoryColors = new Dictionary<string, Color>() {
+        {"Foundation", new Color(0.3f, 0.5f, 0.8f)},
+        {"Wall", new Color(0.2f, 0.7f, 0.2f)},
+        {"Floor", new Color(0.8f, 0.7f, 0.2f)},
+        {"Roof", new Color(0.8f, 0.3f, 0.2f)},
+        {"Door", new Color(0.5f, 0.3f, 0.8f)},
+        {"Window", new Color(0.3f, 0.7f, 0.8f)},
+        {"Pillar", new Color(0.5f, 0.5f, 0.5f)},
+        {"Beam", new Color(0.6f, 0.4f, 0.2f)},
+        {"Stair", new Color(0.7f, 0.3f, 0.5f)},
+        {"Fence", new Color(0.4f, 0.6f, 0.3f)},
+    };
 
     private void OnEnable()
     {
@@ -17,7 +34,53 @@ public class SnapPointEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
+        EditorGUI.BeginChangeCheck();
+        
+        // Trường cơ bản
+        SerializedProperty pointType = serializedObject.FindProperty("pointType");
+        SerializedProperty providesSupport = serializedObject.FindProperty("providesSupport");
+        SerializedProperty snapDirection = serializedObject.FindProperty("snapDirection");
+        SerializedProperty connectionType = serializedObject.FindProperty("connectionType");
+        
+        EditorGUILayout.PropertyField(pointType);
+        
+        // Hiển thị nhãn thông tin cho loại snap được chọn
+        DisplaySnapTypeInfo(snapPoint.pointType);
+        
+        EditorGUILayout.PropertyField(snapDirection);
+        EditorGUILayout.PropertyField(connectionType);
+        
+        // Hiển thị mô tả connection type
+        DisplayConnectionTypeInfo(snapPoint.connectionType);
+        
+        EditorGUILayout.PropertyField(providesSupport);
+        
+        // Các thuộc tính bổ sung được thu gọn trong các section
+        EditorGUILayout.Space();
+        
+        // Hiển thị các loại accept trong một khu vực riêng
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("acceptedTypes"), true);
+        
+        EditorGUILayout.Space();
+        SerializedProperty visualOffset = serializedObject.FindProperty("visualOffset");
+        SerializedProperty visualRotationOffset = serializedObject.FindProperty("visualRotationOffset");
+        SerializedProperty arrowSize = serializedObject.FindProperty("arrowSize");
+        SerializedProperty showDirectionVectors = serializedObject.FindProperty("showDirectionVectors");
+        
+        showVisualization = EditorGUILayout.Foldout(showVisualization, "Tùy chỉnh trực quan");
+        if (showVisualization)
+        {
+            EditorGUILayout.PropertyField(visualOffset);
+            EditorGUILayout.PropertyField(visualRotationOffset);
+            EditorGUILayout.PropertyField(arrowSize);
+            EditorGUILayout.PropertyField(showDirectionVectors);
+        }
+        
+        // Lưu lại các thay đổi
+        if (EditorGUI.EndChangeCheck()) 
+        {
+            serializedObject.ApplyModifiedProperties();
+        }
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Công cụ hỗ trợ", EditorStyles.boldLabel);
@@ -28,10 +91,11 @@ public class SnapPointEditor : Editor
             AdjustArrowDirection();
         }
 
-        // Nút để điền sẵn accepted types phổ biến
-        if (GUILayout.Button("Thiết lập AcceptedTypes theo kiểu phổ biến"))
+        // Section mới: Preset cho từng loại
+        showPresets = EditorGUILayout.Foldout(showPresets, "Preset Nhanh Theo Loại");
+        if (showPresets)
         {
-            SetCommonAcceptedTypes();
+            DisplayPresetButtons();
         }
 
         // Tùy chọn kiểm tra
@@ -43,25 +107,505 @@ public class SnapPointEditor : Editor
                 FindNearbySnapPoints();
             }
 
-            if (nearbySnapPoints.Count > 0)
-            {
-                EditorGUILayout.LabelField("Snap Points trong phạm vi 3 đơn vị:", EditorStyles.boldLabel);
-                foreach (var point in nearbySnapPoints)
-                {
-                    if (point == null) continue;
-
-                    bool canSnap = compatibilityResults[point];
-                    GUI.color = canSnap ? Color.green : Color.red;
-
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField($"{point.name} ({point.pointType})");
-                    EditorGUILayout.LabelField(canSnap ? "✓ Có thể kết nối" : "✗ Không thể kết nối");
-                    EditorGUILayout.EndHorizontal();
-
-                    GUI.color = Color.white;
-                }
-            }
+            DrawCompatibilityResults();
         }
+    }
+
+    private void DisplaySnapTypeInfo(SnapType type)
+    {
+        string info = GetSnapTypeDescription(type);
+        EditorGUILayout.HelpBox(info, MessageType.Info);
+    }
+    
+    private string GetSnapTypeDescription(SnapType type)
+    {
+        switch (type)
+        {
+            case SnapType.FoundationTopEdge: 
+                return "Cạnh trên của móng: Kết nối với đáy tường, đáy cột hoặc cạnh sàn.";
+            case SnapType.FoundationTopCorner: 
+                return "Góc trên của móng: Kết nối đáy tường ở góc hoặc cột góc.";
+            case SnapType.WallBottom: 
+                return "Đáy tường: Đặt lên cạnh móng hoặc cạnh sàn.";
+            case SnapType.WallTop: 
+                return "Đỉnh tường: Đỡ cạnh mái, trần nhà hoặc cạnh sàn tầng trên.";
+            case SnapType.WallSide: 
+                return "Cạnh tường: Kết nối tường vuông góc, cửa, cửa sổ hoặc cạnh sàn.";
+            case SnapType.FloorEdge: 
+                return "Cạnh sàn: Đa năng, kết nối với đỉnh tường, cạnh tường, hoặc cạnh sàn khác.";
+            // Thêm các mô tả cho các loại khác
+            default: 
+                return "Loại snap: " + type.ToString();
+        }
+    }
+    
+    private void DisplayConnectionTypeInfo(ConnectionType type)
+    {
+        string info = "";
+        switch (type)
+        {
+            case ConnectionType.Opposite:
+                info = "Kết nối ngược hướng: Hai snap point nên hướng ngược chiều nhau (180°)";
+                break;
+            case ConnectionType.Perpendicular:
+                info = "Kết nối vuông góc: Hai snap point nên vuông góc với nhau (90°)";
+                break;
+            case ConnectionType.Parallel:
+                info = "Kết nối song song: Hai snap point nên cùng hướng (0°)";
+                break;
+            case ConnectionType.Any:
+                info = "Kết nối tự do: Không kiểm tra hướng khi kết nối";
+                break;
+        }
+        
+        EditorGUILayout.HelpBox(info, MessageType.Info);
+    }
+
+    private void DrawCompatibilityResults()
+    {
+        if (nearbySnapPoints.Count > 0)
+        {
+            EditorGUILayout.LabelField("Snap Points trong phạm vi 3 đơn vị:", EditorStyles.boldLabel);
+            
+            EditorGUILayout.BeginVertical("box");
+            
+            // Header cho bảng kết quả
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Tên/Loại", EditorStyles.boldLabel, GUILayout.Width(150));
+            EditorGUILayout.LabelField("Tương thích", EditorStyles.boldLabel, GUILayout.Width(100));
+            EditorGUILayout.LabelField("Khoảng cách", EditorStyles.boldLabel, GUILayout.Width(80));
+            EditorGUILayout.LabelField("Hướng", EditorStyles.boldLabel, GUILayout.Width(100));
+            EditorGUILayout.EndHorizontal();
+            
+            foreach (var point in nearbySnapPoints)
+            {
+                if (point == null) continue;
+
+                bool canSnap = compatibilityResults[point];
+                
+                // Tính khoảng cách và góc giữa hai snap point
+                float distance = Vector3.Distance(point.transform.position, snapPoint.transform.position);
+                float angle = Vector3.Angle(snapPoint.GetDirectionVector(), point.GetDirectionVector());
+                
+                EditorGUILayout.BeginHorizontal();
+                
+                // Màu nền dựa theo loại snap point
+                string category = point.pointType.ToString();
+                Color bgColor = Color.white;
+                foreach (var key in categoryColors.Keys)
+                {
+                    if (category.Contains(key))
+                    {
+                        bgColor = categoryColors[key];
+                        break;
+                    }
+                }
+                
+                GUI.backgroundColor = bgColor;
+                
+                // Thông tin snap point
+                EditorGUILayout.BeginVertical("box", GUILayout.Width(150));
+                GUI.backgroundColor = Color.white;
+                EditorGUILayout.LabelField(point.name);
+                EditorGUILayout.LabelField(point.pointType.ToString(), EditorStyles.miniLabel);
+                EditorGUILayout.EndVertical();
+                
+                // Trạng thái tương thích
+                GUI.color = canSnap ? Color.green : Color.red;
+                EditorGUILayout.LabelField(canSnap ? "✓ Tương thích" : "✗ Không tương thích", GUILayout.Width(100));
+                GUI.color = Color.white;
+                
+                // Thông tin khoảng cách và góc
+                EditorGUILayout.LabelField(distance.ToString("F2") + "m", GUILayout.Width(80));
+                
+                // Hiển thị góc với màu tương ứng với loại connection
+                if (angle < 30) GUI.color = new Color(1f, 0.8f, 0.2f); // Gần song song
+                else if (angle > 150) GUI.color = new Color(1f, 0.5f, 0); // Gần ngược chiều
+                else if (angle > 60 && angle < 120) GUI.color = new Color(0, 0.8f, 0.8f); // Gần vuông góc
+                else GUI.color = Color.white;
+                
+                EditorGUILayout.LabelField(angle.ToString("F0") + "°", GUILayout.Width(100));
+                GUI.color = Color.white;
+                
+                // Nút để chọn snap point này trong Scene
+                if (GUILayout.Button("Chọn", GUILayout.Width(60)))
+                {
+                    Selection.activeGameObject = point.gameObject;
+                }
+                
+                EditorGUILayout.EndHorizontal();
+            }
+            
+            EditorGUILayout.EndVertical();
+        }
+    }
+
+    private void DisplayPresetButtons()
+    {
+        // Preset theo loại chính
+        EditorGUILayout.BeginVertical("box");
+        EditorGUILayout.LabelField("Presets Phổ Biến", EditorStyles.boldLabel);
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button(new GUIContent("Nền Móng", "Cạnh trên của móng, kết nối với tường"), GUILayout.Height(30)))
+        {
+            SetFoundationPreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Đáy Tường", "Đáy tường, kết nối với nền móng"), GUILayout.Height(30)))
+        {
+            SetWallBottomPreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Đỉnh Tường", "Đỉnh tường, kết nối với mái hoặc sàn"), GUILayout.Height(30)))
+        {
+            SetWallTopPreset();
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button(new GUIContent("Cạnh Tường", "Cạnh bên của tường, kết nối vuông góc"), GUILayout.Height(30)))
+        {
+            SetWallSidePreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Cạnh Sàn", "Cạnh sàn, có thể kết nối đa dạng"), GUILayout.Height(30)))
+        {
+            SetFloorEdgePreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Đáy Mái", "Cạnh dưới mái, kết nối với đỉnh tường"), GUILayout.Height(30)))
+        {
+            SetRoofBottomPreset();
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.EndVertical();
+        
+        // Presets cho kết nối
+        EditorGUILayout.BeginVertical("box");
+        EditorGUILayout.LabelField("Presets Kết Nối", EditorStyles.boldLabel);
+        
+        // Nút thiết lập cho Sàn - Tường
+        if (GUILayout.Button(new GUIContent("Thiết lập Sàn-Tường", "Cấu hình tự động cho kết nối sàn và tường"), GUILayout.Height(30)))
+        {
+            SetFloorWallConnectionPreset();
+        }
+        
+        // Nút thiết lập cho Góc Tường
+        if (GUILayout.Button(new GUIContent("Thiết lập Góc Tường", "Cấu hình tự động cho hai tường vuông góc"), GUILayout.Height(30)))
+        {
+            SetWallCornerPreset();
+        }
+        
+        // Nút thiết lập cho Mái - Tường
+        if (GUILayout.Button(new GUIContent("Thiết lập Mái-Tường", "Cấu hình tự động cho kết nối mái với tường"), GUILayout.Height(30)))
+        {
+            SetRoofWallPreset();
+        }
+        
+        EditorGUILayout.EndVertical();
+    }
+
+    private void SetFoundationPreset()
+    {
+        snapPoint.pointType = SnapType.FoundationTopEdge;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallBottom);
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.PillarBottom);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+    
+    private void SetWallBottomPreset()
+    {
+        snapPoint.pointType = SnapType.WallBottom;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = false;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.FoundationTopEdge);
+        snapPoint.acceptedTypes.Add(SnapType.FoundationTopCorner);
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+    
+    private void SetWallTopPreset()
+    {
+        snapPoint.pointType = SnapType.WallTop;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.RoofBottomEdge);
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.Ceiling);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+    
+    private void SetWallSidePreset()
+    {
+        snapPoint.pointType = SnapType.WallSide;
+        // Tự động xác định hướng ngang dựa vào vị trí
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Perpendicular;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.DoorFrameSide);
+        snapPoint.acceptedTypes.Add(SnapType.WindowFrameSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+    
+    private void SetFloorEdgePreset()
+    {
+        snapPoint.pointType = SnapType.FloorEdge;
+        // Xác định hướng ngang hoặc dọc dựa vào vị trí
+        bool isHorizontalEdge = true; // Mặc định là cạnh ngang
+        
+        // Kiểm tra có phải cạnh dưới sàn không
+        if (isHorizontalEdge)
+        {
+            snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+            snapPoint.connectionType = ConnectionType.Opposite;
+        }
+        else
+        {
+            snapPoint.snapDirection = GetHorizontalDirection();
+            snapPoint.connectionType = ConnectionType.Perpendicular;
+        }
+        
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.WallTop);
+        snapPoint.acceptedTypes.Add(SnapType.WallBottom);
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+    
+    private void SetRoofBottomPreset()
+    {
+        snapPoint.pointType = SnapType.RoofBottomEdge;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = false;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallTop);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    // Phương thức thiết lập cho kết nối góc tường
+    private void SetWallCornerPreset()
+    {
+        string[] options = new string[] {
+            "Cạnh bên trái tường",
+            "Cạnh bên phải tường",
+            "Cạnh trước tường",
+            "Cạnh sau tường"
+        };
+
+        int choice = EditorUtility.DisplayDialogComplex(
+            "Chọn vị trí góc tường",
+            "Chọn vị trí cạnh của tường này:",
+            options[0], options[1], options[2]);
+
+        snapPoint.pointType = SnapType.WallSide;
+        snapPoint.connectionType = ConnectionType.Perpendicular;
+        snapPoint.providesSupport = true;
+        
+        // Thiết lập hướng dựa vào lựa chọn
+        switch (choice)
+        {
+            case 0: // Cạnh bên trái
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Left;
+                break;
+            case 1: // Cạnh bên phải
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Right;
+                break;
+            case 2: // Cạnh trước
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Forward;
+                break;
+            case 3: // Cạnh sau
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Back;
+                break;
+        }
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    // Phương thức thiết lập cho kết nối mái với tường
+    private void SetRoofWallPreset()
+    {
+        string[] options = new string[] {
+            "Đáy mái (gắn với đỉnh tường)",
+            "Đỉnh mái (ridge)",
+            "Mép hông mái (gable edge)"
+        };
+
+        int choice = EditorUtility.DisplayDialogComplex(
+            "Chọn vị trí trên mái",
+            "Chọn loại điểm snap trên mái:",
+            options[0], options[1], options[2]);
+
+        switch (choice)
+        {
+            case 0: // Đáy mái
+                snapPoint.pointType = SnapType.RoofBottomEdge;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.WallTop);
+                break;
+                
+            case 1: // Đỉnh mái
+                snapPoint.pointType = SnapType.RoofRidge;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.RoofRidge);
+                break;
+                
+            case 2: // Mép hông mái
+                snapPoint.pointType = SnapType.RoofGableEdge;
+                snapPoint.snapDirection = GetHorizontalDirection();
+                snapPoint.connectionType = ConnectionType.Perpendicular;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.WallTop);
+                snapPoint.acceptedTypes.Add(SnapType.RoofGableEdge);
+                break;
+        }
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    // Phương thức thiết lập cho kết nối sàn-tường
+    private void SetFloorWallConnectionPreset()
+    {
+        string[] options = new string[] {
+            "Sàn đặt trên đỉnh tường (Floor on WallTop)",
+            "Sàn gắn vào cạnh tường (Floor to WallSide)",
+            "Tường đặt trên sàn (Wall on FloorEdge)",
+            "Tường gắn vào cạnh sàn (Wall to FloorEdge)"
+        };
+
+        int choice = EditorUtility.DisplayDialogComplex(
+            "Chọn kiểu kết nối Sàn-Tường",
+            "Chọn cách sàn và tường kết nối với nhau:",
+            options[0], options[1], options[2]);
+
+        switch (choice)
+        {
+            case 0: // Sàn đặt trên đỉnh tường
+                if (snapPoint.gameObject.name.ToLower().Contains("floor"))
+                {
+                    // Đây là snap point trên sàn
+                    snapPoint.pointType = SnapType.FloorEdge;
+                    snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+                    snapPoint.connectionType = ConnectionType.Opposite;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.WallTop);
+                }
+                else
+                {
+                    // Đây là snap point trên tường
+                    snapPoint.pointType = SnapType.WallTop;
+                    snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+                    snapPoint.connectionType = ConnectionType.Opposite;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                }
+                break;
+
+            case 1: // Sàn gắn vào cạnh tường
+                if (snapPoint.gameObject.name.ToLower().Contains("floor"))
+                {
+                    // Đây là snap point trên sàn
+                    snapPoint.pointType = SnapType.FloorEdge;
+                    snapPoint.snapDirection = GetHorizontalDirection();
+                    snapPoint.connectionType = ConnectionType.Perpendicular;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.WallSide);
+                }
+                else
+                {
+                    // Đây là snap point trên tường
+                    snapPoint.pointType = SnapType.WallSide;
+                    snapPoint.snapDirection = GetHorizontalDirection();
+                    snapPoint.connectionType = ConnectionType.Perpendicular;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                }
+                break;
+
+            case 2: // Tường đặt trên sàn
+                if (snapPoint.gameObject.name.ToLower().Contains("wall"))
+                {
+                    // Đây là snap point trên tường
+                    snapPoint.pointType = SnapType.WallBottom;
+                    snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+                    snapPoint.connectionType = ConnectionType.Opposite;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                }
+                else
+                {
+                    // Đây là snap point trên sàn
+                    snapPoint.pointType = SnapType.FloorEdge;
+                    snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+                    snapPoint.connectionType = ConnectionType.Opposite;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.WallBottom);
+                }
+                break;
+
+            case 3: // Tường gắn vào cạnh sàn
+                if (snapPoint.gameObject.name.ToLower().Contains("wall"))
+                {
+                    // Đây là snap point trên tường
+                    snapPoint.pointType = SnapType.WallSide;
+                    snapPoint.snapDirection = GetHorizontalDirection();
+                    snapPoint.connectionType = ConnectionType.Perpendicular;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                }
+                else
+                {
+                    // Đây là snap point trên sàn
+                    snapPoint.pointType = SnapType.FloorEdge;
+                    snapPoint.snapDirection = GetHorizontalDirection();
+                    snapPoint.connectionType = ConnectionType.Perpendicular;
+                    snapPoint.acceptedTypes.Clear();
+                    snapPoint.acceptedTypes.Add(SnapType.WallSide);
+                }
+                break;
+        }
+
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log($"Thiết lập kết nối Sàn-Tường: {options[choice]}");
     }
 
     private void AdjustArrowDirection()
@@ -108,186 +652,6 @@ public class SnapPointEditor : Editor
         EditorUtility.SetDirty(snapPoint);
     }
 
-    private void SetCommonAcceptedTypes()
-    {
-        // Đặt các loại chấp nhận phổ biến dựa trên loại snap point
-        snapPoint.acceptedTypes.Clear();
-
-        switch (snapPoint.pointType)
-        {
-            case SnapType.FoundationTopEdge:
-            case SnapType.FoundationTopCorner:
-                snapPoint.acceptedTypes.Add(SnapType.WallBottom);
-                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                snapPoint.acceptedTypes.Add(SnapType.PillarBottom);
-                break;
-
-            case SnapType.WallBottom:
-                snapPoint.acceptedTypes.Add(SnapType.FoundationTopEdge);
-                snapPoint.acceptedTypes.Add(SnapType.FoundationTopCorner);
-                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                break;
-
-            case SnapType.WallTop:
-                snapPoint.acceptedTypes.Add(SnapType.RoofBottomEdge);
-                snapPoint.acceptedTypes.Add(SnapType.Ceiling);
-                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                break;
-
-            case SnapType.WallSide:
-                snapPoint.acceptedTypes.Add(SnapType.WallSide);
-                snapPoint.acceptedTypes.Add(SnapType.FloorEdge); // Thêm để hỗ trợ gắn tường vào cạnh sàn
-                snapPoint.acceptedTypes.Add(SnapType.DoorFrameSide);
-                snapPoint.acceptedTypes.Add(SnapType.WindowFrameSide);
-                break;
-
-            case SnapType.FloorEdge:
-                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                snapPoint.acceptedTypes.Add(SnapType.WallBottom);
-                snapPoint.acceptedTypes.Add(SnapType.WallTop);
-                snapPoint.acceptedTypes.Add(SnapType.WallSide); // Thêm để hỗ trợ gắn sàn vào cạnh tường
-                break;
-
-            case SnapType.RoofBottomEdge:
-                snapPoint.acceptedTypes.Add(SnapType.WallTop);
-                snapPoint.acceptedTypes.Add(SnapType.Ceiling);
-                break;
-
-            case SnapType.RoofRidge:
-                snapPoint.acceptedTypes.Add(SnapType.RoofRidge);
-                break;
-
-            // Thêm các trường hợp khác khi cần
-        }
-
-        // Thiết lập ConnectionType phù hợp với PointType và hướng
-        switch (snapPoint.pointType)
-        {
-            case SnapType.WallSide:
-                snapPoint.connectionType = ConnectionType.Perpendicular;
-                break;
-            case SnapType.FloorEdge:
-                // Chọn loại kết nối dựa trên hướng của snap point
-                if (snapPoint.snapDirection == SnapPoint.SnapDirection.Up || 
-                    snapPoint.snapDirection == SnapPoint.SnapDirection.Down)
-                {
-                    snapPoint.connectionType = ConnectionType.Opposite; // Sàn nối với đỉnh/đáy tường
-                }
-                else
-                {
-                    snapPoint.connectionType = ConnectionType.Perpendicular; // Sàn nối với cạnh tường
-                }
-                break;
-            case SnapType.WallBottom:
-            case SnapType.WallTop:
-            case SnapType.FoundationTopEdge:
-            case SnapType.RoofBottomEdge:
-                snapPoint.connectionType = ConnectionType.Opposite;
-                break;
-            default:
-                snapPoint.connectionType = ConnectionType.Any;
-                break;
-        }
-
-        // Thêm các thiết lập đề xuất dựa trên quan hệ sàn-tường
-        if (GUILayout.Button("Thiết lập cho kết nối Sàn-Tường"))
-        {
-            SetFloorWallConnectionPreset();
-        }
-
-        EditorUtility.SetDirty(snapPoint);
-    }
-
-    // Thêm phương thức mới để thiết lập nhanh cho kết nối sàn-tường
-    private void SetFloorWallConnectionPreset()
-    {
-        string[] options = new string[] {
-            "Sàn đặt trên đỉnh tường (Floor on WallTop)",
-            "Sàn gắn vào cạnh tường (Floor to WallSide)",
-            "Tường đặt trên sàn (Wall on FloorEdge)",
-            "Tường gắn vào cạnh sàn (Wall to FloorEdge)"
-        };
-
-        int choice = EditorUtility.DisplayDialogComplex(
-            "Chọn kiểu kết nối Sàn-Tường",
-            "Chọn cách sàn và tường kết nối với nhau:",
-            options[0], options[1], options[2]);
-
-        switch (choice)
-        {
-            case 0: // Sàn đặt trên đỉnh tường
-                snapPoint.pointType = snapPoint.gameObject.name.ToLower().Contains("floor") ? 
-                    SnapType.FloorEdge : SnapType.WallTop;
-                
-                if (snapPoint.pointType == SnapType.FloorEdge)
-                {
-                    snapPoint.acceptedTypes.Clear();
-                    snapPoint.acceptedTypes.Add(SnapType.WallTop);
-                    snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
-                    snapPoint.connectionType = ConnectionType.Opposite;
-                }
-                else // WallTop
-                {
-                    snapPoint.acceptedTypes.Clear();
-                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                    snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
-                    snapPoint.connectionType = ConnectionType.Opposite;
-                }
-                break;
-
-            case 1: // Sàn gắn vào cạnh tường
-                snapPoint.pointType = snapPoint.gameObject.name.ToLower().Contains("floor") ? 
-                    SnapType.FloorEdge : SnapType.WallSide;
-                
-                if (snapPoint.pointType == SnapType.FloorEdge)
-                {
-                    snapPoint.acceptedTypes.Clear();
-                    snapPoint.acceptedTypes.Add(SnapType.WallSide);
-                    snapPoint.snapDirection = GetHorizontalDirection();
-                    snapPoint.connectionType = ConnectionType.Perpendicular;
-                }
-                else // WallSide
-                {
-                    snapPoint.acceptedTypes.Clear();
-                    snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
-                    snapPoint.snapDirection = GetHorizontalDirection();
-                    snapPoint.connectionType = ConnectionType.Perpendicular;
-                }
-                break;
-
-            // Có thể thêm các trường hợp khác khi cần
-        }
-
-        EditorUtility.SetDirty(snapPoint);
-    }
-
-    // Phương thức hỗ trợ để lấy hướng ngang phù hợp
-    private SnapPoint.SnapDirection GetHorizontalDirection()
-    {
-        // Tính vector từ tâm đối tượng cha (nếu có) đến snap point
-        Vector3 direction = Vector3.right; // Mặc định
-
-        if (snapPoint.transform.parent != null)
-        {
-            direction = snapPoint.transform.position - snapPoint.transform.parent.position;
-            direction.y = 0; // Chỉ quan tâm đến hướng ngang
-            direction.Normalize();
-        }
-
-        // Tìm hướng ngang phù hợp nhất
-        float dotForward = Vector3.Dot(direction, snapPoint.transform.forward);
-        float dotRight = Vector3.Dot(direction, snapPoint.transform.right);
-
-        if (Mathf.Abs(dotForward) > Mathf.Abs(dotRight))
-        {
-            return dotForward > 0 ? SnapPoint.SnapDirection.Forward : SnapPoint.SnapDirection.Back;
-        }
-        else
-        {
-            return dotRight > 0 ? SnapPoint.SnapDirection.Right : SnapPoint.SnapDirection.Left;
-        }
-    }
-
     private void FindNearbySnapPoints()
     {
         nearbySnapPoints.Clear();
@@ -316,6 +680,32 @@ public class SnapPointEditor : Editor
         }
     }
 
+    private SnapPoint.SnapDirection GetHorizontalDirection()
+    {
+        // Tính vector từ tâm đối tượng cha (nếu có) đến snap point
+        Vector3 direction = Vector3.right; // Mặc định
+
+        if (snapPoint.transform.parent != null)
+        {
+            direction = snapPoint.transform.position - snapPoint.transform.parent.position;
+            direction.y = 0; // Chỉ quan tâm đến hướng ngang
+            direction.Normalize();
+        }
+
+        // Tìm hướng ngang phù hợp nhất
+        float dotForward = Vector3.Dot(direction, snapPoint.transform.forward);
+        float dotRight = Vector3.Dot(direction, snapPoint.transform.right);
+
+        if (Mathf.Abs(dotForward) > Mathf.Abs(dotRight))
+        {
+            return dotForward > 0 ? SnapPoint.SnapDirection.Forward : SnapPoint.SnapDirection.Back;
+        }
+        else
+        {
+            return dotRight > 0 ? SnapPoint.SnapDirection.Right : SnapPoint.SnapDirection.Left;
+        }
+    }
+
     private void OnSceneGUI()
     {
         if (snapPoint == null) return;
@@ -324,10 +714,34 @@ public class SnapPointEditor : Editor
         Vector3 position = snapPoint.transform.position;
         Vector3 direction = snapPoint.GetDirectionVector() * 0.5f;
         
-        Handles.color = Color.yellow;
+        // Xác định màu dựa trên loại snap
+        string category = snapPoint.pointType.ToString();
+        Color snapColor = Color.yellow;
+        foreach (var key in categoryColors.Keys)
+        {
+            if (category.Contains(key))
+            {
+                snapColor = categoryColors[key];
+                break;
+            }
+        }
+        
+        Handles.color = snapColor;
         Handles.DrawLine(position, position + direction);
         
-        Handles.Label(position + direction, $"{snapPoint.pointType}\n{snapPoint.connectionType}");
+        // Thông tin chi tiết hơn
+        string info = $"{snapPoint.pointType}\n{snapPoint.connectionType}\n{snapPoint.snapDirection}";
+        Handles.Label(position + direction, info);
+        
+        // Vẽ mũi tên chỉ hướng lớn hơn và rõ ràng hơn
+        Handles.color = snapColor;
+        Handles.ArrowHandleCap(
+            0,
+            position,
+            Quaternion.LookRotation(direction.normalized),
+            direction.magnitude,
+            EventType.Repaint
+        );
         
         // Hiển thị kết nối đến snap khác nếu có được tìm thấy
         if (nearbySnapPoints.Count > 0)
@@ -338,7 +752,17 @@ public class SnapPointEditor : Editor
                 
                 bool canConnect = compatibilityResults[point];
                 Handles.color = canConnect ? Color.green : Color.red;
-                Handles.DrawDottedLine(snapPoint.transform.position, point.transform.position, 3f);
+                
+                // Vẽ đường kết nối với độ dày khác nhau dựa vào khả năng kết nối
+                Handles.DrawDottedLine(snapPoint.transform.position, point.transform.position, canConnect ? 5f : 2f);
+                
+                // Hiển thị thông tin khoảng cách
+                if (canConnect)
+                {
+                    Vector3 midPoint = (snapPoint.transform.position + point.transform.position) / 2;
+                    float distance = Vector3.Distance(snapPoint.transform.position, point.transform.position);
+                    Handles.Label(midPoint, distance.ToString("F2") + "m");
+                }
             }
         }
     }

@@ -150,13 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 4
-  acceptedTypes: 
+  pointType: 2
+  acceptedTypes: 060000000900000018000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 0
-  connectionType: 3
+  snapDirection: 2
+  connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
 --- !u!1 &5956685648871756438
