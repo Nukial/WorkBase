@@ -53,6 +53,10 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
 --- !u!1 &2022671492203802754
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +110,10 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 1
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
 --- !u!1 &5568574504773695091
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +167,10 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
 --- !u!1 &5956685648871756438
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +224,10 @@ MonoBehaviour:
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
 --- !u!1 &7564636611156017616
 GameObject:
   m_ObjectHideFlags: 0

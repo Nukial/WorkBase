@@ -105,6 +105,12 @@ public class SnapPoint : MonoBehaviour {
     
     [Tooltip("Góc bước khi xoay (15, 45, 90 độ)")]
     public float rotationStep = 45f;
+    
+    [Tooltip("Tự động điều chỉnh loại kết nối dựa trên góc xoay")]
+    public bool autoAdjustConnection = true;
+    
+    [Tooltip("Danh sách các kiểu kết nối được chấp nhận khi tự động điều chỉnh")]
+    public List<ConnectionType> allowedConnectionTypes = new List<ConnectionType>();
 
     // Enum xác định hướng của snap point
     public enum SnapDirection {
@@ -136,9 +142,106 @@ public class SnapPoint : MonoBehaviour {
         }
         
         // Kiểm tra hướng
-        bool directionMatch = AreDirectionsCompatible(otherPoint);
+        bool directionMatch = false;
+        
+        // Nếu cho phép tự động điều chỉnh, thử tìm kiểu kết nối phù hợp
+        if (autoAdjustConnection) {
+            directionMatch = TryFindCompatibleConnection(otherPoint);
+        } else {
+            directionMatch = AreDirectionsCompatible(otherPoint);
+        }
         
         return typeMatch && directionMatch;
+    }
+    
+    /// <summary>
+    /// Thử tìm kiểu kết nối phù hợp giữa hai snap point
+    /// </summary>
+    private bool TryFindCompatibleConnection(SnapPoint otherPoint) {
+        // Lưu lại kiểu kết nối hiện tại
+        ConnectionType originalType = this.connectionType;
+        bool isCompatible = false;
+        
+        // Kiểm tra các kiểu kết nối được cho phép
+        if (allowedConnectionTypes.Count > 0) {
+            foreach (var connType in allowedConnectionTypes) {
+                this.connectionType = connType;
+                if (AreDirectionsCompatible(otherPoint)) {
+                    isCompatible = true;
+                    break;
+                }
+            }
+        } else {
+            // Nếu không có danh sách cụ thể, kiểm tra tất cả các kiểu
+            foreach (ConnectionType connType in System.Enum.GetValues(typeof(ConnectionType))) {
+                this.connectionType = connType;
+                if (AreDirectionsCompatible(otherPoint)) {
+                    isCompatible = true;
+                    break;
+                }
+            }
+        }
+        
+        // Khôi phục kiểu kết nối ban đầu nếu không tìm thấy kiểu phù hợp
+        if (!isCompatible) {
+            this.connectionType = originalType;
+        }
+        
+        return isCompatible;
+    }
+    
+    /// <summary>
+    /// Xác định kiểu kết nối phù hợp nhất dựa trên góc giữa hai snap point
+    /// </summary>
+    /// <param name="otherPoint">Điểm snap khác</param>
+    /// <returns>Kiểu kết nối phù hợp nhất</returns>
+    public ConnectionType DetermineOptimalConnectionType(SnapPoint otherPoint) {
+        // Lấy vector hướng của cả hai snap point
+        Vector3 thisDirection = GetDirectionVector();
+        Vector3 otherDirection = otherPoint.GetDirectionVector();
+        
+        // Tính dot product để xác định góc giữa hai vector
+        float dotProduct = Vector3.Dot(thisDirection.normalized, otherDirection.normalized);
+        float angle = Vector3.Angle(thisDirection, otherDirection);
+        
+        // Dựa vào góc để xác định kiểu kết nối phù hợp nhất
+        if (angle > 165f) {
+            // Gần như ngược hướng (180 độ ± 15)
+            return ConnectionType.Opposite;
+        } else if (angle < 15f) {
+            // Gần như cùng hướng (0 độ ± 15)
+            return ConnectionType.Parallel;
+        } else if (angle >= 75f && angle <= 105f) {
+            // Gần như vuông góc (90 độ ± 15)
+            return ConnectionType.Perpendicular;
+        } else if ((angle >= 30f && angle <= 60f) || (angle >= 120f && angle <= 150f)) {
+            // Góc 45 độ hoặc 135 độ (± 15)
+            return ConnectionType.Angle45;
+        } else {
+            // Các trường hợp khác
+            return ConnectionType.Any;
+        }
+    }
+    
+    /// <summary>
+    /// Áp dụng kiểu kết nối phù hợp nhất dựa trên góc với điểm snap khác
+    /// </summary>
+    /// <param name="otherPoint">Điểm snap khác</param>
+    /// <returns>True nếu tìm được kiểu kết nối phù hợp</returns>
+    public bool ApplyOptimalConnectionType(SnapPoint otherPoint) {
+        if (!autoAdjustConnection)
+            return false;
+            
+        // Xác định kiểu kết nối tối ưu
+        ConnectionType optimalType = DetermineOptimalConnectionType(otherPoint);
+        
+        // Kiểm tra xem kiểu kết nối này có được cho phép không
+        if (allowedConnectionTypes.Count > 0 && !allowedConnectionTypes.Contains(optimalType))
+            return false;
+            
+        // Áp dụng kiểu kết nối mới
+        connectionType = optimalType;
+        return true;
     }
     
     /// <summary>
@@ -150,12 +253,7 @@ public class SnapPoint : MonoBehaviour {
         if (this.connectionType == ConnectionType.Any || other.connectionType == ConnectionType.Any)
             return true;
             
-        // Thêm trường hợp đặc biệt cho kết nối tường-tường
-        if (this.pointType == SnapType.WallSide && other.pointType == SnapType.WallSide) {
-            return IsWallConnectionCompatible(other);
-        }
-
-        // Lấy vector hướng của cả hai snap point
+        // Áp dụng kiểm tra hướng cho tất cả các loại snap point, không chỉ tường
         Vector3 thisDirection = GetDirectionVector();
         Vector3 otherDirection = other.GetDirectionVector();
         
@@ -166,17 +264,16 @@ public class SnapPoint : MonoBehaviour {
         // Kiểm tra theo loại kết nối được yêu cầu
         switch (this.connectionType) {
             case ConnectionType.Opposite:       // Ngược hướng (khoảng 180 độ)
-                return dotProduct <= -0.7f;     // Gần với -1
+                return angle >= 165f;           // Cho phép sai số 15 độ
                 
             case ConnectionType.Perpendicular:  // Vuông góc (khoảng 90 độ)
-                return Mathf.Abs(dotProduct) <= 0.3f;  // Gần với 0
+                return angle >= 75f && angle <= 105f;  // Cho phép sai số 15 độ
                 
             case ConnectionType.Angle45:        // Góc 45 độ hoặc 135 độ
-                // Kiểm tra góc 45 hoặc 135
                 return IsAngle45Compatible(angle);
                 
             case ConnectionType.Parallel:       // Cùng hướng (khoảng 0 độ)
-                return dotProduct >= 0.7f;      // Gần với 1
+                return angle <= 15f;            // Cho phép sai số 15 độ
                 
             default:
                 return true; // Mặc định chấp nhận mọi hướng
@@ -304,6 +401,11 @@ public class SnapPoint : MonoBehaviour {
         // Nếu không khóa góc xoay, giữ nguyên góc xoay hiện tại
         if (!lockRotation) return currentRotation;
         
+        // Tự động áp dụng kiểu kết nối phù hợp nếu được bật
+        if (autoAdjustConnection) {
+            ApplyOptimalConnectionType(otherPoint);
+        }
+        
         // Lấy hướng của cả hai snap points
         Vector3 thisDirection = GetDirectionVector();
         Vector3 otherDirection = otherPoint.GetDirectionVector();
@@ -333,14 +435,44 @@ public class SnapPoint : MonoBehaviour {
                 break;
                 
             default:
-                // Mặc định giữ nguyên hướng hiện tại
-                return currentRotation;
+                // Chọn kiểu kết nối gần nhất với góc hiện tại
+                targetDirection = GetClosestDirectionToCurrentAngle(otherDirection, currentRotation);
+                break;
         }
         
         // Tính góc xoay để đạt được hướng mong muốn
         Quaternion targetRotation = SnapToNearestStep(targetDirection, currentRotation);
         
         return targetRotation;
+    }
+    
+    /// <summary>
+    /// Tìm hướng gần nhất với góc xoay hiện tại
+    /// </summary>
+    private Vector3 GetClosestDirectionToCurrentAngle(Vector3 baseDirection, Quaternion currentRotation) {
+        // Lấy forward direction của đối tượng hiện tại
+        Vector3 currentForward = currentRotation * Vector3.forward;
+        
+        // Tính góc giữa hướng hiện tại và hướng cơ sở
+        float angle = Vector3.SignedAngle(currentForward, baseDirection, Vector3.up);
+        
+        // Xây dựng danh sách các góc cần kiểm tra (0, 45, 90, 135, 180, 225, 270, 315)
+        float[] possibleAngles = { 0, 45, 90, 135, 180, 225, 270, 315 };
+        
+        // Tìm góc gần nhất
+        float closestAngle = 0;
+        float minDifference = 360;
+        
+        foreach (float possibleAngle in possibleAngles) {
+            float difference = Mathf.Abs(Mathf.DeltaAngle(angle, possibleAngle));
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestAngle = possibleAngle;
+            }
+        }
+        
+        // Tạo hướng mới bằng cách xoay hướng cơ sở theo góc đã chọn
+        return Quaternion.Euler(0, closestAngle, 0) * baseDirection;
     }
     
     /// <summary>

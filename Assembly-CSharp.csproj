@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerBuilder.cs" />
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
     <Compile Include="Assets\Scripts\Storage\BaseStorage.cs" />
+    <Compile Include="Assets\Scripts\Building\SnapManager.cs" />
     <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
   </ItemGroup>
   <ItemGroup>
