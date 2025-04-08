@@ -363,6 +363,7 @@ public class SnapPointEditor : Editor
         snapPoint.acceptedTypes.Add(SnapType.FoundationTopEdge);
         snapPoint.acceptedTypes.Add(SnapType.FoundationTopCorner);
         snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.WallTop);
         
         EditorUtility.SetDirty(snapPoint);
     }
@@ -378,6 +379,7 @@ public class SnapPointEditor : Editor
         snapPoint.acceptedTypes.Add(SnapType.RoofBottomEdge);
         snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
         snapPoint.acceptedTypes.Add(SnapType.Ceiling);
+        snapPoint.acceptedTypes.Add(SnapType.WallBottom);
         
         EditorUtility.SetDirty(snapPoint);
     }

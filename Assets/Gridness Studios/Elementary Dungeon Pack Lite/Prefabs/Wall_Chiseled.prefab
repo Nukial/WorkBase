@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 8
-  acceptedTypes: 08000000090000001200000015000000
+  acceptedTypes: 08000000090000001400000017000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 8
-  acceptedTypes: 08000000090000001200000015000000
+  acceptedTypes: 08000000090000001400000017000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 7
-  acceptedTypes: 0c000000090000000b000000
+  acceptedTypes: 0e000000090000000b00000006000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 6
-  acceptedTypes: 020000000300000009000000
+  acceptedTypes: 02000000030000000900000007000000
   providesSupport: 0
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
