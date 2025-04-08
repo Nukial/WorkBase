@@ -355,17 +355,10 @@ public class SnapPointEditor : Editor
     {
         if (nearbySnapPoints.Count > 0)
         {
-            EditorGUILayout.LabelField("Snap Points trong phạm vi 3 đơn vị:", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"Snap Points gần đây ({nearbySnapPoints.Count}):", EditorStyles.boldLabel);
             
-            EditorGUILayout.BeginVertical("box");
-            
-            // Header cho bảng kết quả
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Tên/Loại", EditorStyles.boldLabel, GUILayout.Width(150));
-            EditorGUILayout.LabelField("Tương thích", EditorStyles.boldLabel, GUILayout.Width(100));
-            EditorGUILayout.LabelField("Khoảng cách", EditorStyles.boldLabel, GUILayout.Width(80));
-            EditorGUILayout.LabelField("Hướng", EditorStyles.boldLabel, GUILayout.Width(100));
-            EditorGUILayout.EndHorizontal();
+            // Vẽ một đường phân cách nhỏ
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             
             foreach (var point in nearbySnapPoints)
             {
@@ -377,9 +370,13 @@ public class SnapPointEditor : Editor
                 float distance = Vector3.Distance(point.transform.position, snapPoint.transform.position);
                 float angle = Vector3.Angle(snapPoint.GetDirectionVector(), point.GetDirectionVector());
                 
+                // Bắt đầu một nhóm cho snap point này
+                EditorGUILayout.BeginVertical("box");
+                
+                // Dòng 1: Tên, loại và nút chọn
                 EditorGUILayout.BeginHorizontal();
                 
-                // Màu nền dựa theo loại snap point
+                // Màu nền theo loại snap point
                 string category = point.pointType.ToString();
                 Color bgColor = Color.white;
                 foreach (var key in categoryColors.Keys)
@@ -391,42 +388,106 @@ public class SnapPointEditor : Editor
                     }
                 }
                 
-                GUI.backgroundColor = bgColor;
-                
-                // Thông tin snap point
-                EditorGUILayout.BeginVertical("box", GUILayout.Width(150));
-                GUI.backgroundColor = Color.white;
-                EditorGUILayout.LabelField(point.name);
-                EditorGUILayout.LabelField(point.pointType.ToString(), EditorStyles.miniLabel);
-                EditorGUILayout.EndVertical();
-                
-                // Trạng thái tương thích
+                // Hiển thị trạng thái tương thích với icon
                 GUI.color = canSnap ? Color.green : Color.red;
-                EditorGUILayout.LabelField(canSnap ? "✓ Tương thích" : "✗ Không tương thích", GUILayout.Width(100));
+                EditorGUILayout.LabelField(canSnap ? "✓" : "✗", GUILayout.Width(15));
                 GUI.color = Color.white;
                 
-                // Thông tin khoảng cách và góc
-                EditorGUILayout.LabelField(distance.ToString("F2") + "m", GUILayout.Width(80));
+                // Tên và loại
+                GUI.backgroundColor = bgColor;
+                EditorGUILayout.LabelField(point.name, EditorStyles.boldLabel, GUILayout.Width(120));
+                GUI.backgroundColor = Color.white;
                 
-                // Hiển thị góc với màu tương ứng với loại connection
-                if (angle < 30) GUI.color = new Color(1f, 0.8f, 0.2f); // Gần song song
-                else if (angle > 150) GUI.color = new Color(1f, 0.5f, 0); // Gần ngược chiều
-                else if (angle > 60 && angle < 120) GUI.color = new Color(0, 0.8f, 0.8f); // Gần vuông góc
-                else GUI.color = Color.white;
+                EditorGUILayout.LabelField(point.pointType.ToString(), EditorStyles.miniLabel);
                 
-                EditorGUILayout.LabelField(angle.ToString("F0") + "°", GUILayout.Width(100));
-                GUI.color = Color.white;
-                
-                // Nút để chọn snap point này trong Scene
-                if (GUILayout.Button("Chọn", GUILayout.Width(60)))
+                // Nút chọn
+                if (GUILayout.Button("Chọn", EditorStyles.miniButton, GUILayout.Width(40)))
                 {
                     Selection.activeGameObject = point.gameObject;
                 }
                 
                 EditorGUILayout.EndHorizontal();
+                
+                // Dòng 2: Thông tin chi tiết về khoảng cách, góc và lý do
+                EditorGUILayout.BeginHorizontal();
+                
+                // Khoảng cách
+                EditorGUILayout.LabelField($"{distance:F2}m", EditorStyles.miniLabel, GUILayout.Width(50));
+                
+                // Góc với màu tương ứng
+                if (angle < 30) GUI.color = new Color(1f, 0.8f, 0.2f); // Gần song song
+                else if (angle > 150) GUI.color = new Color(1f, 0.5f, 0); // Gần ngược chiều
+                else if (angle > 60 && angle < 120) GUI.color = new Color(0, 0.8f, 0.8f); // Gần vuông góc
+                else GUI.color = Color.white;
+                
+                EditorGUILayout.LabelField($"{angle:F0}°", EditorStyles.miniLabel, GUILayout.Width(30));
+                GUI.color = Color.white;
+                
+                // Lý do tương thích/không tương thích
+                string reasonText = GetCompatibilityReason(snapPoint, point, canSnap, angle);
+                EditorGUILayout.LabelField(reasonText, EditorStyles.miniLabel);
+                
+                EditorGUILayout.EndHorizontal();
+                
+                EditorGUILayout.EndVertical();
+            }
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("Không tìm thấy snap point nào trong phạm vi 3 đơn vị.", MessageType.Info);
+        }
+    }
+
+    private string GetCompatibilityReason(SnapPoint source, SnapPoint target, bool isCompatible, float angle)
+    {
+        if (!isCompatible)
+        {
+            if (!source.acceptedTypes.Contains(target.pointType) && !target.acceptedTypes.Contains(source.pointType))
+                return "Loại snap không tương thích";
+                
+            if (source.connectionType != ConnectionType.Any && target.connectionType != ConnectionType.Any)
+            {
+                if (source.connectionType == ConnectionType.Opposite && angle < 165f)
+                    return "Yêu cầu góc ngược (180°)";
+                    
+                if (source.connectionType == ConnectionType.Perpendicular && (angle < 75f || angle > 105f))
+                    return "Yêu cầu góc vuông (90°)";
+                    
+                if (source.connectionType == ConnectionType.Parallel && angle > 15f)
+                    return "Yêu cầu góc song song (0°)";
+                    
+                if (source.connectionType == ConnectionType.Angle45 && !source.IsAngle45Compatible(angle))
+                    return "Yêu cầu góc 45° hoặc 135°";
             }
             
-            EditorGUILayout.EndVertical();
+            return "Hướng không tương thích";
+        }
+        else
+        {
+            // Trường hợp đặc biệt: Tường và Sàn
+            bool isWallFloorConnection = 
+                (source.pointType.ToString().Contains("Wall") && target.pointType.ToString().Contains("Floor")) ||
+                (source.pointType.ToString().Contains("Floor") && target.pointType.ToString().Contains("Wall"));
+            
+            if (isWallFloorConnection)
+            {
+                if (angle >= 75f && angle <= 105f)
+                    return "Tường-Sàn: góc vuông";
+                else if (angle > 165f)
+                    return "Tường-Sàn: ngược hướng";
+            }
+            
+            // Dựa vào góc để xác định kiểu kết nối
+            if (angle > 165f)
+                return "Kết nối ngược hướng";
+            else if (angle >= 75f && angle <= 105f)
+                return "Kết nối vuông góc";
+            else if ((angle >= 30f && angle <= 60f) || (angle >= 120f && angle <= 150f))
+                return "Kết nối góc 45°";
+            else if (angle < 15f)
+                return "Kết nối song song";
+            else
+                return "Kết nối tự do";
         }
     }
 
@@ -495,13 +556,70 @@ public class SnapPointEditor : Editor
             {
                 nearbySnapPoints.Add(point);
                 
-                // Kiểm tra khả năng kết nối hai chiều
-                bool canSnapTo = snapPoint.CanSnapTo(point);
-                bool canBeSnappedTo = point.CanSnapTo(snapPoint);
-                
-                compatibilityResults[point] = canSnapTo || canBeSnappedTo;
+                // Cải tiến: Kiểm tra tương thích hai chiều với xử lý trường hợp đặc biệt
+                bool isCompatible = CheckImprovedCompatibility(snapPoint, point);
+                compatibilityResults[point] = isCompatible;
             }
         }
+    }
+
+    private bool CheckImprovedCompatibility(SnapPoint source, SnapPoint target)
+    {
+        // Kiểm tra tương thích loại snap
+        bool typeMatchSource = source.acceptedTypes.Contains(target.pointType);
+        bool typeMatchTarget = target.acceptedTypes.Contains(source.pointType);
+        
+        // Kiểm tra các trường hợp đặc biệt
+        if (!typeMatchSource) typeMatchSource = source.IsElevatedFloorCompatible(target);
+        if (!typeMatchTarget) typeMatchTarget = target.IsElevatedFloorCompatible(source);
+        
+        bool typeMatch = typeMatchSource || typeMatchTarget;
+        if (!typeMatch) return false;
+        
+        // Trường hợp đặc biệt: Tường và Sàn
+        bool isWallFloorConnection = 
+            (source.pointType.ToString().Contains("Wall") && target.pointType.ToString().Contains("Floor")) ||
+            (source.pointType.ToString().Contains("Floor") && target.pointType.ToString().Contains("Wall"));
+        
+        if (isWallFloorConnection)
+        {
+            // Tính góc giữa hai điểm snap
+            Vector3 sourceDir = source.GetDirectionVector();
+            Vector3 targetDir = target.GetDirectionVector();
+            float angle = Vector3.Angle(sourceDir, targetDir);
+            
+            // Với kết nối tường-sàn, cho phép cả góc vuông và ngược hướng
+            return (angle >= 75f && angle <= 105f) || angle > 165f;
+        }
+        
+        // Kiểm tra tương thích hướng/kết nối
+        if (source.autoAdjustConnection)
+        {
+            // Lưu lại kiểu kết nối hiện tại
+            ConnectionType originalType = source.connectionType;
+            bool result = source.ApplyOptimalConnectionType(target);
+            
+            // Khôi phục kiểu kết nối gốc sau khi kiểm tra
+            ConnectionType testedType = source.connectionType;
+            source.connectionType = originalType;
+            
+            if (result) return true;
+        }
+        else if (target.autoAdjustConnection)
+        {
+            // Kiểm tra theo hướng ngược lại
+            ConnectionType originalType = target.connectionType;
+            bool result = target.ApplyOptimalConnectionType(source);
+            
+            // Khôi phục kiểu kết nối gốc
+            ConnectionType testedType = target.connectionType;
+            target.connectionType = originalType;
+            
+            if (result) return true;
+        }
+        
+        // Nếu không có auto-adjust, kiểm tra tương thích trực tiếp
+        return source.CanSnapTo(target) || target.CanSnapTo(source);
     }
 
     private SnapPoint.SnapDirection GetHorizontalDirection()

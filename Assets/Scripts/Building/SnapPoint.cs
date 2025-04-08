@@ -295,7 +295,7 @@ public class SnapPoint : MonoBehaviour {
     /// <summary>
     /// Kiểm tra riêng cho góc 45 độ, hỗ trợ cả góc 45, 135, 225, 315 độ
     /// </summary>
-    private bool IsAngle45Compatible(float angle) {
+    public bool IsAngle45Compatible(float angle) {
         // Góc 45 +/- 15 độ
         if (angle >= 30f && angle <= 60f) return true;
         // Góc 135 +/- 15 độ
