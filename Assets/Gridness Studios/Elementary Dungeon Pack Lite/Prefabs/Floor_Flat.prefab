@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1853109921491989243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.153, z: -2.514}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.00026703, y: 0.153, z: -2.4069}
+  m_LocalScale: {x: 0.97033, y: 1, z: 0.95727}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8378305016021551963}
@@ -44,19 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 06000000090000001a000000
+  pointType: 4
+  acceptedTypes: 06000000090000001a00000004000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
+  snapDirection: 1
+  connectionType: 1
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 
+  allowedConnectionTypes: 0000000001000000
 --- !u!1 &2022671492203802754
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,8 +83,8 @@ Transform:
   m_GameObject: {fileID: 2022671492203802754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.153, z: 2.499}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.00026703, y: 0.153, z: 2.3919}
+  m_LocalScale: {x: 0.97033, y: 1, z: 0.95727}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8378305016021551963}
@@ -101,19 +101,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 06000000090000001a000000
+  pointType: 4
+  acceptedTypes: 06000000090000001a00000004000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
+  snapDirection: 0
+  connectionType: 1
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 1
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 
+  allowedConnectionTypes: 0000000001000000
 --- !u!1 &5568574504773695091
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,8 +140,8 @@ Transform:
   m_GameObject: {fileID: 5568574504773695091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.5109997, y: 0.153, z: 0.072999954}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -2.4368, y: 0.153, z: 0.069561}
+  m_LocalScale: {x: 0.95727, y: 1, z: 0.97033}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8378305016021551963}
@@ -158,19 +158,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 06000000090000001a000000
+  pointType: 4
+  acceptedTypes: 06000000090000001a00000004000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
+  snapDirection: 4
+  connectionType: 1
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 
+  allowedConnectionTypes: 0000000001000000
 --- !u!1 &5956685648871756438
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,13 +196,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5956685648871756438}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.493, y: 0.153, z: 0.072999954}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.4188, y: 0.153, z: 0.069561}
+  m_LocalScale: {x: 0.95727, y: 1, z: 0.97033}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8378305016021551963}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1323509708796101230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,19 +215,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 06000000090000001a000000
+  pointType: 4
+  acceptedTypes: 06000000090000001a00000004000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
+  snapDirection: 5
+  connectionType: 1
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 
+  allowedConnectionTypes: 0000000001000000
 --- !u!1 &7564636611156017616
 GameObject:
   m_ObjectHideFlags: 0

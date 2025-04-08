@@ -449,10 +449,13 @@ public class SnapPointEditor : Editor
 
     private void SetBestDirection(Vector3 direction)
     {
-        // Tìm trục chính gần nhất với hướng
-        float dotX = Vector3.Dot(direction, snapPoint.transform.right);
-        float dotY = Vector3.Dot(direction, snapPoint.transform.up);
-        float dotZ = Vector3.Dot(direction, snapPoint.transform.forward);
+        // Use parent's axes to determine the outward direction
+        Transform parent = snapPoint.transform.parent;
+        if (parent == null) return;
+        
+        float dotX = Vector3.Dot(direction, parent.right);
+        float dotY = Vector3.Dot(direction, parent.up);
+        float dotZ = Vector3.Dot(direction, parent.forward);
 
         float absDotX = Mathf.Abs(dotX);
         float absDotY = Mathf.Abs(dotY);
@@ -470,7 +473,6 @@ public class SnapPointEditor : Editor
         {
             snapPoint.snapDirection = dotZ > 0 ? SnapPoint.SnapDirection.Forward : SnapPoint.SnapDirection.Back;
         }
-
         EditorUtility.SetDirty(snapPoint);
     }
 

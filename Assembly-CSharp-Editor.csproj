@@ -69,7 +69,6 @@
     <Compile Include="Assets\Scripts\Editor\BuildingManagerWindow.cs" />
     <Compile Include="Assets\Scripts\Editor\BaseStorageEditor.cs" />
     <Compile Include="Assets\Scripts\Editor\SnapPointEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\KeyboardShortcutsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
