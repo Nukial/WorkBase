@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6393064947278683357}
   - component: {fileID: 1510143991882835821}
   - component: {fileID: -1698255733152223389}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Wall_DoorStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - CinemachineTarget
+  - Buildings
+  - Default
+  - Foundation
+  - Terrain
+  - Ground
   layers:
   - Default
   - TransparentFX

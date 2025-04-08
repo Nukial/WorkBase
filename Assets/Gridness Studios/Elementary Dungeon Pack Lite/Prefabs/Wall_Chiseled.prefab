@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 668735768885291391}
   - component: {fileID: 6495388505115324432}
   - component: {fileID: 8952002751533609951}
-  - component: {fileID: 8878093310220891411}
-  m_Layer: 6
+  - component: {fileID: -2354587839668496101}
+  m_Layer: 8
   m_Name: Wall_Chiseled
-  m_TagString: Untagged
+  m_TagString: Buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -31,7 +31,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5905538073619214557}
+  - {fileID: 835177040290478647}
+  - {fileID: 448418955049533692}
+  - {fileID: 8955801841691224367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6495388505115324432
@@ -87,8 +91,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8878093310220891411
-MeshCollider:
+--- !u!65 &-2354587839668496101
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +109,238 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2348616061427368171, guid: edcc86a903182d0429c0d7b2c727fec0, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 4.90649, y: 4.653493, z: 0.64912426}
+  m_Center: {x: -0.026769161, y: 2.3107166, z: -0.00000093877316}
+--- !u!1 &3945825020728628261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 448418955049533692}
+  - component: {fileID: 8711340366122434779}
+  m_Layer: 8
+  m_Name: SnapPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448418955049533692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3945825020728628261}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.424, y: 4.616, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668735768885291391}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &8711340366122434779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3945825020728628261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34da8bd12c9a8442b9e91c4eac3b9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 0
+  allowedTargetTypes: 00000000
+  snapDirection: {x: 0, y: 0, z: 1}
+  showGizmo: 1
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showDirectionArrow: 1
+  arrowLength: 0.3
+  arrowHeadSize: 0.05
+  directionColor: {r: 0, g: 0, b: 1, a: 1}
+  buildingTag: Buildings
+  validBuildingLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &6395061689221664001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8955801841691224367}
+  - component: {fileID: 7747845737921041922}
+  m_Layer: 8
+  m_Name: SnapPoint (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8955801841691224367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395061689221664001}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.397, y: 4.616, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668735768885291391}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &7747845737921041922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395061689221664001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34da8bd12c9a8442b9e91c4eac3b9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 0
+  allowedTargetTypes: 00000000
+  snapDirection: {x: 0, y: 0, z: 1}
+  showGizmo: 1
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showDirectionArrow: 1
+  arrowLength: 0.3
+  arrowHeadSize: 0.05
+  directionColor: {r: 0, g: 0, b: 1, a: 1}
+  buildingTag: Buildings
+  validBuildingLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &7191153973106526550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835177040290478647}
+  - component: {fileID: 3213872568902962264}
+  m_Layer: 8
+  m_Name: SnapPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835177040290478647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191153973106526550}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.397, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668735768885291391}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &3213872568902962264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191153973106526550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34da8bd12c9a8442b9e91c4eac3b9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 0
+  allowedTargetTypes: 00000000
+  snapDirection: {x: 0, y: 0, z: 1}
+  showGizmo: 1
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showDirectionArrow: 1
+  arrowLength: 0.3
+  arrowHeadSize: 0.05
+  directionColor: {r: 0, g: 0, b: 1, a: 1}
+  buildingTag: Buildings
+  validBuildingLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &7820008963755190175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5905538073619214557}
+  - component: {fileID: 7131903860270326206}
+  m_Layer: 8
+  m_Name: SnapPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5905538073619214557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7820008963755190175}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.424, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668735768885291391}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &7131903860270326206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7820008963755190175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34da8bd12c9a8442b9e91c4eac3b9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 0
+  allowedTargetTypes: 00000000
+  snapDirection: {x: 0, y: 0, z: 1}
+  showGizmo: 1
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showDirectionArrow: 1
+  arrowLength: 0.3
+  arrowHeadSize: 0.05
+  directionColor: {r: 0, g: 0, b: 1, a: 1}
+  buildingTag: Buildings
+  validBuildingLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
