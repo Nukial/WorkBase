@@ -303,7 +303,7 @@ MonoBehaviour:
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
+  allowedConnectionTypes: 0000000001000000
 --- !u!1 &8333248201364201094
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,15 +349,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 6
-  acceptedTypes: 02000000030000000900000007000000
+  acceptedTypes: 0200000003000000090000000700000004000000
   providesSupport: 0
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 3
-  connectionType: 0
+  connectionType: 1
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
+  allowedConnectionTypes: 0000000001000000

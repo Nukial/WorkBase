@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum SnapType {
@@ -232,15 +233,26 @@ public class SnapPoint : MonoBehaviour {
         if (!autoAdjustConnection)
             return false;
             
-        // Xác định kiểu kết nối tối ưu
+        // Xác định kiểu kết nối tối ưu dựa trên góc giữa hai điểm
         ConnectionType optimalType = DetermineOptimalConnectionType(otherPoint);
         
-        // Kiểm tra xem kiểu kết nối này có được cho phép không
-        if (allowedConnectionTypes.Count > 0 && !allowedConnectionTypes.Contains(optimalType))
+        // Xây dựng danh sách các kiểu kết nối được phép cho điểm này
+        List<ConnectionType> thisAllowed = allowedConnectionTypes.Count > 0
+            ? new List<ConnectionType>(allowedConnectionTypes)
+            : System.Enum.GetValues(typeof(ConnectionType)).Cast<ConnectionType>().ToList();
+        
+        // Xây dựng danh sách các kiểu kết nối được phép cho điểm kia
+        List<ConnectionType> otherAllowed = otherPoint.allowedConnectionTypes.Count > 0
+            ? new List<ConnectionType>(otherPoint.allowedConnectionTypes)
+            : System.Enum.GetValues(typeof(ConnectionType)).Cast<ConnectionType>().ToList();
+        
+        // Tìm giao của hai danh sách
+        List<ConnectionType> commonTypes = thisAllowed.Intersect(otherAllowed).ToList();
+        if (commonTypes.Count == 0)
             return false;
-            
-        // Áp dụng kiểu kết nối mới
-        connectionType = optimalType;
+        
+        // Nếu kiểu tối ưu có trong giao, dùng nó; nếu không, chọn kiểu đầu tiên
+        connectionType = commonTypes.Contains(optimalType) ? optimalType : commonTypes[0];
         return true;
     }
     

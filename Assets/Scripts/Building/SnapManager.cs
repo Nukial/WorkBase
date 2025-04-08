@@ -94,18 +94,58 @@ public class SnapManager : MonoBehaviour
         Vector3 offset = sourcePoint.transform.position - objectToSnap.transform.position;
         Vector3 targetPosition = targetPoint.transform.position - offset;
         
-        // Tự động điều chỉnh kiểu kết nối nếu được bật
-        if (enableAutoConnection && sourcePoint.autoAdjustConnection)
+        // Xử lý trường hợp đặc biệt giữa tường và sàn nhà
+        if ((sourcePoint.pointType.ToString().Contains("Wall") && targetPoint.pointType.ToString().Contains("Floor")) ||
+            (sourcePoint.pointType.ToString().Contains("Floor") && targetPoint.pointType.ToString().Contains("Wall")))
         {
-            sourcePoint.ApplyOptimalConnectionType(targetPoint);
+            // Tính góc giữa hai điểm snap để xác định loại kết nối thích hợp
+            Vector3 sourceDir = sourcePoint.GetDirectionVector();
+            Vector3 targetDir = targetPoint.GetDirectionVector();
+            float angle = Vector3.Angle(sourceDir, targetDir);
+            
+            // Tìm kiểu kết nối phù hợp dựa trên góc
+            ConnectionType bestType;
+            
+            if (angle >= 75f && angle <= 105f) {
+                bestType = ConnectionType.Perpendicular; // Nếu gần vuông góc
+            } else if (angle > 165f) {
+                bestType = ConnectionType.Opposite;      // Nếu gần ngược hướng
+            } else if (angle < 15f) {
+                bestType = ConnectionType.Parallel;      // Nếu gần cùng hướng
+            } else {
+                bestType = ConnectionType.Any;           // Trường hợp khác
+            }
+            
+            // Lưu lại kiểu kết nối gốc
+            ConnectionType originalSourceType = sourcePoint.connectionType;
+            ConnectionType originalTargetType = targetPoint.connectionType;
+            
+            // Thử áp dụng kiểu kết nối tốt nhất
+            bool canUseOptimalType = 
+                (sourcePoint.allowedConnectionTypes.Count == 0 || sourcePoint.allowedConnectionTypes.Contains(bestType)) &&
+                (targetPoint.allowedConnectionTypes.Count == 0 || targetPoint.allowedConnectionTypes.Contains(bestType));
+            
+            if (canUseOptimalType) {
+                // Tạm thời thay đổi kiểu kết nối của cả hai điểm
+                sourcePoint.connectionType = bestType;
+                targetPoint.connectionType = bestType;
+            }
+            
+            // Sau khi thay đổi, nếu cần thiết
+            Debug.Log($"Đang kết nối {sourcePoint.pointType} với {targetPoint.pointType}, kiểu: {sourcePoint.connectionType}");
+        }
+        // Tự động điều chỉnh kiểu kết nối nếu được bật
+        else if (enableAutoConnection) {
+            if (sourcePoint.autoAdjustConnection) {
+                sourcePoint.ApplyOptimalConnectionType(targetPoint);
+            }
         }
         
         // Tính toán góc xoay
         Quaternion currentRotation = objectToSnap.transform.rotation;
         Quaternion targetRotation = currentRotation;
         
-        if (enableRotationalSnapping && sourcePoint.lockRotation)
-        {
+        if (enableRotationalSnapping && sourcePoint.lockRotation) {
             targetRotation = sourcePoint.GetSnappedRotation(targetPoint, currentRotation);
         }
         
@@ -114,8 +154,7 @@ public class SnapManager : MonoBehaviour
         objectToSnap.transform.rotation = targetRotation;
         
         // Hiệu ứng snap nếu có
-        if (snapEffectPrefab != null)
-        {
+        if (snapEffectPrefab != null) {
             Instantiate(snapEffectPrefab, targetPoint.transform.position, Quaternion.identity);
         }
         
