@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1154836222173346669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600032064709128043}
+  - component: {fileID: 8115263809635386909}
+  m_Layer: 8
+  m_Name: SnapPoiint_Center_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &600032064709128043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154836222173346669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.37, y: 2.3155, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668735768885291391}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8115263809635386909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154836222173346669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 8
+  acceptedTypes: 08000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1159351990771520630
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +61,7 @@ GameObject:
   - component: {fileID: 6495388505115324432}
   - component: {fileID: 8952002751533609951}
   - component: {fileID: -2354587839668496101}
-  - component: {fileID: -2094909685576366156}
+  - component: {fileID: 731284462995769130}
   m_Layer: 8
   m_Name: Wall_Chiseled
   m_TagString: Buildings
@@ -34,9 +83,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 541381223895307075}
-  - {fileID: 3339802413341366431}
-  - {fileID: 7057552269281863277}
   - {fileID: 6338972954885905579}
+  - {fileID: 600032064709128043}
+  - {fileID: 884914663224753842}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6495388505115324432
@@ -113,7 +162,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.90649, y: 4.653493, z: 0.64912426}
   m_Center: {x: -0.026769161, y: 2.3107166, z: -0.00000093877316}
---- !u!114 &-2094909685576366156
+--- !u!114 &731284462995769130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,21 +171,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1159351990771520630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30a3a1951e250e42bd905f45d06b038, type: 3}
+  m_Script: {fileID: 11500000, guid: 01482ecda9199a645a05e49710af7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceName: Wall
-  pieceType: 1
-  woodCost: 100
-  stoneCost: 100
-  durability: 100
-  modelPrefab: {fileID: 1159351990771520630}
+  pieceData: {fileID: 11400000, guid: 586097dd63808d64ba691f8367122079, type: 2}
+  health: 100
   snapPoints:
-  - {fileID: 541381223895307075}
-  - {fileID: 3339802413341366431}
-  - {fileID: 7057552269281863277}
-  - {fileID: 6338972954885905579}
---- !u!1 &5785382394156287205
+  - {fileID: 7736824424913922097}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 3253239070020283055}
+  - {fileID: 0}
+  - {fileID: 0}
+  isGrounded: 0
+--- !u!1 &2275382499612325949
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,29 +192,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7057552269281863277}
+  - component: {fileID: 884914663224753842}
+  - component: {fileID: 2295477295380489766}
   m_Layer: 8
-  m_Name: Snap (2)
+  m_Name: SnapPoiint_Center_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7057552269281863277
+--- !u!4 &884914663224753842
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5785382394156287205}
+  m_GameObject: {fileID: 2275382499612325949}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.39, y: 4.623, z: 0}
+  m_LocalPosition: {x: -2.44, y: 2.3155, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 668735768885291391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2295477295380489766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275382499612325949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 8
+  acceptedTypes: 08000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &6690511141199525230
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,8 +242,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6338972954885905579}
+  - component: {fileID: 3253239070020283055}
   m_Layer: 8
-  m_Name: Snap (3)
+  m_Name: SnapPoiint_Center_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -192,12 +259,29 @@ Transform:
   m_GameObject: {fileID: 6690511141199525230}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.413, y: 4.631, z: 0}
+  m_LocalPosition: {x: 0, y: 4.631, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 668735768885291391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3253239070020283055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6690511141199525230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 7
+  acceptedTypes: 040000000900000006000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &8333248201364201094
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,8 +291,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 541381223895307075}
+  - component: {fileID: 7736824424913922097}
   m_Layer: 8
-  m_Name: Snap
+  m_Name: SnapPoiint_Center_Bttom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,40 +308,26 @@ Transform:
   m_GameObject: {fileID: 8333248201364201094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.397, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 668735768885291391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8823927303610407300
-GameObject:
+--- !u!114 &7736824424913922097
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3339802413341366431}
-  m_Layer: 8
-  m_Name: Snap (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3339802413341366431
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8823927303610407300}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.365, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 668735768885291391}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 8333248201364201094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 6
+  acceptedTypes: 040000000900000007000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
