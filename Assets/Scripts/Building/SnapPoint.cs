@@ -21,6 +21,8 @@ public enum SnapType {
     FloorEdge,          // Cạnh sàn/trần
     FloorCorner,        // Góc sàn/trần
     Ceiling,            // Bề mặt trần (có thể trùng với FloorEdge/Corner)
+    UpperFloorEdge,     // Cạnh sàn tầng trên (chuyên dụng cho sàn cao tầng)
+    LowerFloorEdge,     // Cạnh sàn tầng dưới (chuyên dụng cho sàn cao tầng)
 
     // --- Mái Nhà (Roof) ---
     RoofBottomEdge,     // Cạnh dưới mái (đặt lên WallTop)
@@ -47,6 +49,7 @@ public enum SnapType {
     StairBottom,        // Chân cầu thang
     StairTop,           // Đỉnh cầu thang
     StairSide,          // Bên cạnh cầu thang (cho lan can)
+    StairLanding,       // Chiếu nghỉ cầu thang (cho cầu thang có chữ L hoặc U)
     FencePostBottom,    // Chân cọc hàng rào
     FencePostTop,       // Đỉnh cọc hàng rào
     FenceRailMount,     // Điểm gắn thanh rào
@@ -119,7 +122,12 @@ public class SnapPoint : MonoBehaviour {
         // Kiểm tra loại snap
         bool typeMatch = this.acceptedTypes.Contains(otherPoint.pointType);
         
-        // Nếu muốn thêm kiểm tra hướng, thêm ở đây
+        // Kiểm tra đặc biệt cho sàn cao tầng và cầu thang
+        if (!typeMatch) {
+            typeMatch = IsElevatedFloorCompatible(otherPoint);
+        }
+        
+        // Kiểm tra hướng
         bool directionMatch = AreDirectionsCompatible(otherPoint);
         
         return typeMatch && directionMatch;
@@ -177,6 +185,33 @@ public class SnapPoint : MonoBehaviour {
             default:
                 return transform.forward;
         }
+    }
+
+    /// <summary>
+    /// Phương thức bổ sung để kiểm tra khả năng kết nối với các sàn cao tầng và cầu thang
+    /// </summary>
+    public bool IsElevatedFloorCompatible(SnapPoint otherPoint) {
+        // Kiểm tra đặc biệt cho các kết nối sàn cao tầng và cầu thang
+        if (this.pointType == SnapType.StairTop && otherPoint.pointType == SnapType.FloorEdge) {
+            // Cho phép kết nối từ đỉnh cầu thang lên cạnh sàn
+            return true;
+        }
+        
+        if (this.pointType == SnapType.StairBottom && 
+           (otherPoint.pointType == SnapType.FloorEdge || otherPoint.pointType == SnapType.FoundationTopEdge)) {
+            // Cho phép kết nối từ chân cầu thang xuống cạnh sàn hoặc móng
+            return true;
+        }
+        
+        if (this.pointType == SnapType.FloorEdge && 
+           (otherPoint.pointType == SnapType.StairTop || otherPoint.pointType == SnapType.StairBottom)) {
+            // Cho phép kết nối từ sàn đến đỉnh/chân cầu thang
+            return true;
+        }
+        
+        // Các trường hợp khác có thể thêm vào đây
+        
+        return false;
     }
 
     // --- Vẽ Gizmo trong Scene View để dễ dàng hình dung ---

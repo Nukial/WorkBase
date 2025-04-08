@@ -284,6 +284,26 @@ public class SnapPointEditor : Editor
         
         EditorGUILayout.EndHorizontal();
         
+        // Thêm hàng mới cho cầu thang
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button(new GUIContent("Chân Cầu Thang", "Điểm bắt đầu cầu thang, nối với sàn tầng dưới"), GUILayout.Height(30)))
+        {
+            SetStairBottomPreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Đỉnh Cầu Thang", "Điểm kết thúc cầu thang, nối với sàn tầng trên"), GUILayout.Height(30)))
+        {
+            SetStairTopPreset();
+        }
+        
+        if (GUILayout.Button(new GUIContent("Cạnh Cầu Thang", "Cạnh bên cầu thang, nối với lan can"), GUILayout.Height(30)))
+        {
+            SetStairSidePreset();
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
         EditorGUILayout.EndVertical();
         
         // Presets cho kết nối
@@ -306,6 +326,12 @@ public class SnapPointEditor : Editor
         if (GUILayout.Button(new GUIContent("Thiết lập Mái-Tường", "Cấu hình tự động cho kết nối mái với tường"), GUILayout.Height(30)))
         {
             SetRoofWallPreset();
+        }
+        
+        // Thêm nút thiết lập cho Cầu thang - Sàn
+        if (GUILayout.Button(new GUIContent("Thiết lập Cầu thang-Sàn", "Cấu hình tự động cho kết nối cầu thang với sàn"), GUILayout.Height(30)))
+        {
+            SetStairFloorConnectionPreset();
         }
         
         EditorGUILayout.EndVertical();
@@ -413,6 +439,116 @@ public class SnapPointEditor : Editor
         snapPoint.acceptedTypes.Add(SnapType.WallTop);
         
         EditorUtility.SetDirty(snapPoint);
+    }
+
+    private void SetStairBottomPreset()
+    {
+        snapPoint.pointType = SnapType.StairBottom;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = false;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        snapPoint.acceptedTypes.Add(SnapType.FoundationTopEdge);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    private void SetStairTopPreset()
+    {
+        snapPoint.pointType = SnapType.StairTop;
+        snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+        snapPoint.connectionType = ConnectionType.Opposite;
+        snapPoint.providesSupport = false;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    private void SetStairSidePreset()
+    {
+        snapPoint.pointType = SnapType.StairSide;
+        snapPoint.snapDirection = GetHorizontalDirection();
+        snapPoint.connectionType = ConnectionType.Perpendicular;
+        snapPoint.providesSupport = true;
+        
+        snapPoint.acceptedTypes.Clear();
+        snapPoint.acceptedTypes.Add(SnapType.FencePostBottom);
+        snapPoint.acceptedTypes.Add(SnapType.WallSide);
+        
+        EditorUtility.SetDirty(snapPoint);
+    }
+
+    private void SetStairFloorConnectionPreset()
+    {
+        string[] options = new string[] {
+            "Chân cầu thang nối sàn tầng dưới",
+            "Đỉnh cầu thang nối sàn tầng trên",
+            "Cạnh cầu thang nối lan can",
+            "Sàn nối với chân cầu thang",
+            "Sàn nối với đỉnh cầu thang"
+        };
+
+        int choice = EditorUtility.DisplayDialogComplex(
+            "Chọn kiểu kết nối Cầu thang-Sàn",
+            "Chọn cách cầu thang và sàn kết nối với nhau:",
+            options[0], options[1], options[2]);
+
+        switch (choice)
+        {
+            case 0: // Chân cầu thang nối sàn tầng dưới
+                snapPoint.pointType = SnapType.StairBottom;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.providesSupport = false;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                snapPoint.acceptedTypes.Add(SnapType.FoundationTopEdge);
+                break;
+
+            case 1: // Đỉnh cầu thang nối sàn tầng trên
+                snapPoint.pointType = SnapType.StairTop;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.providesSupport = false;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.FloorEdge);
+                break;
+
+            case 2: // Cạnh cầu thang nối lan can
+                snapPoint.pointType = SnapType.StairSide;
+                snapPoint.snapDirection = GetHorizontalDirection();
+                snapPoint.connectionType = ConnectionType.Perpendicular;
+                snapPoint.providesSupport = true;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.FencePostBottom);
+                snapPoint.acceptedTypes.Add(SnapType.WallSide);
+                break;
+
+            case 3: // Sàn nối với chân cầu thang
+                snapPoint.pointType = SnapType.FloorEdge;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Up;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.providesSupport = true;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.StairBottom);
+                break;
+
+            case 4: // Sàn nối với đỉnh cầu thang
+                snapPoint.pointType = SnapType.FloorEdge;
+                snapPoint.snapDirection = SnapPoint.SnapDirection.Down;
+                snapPoint.connectionType = ConnectionType.Opposite;
+                snapPoint.providesSupport = true;
+                snapPoint.acceptedTypes.Clear();
+                snapPoint.acceptedTypes.Add(SnapType.StairTop);
+                break;
+        }
+
+        EditorUtility.SetDirty(snapPoint);
+        Debug.Log($"Thiết lập kết nối Cầu thang-Sàn: {options[choice]}");
     }
 
     // Phương thức thiết lập cho kết nối góc tường
