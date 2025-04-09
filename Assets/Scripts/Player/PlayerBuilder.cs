@@ -2,6 +2,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// Quản lý quá trình xây dựng của người chơi
+/// 
+/// Hướng dẫn vị trí Snap Point và cách chúng kết nối:
+/// 
+/// 1. Kết nối tường-nền:
+///    - SnapPoint loại WallBottom (đặt ở đáy tường, hướng xuống) với 
+///    - SnapPoint loại FoundationTopEdge (đặt ở cạnh trên nền, hướng lên)
+///    
+/// 2. Kết nối tường-tường:
+///    - Thẳng hàng: Hai WallSide (đặt ở cạnh tường, hướng ra), connectionType = Opposite
+///    - Góc 90°: Hai WallSide (đặt ở cạnh tường, hướng ra), connectionType = Perpendicular
+///    - Góc 45°: Hai WallSide (đặt ở cạnh tường, hướng ra), connectionType = Angle45
+///    
+/// 3. Kết nối sàn-tường:
+///    - FloorEdge (đặt ở cạnh sàn, hướng ra) với 
+///    - WallTop (đặt ở đỉnh tường, hướng lên)
+///    
+/// 4. Kết nối mái-tường:
+///    - RoofBottomEdge (đặt ở cạnh dưới mái, hướng xuống) với 
+///    - WallTop (đặt ở đỉnh tường, hướng lên)
+///    
+/// 5. Kết nối cửa-tường:
+///    - DoorFrameSide (đặt ở cạnh khung cửa, hướng ra) với 
+///    - WallSide (đặt ở cạnh tường, hướng ra)
+/// </summary>
 public class PlayerBuilder : MonoBehaviour {
     public Camera buildCamera;
     public float buildDistance = 10f;
@@ -66,6 +92,17 @@ public class PlayerBuilder : MonoBehaviour {
     public float minDirectionDotProduct = -0.7f; // Mới: giá trị dot product tối thiểu để snap (mặc định đòi hỏi khá ngược hướng)
     public bool showSnapDebug = false; // Mới: hiển thị hướng snap khi debug
 
+    // Thêm chế độ đặt tự do
+    [Header("Free Placement")]
+    [Tooltip("Khi bật, đối tượng sẽ không snap vào bất kỳ điểm nào")]
+    public bool freeplacementMode = false;
+    [Tooltip("Phím tắt để bật/tắt chế độ đặt tự do")]
+    public KeyCode freeplacementToggleKey = KeyCode.LeftControl;
+    [Tooltip("Hiển thị thông báo khi chuyển chế độ")]
+    public bool showFreePlacementMessages = true;
+    [Tooltip("Khoảng cách từ bề mặt khi đặt đồ theo chế độ tự do")]
+    public float surfaceOffset = 0.01f;
+
     // Thêm biến để theo dõi xem người dùng đã xoay thủ công chưa
     private bool hasUserRotation = false;
 
@@ -75,6 +112,11 @@ public class PlayerBuilder : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B)) {
             ToggleBuildMode();
+        }
+        
+        // Thêm phím tắt để bật/tắt chế độ đặt tự do
+        if (isBuildingMode && Input.GetKeyDown(freeplacementToggleKey)) {
+            ToggleFreePlacementMode();
         }
 
         if (isBuildingMode && currentPieceSO != null) {
@@ -271,22 +313,21 @@ public class PlayerBuilder : MonoBehaviour {
         // Cập nhật vị trí chuột cuối cùng
         lastMousePosition = currentMousePosition;
 
-        // Kiểm tra nếu người dùng di chuyển chuột đủ xa để muốn bỏ snap
-        bool shouldBreakSnap = mouseMovementDistance > mouseMovementThreshold && isPreviewSnapped;
-
         // Thực hiện raycast để lấy điểm va chạm
         Ray ray = buildCamera.ScreenPointToRay(Input.mousePosition);
         hasValidRaycastHit = Physics.Raycast(ray, out RaycastHit hit, buildDistance, placementLayerMask);
 
-        if (hasValidRaycastHit) {
-            lastRaycastHitPoint = hit.point;
-
+        // Nếu đang ở chế độ đặt tự do, bỏ qua toàn bộ logic snap
+        if (freeplacementMode) {
+            HandleFreePlacement(hit);
+        }
+        else if (hasValidRaycastHit) {
             // Tính khoảng cách giữa điểm va chạm mới và vị trí snap hiện tại
             float distToCurrentSnap = isPreviewSnapped && lastSnapTarget != null ?
                 Vector3.Distance(hit.point, lastSnapTarget.position) : float.MaxValue;
 
             // Nếu quá xa snap hiện tại hoặc người dùng di chuyển chuột nhanh, ưu tiên di chuyển theo raycast
-            if (distToCurrentSnap > snapPriorityDistance || shouldBreakSnap) {
+            if (distToCurrentSnap > snapPriorityDistance || mouseMovementDistance > mouseMovementThreshold && isPreviewSnapped) {
                 forceStableSnap = false;
 
                 // Di chuyển preview đến vị trí raycast
@@ -308,7 +349,7 @@ public class PlayerBuilder : MonoBehaviour {
             }
         }
         // Nếu không hit được, vẫn kiểm tra nếu cần giải phóng khỏi snap hiện tại
-        else if (shouldBreakSnap) {
+        else if (mouseMovementDistance > mouseMovementThreshold && isPreviewSnapped) {
             forceStableSnap = false;
             UpdateSnapState(false, new SnapResult());
         }
@@ -316,6 +357,36 @@ public class PlayerBuilder : MonoBehaviour {
         // Luôn kiểm tra tính hợp lệ và cập nhật vật liệu
         CheckPlacementValidity();
         UpdatePreviewMaterial();
+    }
+
+    // Thêm phương thức xử lý chế độ đặt tự do
+    private void HandleFreePlacement(RaycastHit hit) {
+        if (!hasValidRaycastHit) return;
+
+        // Đặt vị trí preview tại điểm va chạm với một offset nhỏ theo hướng normal
+        Vector3 placementPosition = hit.point + hit.normal * surfaceOffset;
+        previewInstance.transform.position = placementPosition;
+        
+        // Nếu là bề mặt ngang (sàn), giữ nguyên rotation
+        // Nếu là bề mặt thẳng đứng (tường), xoay để mặt hướng ra ngoài
+        bool isVerticalSurface = Vector3.Dot(hit.normal, Vector3.up) < 0.5f;
+        
+        // Chỉ tự động xoay nếu người dùng chưa xoay thủ công
+        if (!hasUserRotation) {
+            if (isVerticalSurface) {
+                // Xoay đối tượng để mặt hướng ra ngoài từ tường
+                Quaternion wallRotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
+                previewInstance.transform.rotation = wallRotation;
+            } else {
+                // Trên bề mặt nằm ngang, giữ hướng forward nhưng đảm bảo "right" hướng ra ngoài
+                previewInstance.transform.rotation = Quaternion.Euler(0, previewInstance.transform.eulerAngles.y, 0);
+            }
+        }
+        
+        // Nếu đang được snapped, cần giải phóng snap
+        if (isPreviewSnapped) {
+            UpdateSnapState(false, new SnapResult());
+        }
     }
 
     void ProcessNormalSnapping() {
@@ -405,6 +476,15 @@ public class PlayerBuilder : MonoBehaviour {
         public Vector3 offset;
     }
 
+    /// <summary>
+    /// Tìm snap tốt nhất cho đối tượng preview
+    /// 
+    /// Quy tắc vị trí đặt snap tối ưu:
+    /// - SnapPoint tại EDGE (cạnh): đặt tại trung điểm cạnh, vector hướng vuông góc với cạnh
+    /// - SnapPoint tại CORNER (góc): đặt chính xác tại góc, vector hướng theo đường chéo
+    /// - SnapPoint tại SURFACE: đặt tại vị trí cần gắn, vector hướng vuông góc với bề mặt
+    /// - SnapPoint dạng Bottom/Top: đặt tại trung tâm đáy/đỉnh, hướng thẳng xuống/lên
+    /// </summary>
     SnapResult FindBestSnap() {
         SnapResult result = new SnapResult {
             sourceSnap = null,
@@ -535,6 +615,22 @@ public class PlayerBuilder : MonoBehaviour {
         return "Góc " + angle.ToString("F0") + "°";
     }
 
+    /// <summary>
+    /// Áp dụng kết quả snap vào đối tượng preview
+    /// 
+    /// Lưu ý về vị trí snap cho các kết nối phổ biến:
+    /// 1. Tường chữ T (ba tường gặp nhau):
+    ///    - Đặt WallSide tại cả hai cạnh của mỗi tường
+    ///    - Khi kết nối, dùng WallSide-WallSide với connectionType = Perpendicular
+    ///    
+    /// 2. Tường góc 45 độ:
+    ///    - Dùng hai WallSide với connectionType = Angle45
+    ///    - Vector hướng của WallSide phải hướng ra ngoài vuông góc với cạnh tường
+    ///    
+    /// 3. Mái ngói góc (hip roof):
+    ///    - Điểm RoofRidge đặt tại đỉnh mái, hướng dọc theo sống mái
+    ///    - Điểm RoofHip đặt tại góc mái, hướng dọc theo đường mái
+    /// </summary>
     void ApplySnapResult(SnapResult result) {
         if (result.sourceSnap != null && result.targetSnap != null) {
             // Lưu lại rotation gốc để duy trì góc xoay do người dùng thiết lập
@@ -810,5 +906,18 @@ public class PlayerBuilder : MonoBehaviour {
     public void ToggleConnectionTypeInfo() {
         showConnectionTypeInfo = !showConnectionTypeInfo;
         Debug.Log($"Connection type info: {showConnectionTypeInfo}");
+    }
+
+    // Thêm phương thức để bật/tắt chế độ đặt tự do
+    public void ToggleFreePlacementMode() {
+        freeplacementMode = !freeplacementMode;
+        if (showFreePlacementMessages) {
+            Debug.Log("Chế độ đặt tự do: " + (freeplacementMode ? "BẬT" : "TẮT"));
+        }
+        
+        // Nếu đang snapped và chuyển sang free placement, cần giải phóng snap
+        if (freeplacementMode && isPreviewSnapped) {
+            UpdateSnapState(false, new SnapResult());
+        }
     }
 }

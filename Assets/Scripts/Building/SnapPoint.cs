@@ -126,6 +126,11 @@ public class SnapPoint : MonoBehaviour {
     /// <summary>
     /// Kiểm tra xem điểm snap này có thể kết nối tới một điểm snap khác không.
     /// Phiên bản này kiểm tra một chiều (điểm này chấp nhận điểm kia).
+    /// 
+    /// Ví dụ cách sử dụng:
+    /// - WallSide.CanSnapTo(WallSide) => true nếu góc xoay phù hợp với connectionType
+    /// - WallBottom.CanSnapTo(FoundationTopEdge) => true (tường kết nối với nền)
+    /// - RoofBottomEdge.CanSnapTo(WallTop) => true (mái kết nối với đỉnh tường)
     /// </summary>
     /// <param name="otherPoint">Điểm snap khác cần kiểm tra.</param>
     /// <returns>True nếu có thể kết nối.</returns>
@@ -258,7 +263,13 @@ public class SnapPoint : MonoBehaviour {
     
     /// <summary>
     /// Kiểm tra xem hướng của hai snap point có tương thích cho việc kết nối không
-    /// dựa trên ConnectionType đã chỉ định
+    /// dựa trên ConnectionType đã chỉ định.
+    /// 
+    /// Ví dụ thực tế:
+    /// - Opposite (180°): Kết nối thẳng hàng giữa hai tường, hai thanh rào, v.v.
+    /// - Perpendicular (90°): Tường góc vuông, kết nối tường-nền, tường-sàn
+    /// - Angle45 (45° hoặc 135°): Tường góc 45 độ, thanh chéo, mái xiên
+    /// - Parallel (0°): Cùng hướng như sàn-sàn, mái-mái cùng hướng nghiêng
     /// </summary>
     private bool AreDirectionsCompatible(SnapPoint other) {
         // Nếu một trong hai snap point chấp nhận mọi hướng, luôn trả về true
@@ -310,6 +321,11 @@ public class SnapPoint : MonoBehaviour {
     /// <summary>
     /// Phương thức đặc biệt để kiểm tra tính tương thích của kết nối tường-tường
     /// Hỗ trợ cả kết nối nối tiếp (thẳng hàng), góc vuông và góc 45 độ
+    /// 
+    /// Ví dụ thực tế:
+    /// - Tường thẳng hàng: Hai tường cùng mặt phẳng, snap hướng ngược nhau
+    /// - Tường góc 90 độ: Tạo góc nhà vuông, snap vuông góc nhau
+    /// - Tường góc 45 độ: Tạo góc xiên trong nhà, phổ biến trong thiết kế hiện đại
     /// </summary>
     /// <param name="other">Điểm snap của tường khác</param>
     /// <returns>True nếu có thể kết nối</returns>
@@ -359,6 +375,12 @@ public class SnapPoint : MonoBehaviour {
     
     /// <summary>
     /// Lấy vector hướng tương ứng với SnapDirection đã chọn
+    /// 
+    /// Lưu ý vị trí đặt snap:
+    /// - Tường: WallSide nên đặt tại giữa cạnh, hướng ra ngoài
+    /// - Nền: FoundationTopEdge đặt ở cạnh trên nền, hướng ra ngoài
+    /// - Góc: *Corner nên đặt chính xác tại góc, hướng ra theo đường chéo
+    /// - Cửa: DoorFrameSide đặt giữa khung cửa, hướng vào trong khung
     /// </summary>
     public Vector3 GetDirectionVector() {
         switch (snapDirection) {
@@ -381,6 +403,11 @@ public class SnapPoint : MonoBehaviour {
 
     /// <summary>
     /// Phương thức bổ sung để kiểm tra khả năng kết nối với các sàn cao tầng và cầu thang
+    /// 
+    /// Ví dụ thực tế:
+    /// - Cầu thang nối với sàn: StairTop kết nối với FloorEdge ở tầng trên
+    /// - Cầu thang nối với nền: StairBottom kết nối với FoundationTopEdge
+    /// - Cầu thang có bản mã: StairLanding kết nối với FloorEdge hoặc StairTop/Bottom
     /// </summary>
     public bool IsElevatedFloorCompatible(SnapPoint otherPoint) {
         // Kiểm tra đặc biệt cho các kết nối sàn cao tầng và cầu thang
@@ -408,6 +435,11 @@ public class SnapPoint : MonoBehaviour {
 
     /// <summary>
     /// Tính toán góc xoay dựa trên loại kết nối và hướng, hỗ trợ snap nhiều góc độ
+    /// 
+    /// Ví dụ thực tế:
+    /// - Tường nối tiếp: Giữ nguyên hướng khi nối thẳng hàng
+    /// - Tường góc 90 độ: Xoay 90 độ so với tường hiện có
+    /// - Mái nhà: Mái dốc cần xoay để đỉnh chỉ lên trên chính xác
     /// </summary>
     public Quaternion GetSnappedRotation(SnapPoint otherPoint, Quaternion currentRotation) {
         // Nếu không khóa góc xoay, giữ nguyên góc xoay hiện tại

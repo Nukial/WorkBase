@@ -3,6 +3,16 @@ using UnityEngine;
 
 /// <summary>
 /// Quản lý quá trình snap giữa các đối tượng building
+/// 
+/// Lớp này cung cấp các phương thức hỗ trợ:
+/// - Tìm kiếm điểm snap tương thích gần nhất
+/// - Thực hiện kết nối/snap giữa các đối tượng
+/// - Tự động điều chỉnh góc xoay và kiểu kết nối
+/// 
+/// Các ví dụ thực tế:
+/// 1. Nối tường với nền: Tìm SnapPoint WallBottom trên tường và FoundationTopEdge trên nền
+/// 2. Nối hai tường góc: Tìm SnapPoint WallSide trên hai tường, xoay theo kiểu Perpendicular
+/// 3. Nối mái với tường: Tìm RoofBottomEdge trên mái và WallTop trên tường
 /// </summary>
 public class SnapManager : MonoBehaviour
 {
@@ -35,6 +45,11 @@ public class SnapManager : MonoBehaviour
     
     /// <summary>
     /// Tìm điểm snap gần nhất và tương thích với điểm snap nguồn
+    /// 
+    /// Ví dụ thực tế:
+    /// - Khi người chơi cầm tường và di chuyển gần nền, hàm này tìm 
+    ///   điểm FoundationTopEdge gần nhất để kết nối với WallBottom
+    /// - Khi đặt cửa, tìm WallSide để kết nối với DoorFrameSide
     /// </summary>
     /// <param name="sourcePoint">Điểm snap nguồn cần kiểm tra</param>
     /// <param name="excludeObject">Object cần loại trừ khỏi việc kiểm tra</param>
@@ -80,6 +95,22 @@ public class SnapManager : MonoBehaviour
     
     /// <summary>
     /// Thực hiện snap một đối tượng vào điểm snap
+    /// 
+    /// Các trường hợp thực tế:
+    /// 1. Tường và nền: 
+    ///    - Điểm nguồn: WallBottom (hướng xuống) 
+    ///    - Điểm đích: FoundationTopEdge (hướng lên)
+    ///    - Kiểu kết nối: Perpendicular (vuông góc)
+    ///    
+    /// 2. Tường và tường (góc vuông):
+    ///    - Điểm nguồn: WallSide (hướng ra bên)
+    ///    - Điểm đích: WallSide (hướng ra bên)
+    ///    - Kiểu kết nối: Perpendicular (vuông góc)
+    ///    
+    /// 3. Mái và tường:
+    ///    - Điểm nguồn: RoofBottomEdge (hướng xuống)
+    ///    - Điểm đích: WallTop (hướng lên)
+    ///    - Kiểu kết nối: Opposite hoặc Perpendicular
     /// </summary>
     /// <param name="objectToSnap">Đối tượng cần snap</param>
     /// <param name="sourcePoint">Điểm snap trên đối tượng</param>
