@@ -76,13 +76,13 @@ public class PlayerBuilder : MonoBehaviour {
     private PieceCategory currentCategory = PieceCategory.Foundation;
     private int currentPieceIndex = 0;
 
-    // Thêm mapping từ phím số đến danh mục
-    private Dictionary<KeyCode, PieceCategory> categoryKeyMapping = new Dictionary<KeyCode, PieceCategory>() {
-        { KeyCode.Alpha1, PieceCategory.Foundation },
-        { KeyCode.Alpha2, PieceCategory.Wall },
-        { KeyCode.Alpha3, PieceCategory.Floor },
-        { KeyCode.Alpha4, PieceCategory.Roof },
-        { KeyCode.Alpha5, PieceCategory.Utility }
+    // Xóa mapping từ phím số đến danh mục và thay bằng dictionary ánh xạ từ InputAction đến danh mục
+    private Dictionary<InputManager.InputAction, PieceCategory> categoryActionMapping = new Dictionary<InputManager.InputAction, PieceCategory>() {
+        { InputManager.InputAction.CategoryFoundation, PieceCategory.Foundation },
+        { InputManager.InputAction.CategoryWall, PieceCategory.Wall },
+        { InputManager.InputAction.CategoryFloor, PieceCategory.Floor },
+        { InputManager.InputAction.CategoryRoof, PieceCategory.Roof },
+        { InputManager.InputAction.CategoryUtility, PieceCategory.Utility }
     };
 
     [Header("Snap Settings")]
@@ -96,8 +96,6 @@ public class PlayerBuilder : MonoBehaviour {
     [Header("Free Placement")]
     [Tooltip("Khi bật, đối tượng sẽ không snap vào bất kỳ điểm nào")]
     public bool freeplacementMode = false;
-    [Tooltip("Phím tắt để bật/tắt chế độ đặt tự do")]
-    public KeyCode freeplacementToggleKey = KeyCode.LeftControl;
     [Tooltip("Hiển thị thông báo khi chuyển chế độ")]
     public bool showFreePlacementMessages = true;
     [Tooltip("Khoảng cách từ bề mặt khi đặt đồ theo chế độ tự do")]
@@ -110,24 +108,24 @@ public class PlayerBuilder : MonoBehaviour {
         // Xử lý phím tắt để thay đổi danh mục và phần tử
         CheckForCategoryAndPieceSelection();
 
-        if (Input.GetKeyDown(KeyCode.B)) {
+        if (InputManager.Instance.GetButtonDown(InputManager.InputAction.ToggleBuildMode)) {
             ToggleBuildMode();
         }
         
         // Thêm phím tắt để bật/tắt chế độ đặt tự do
-        if (isBuildingMode && Input.GetKeyDown(freeplacementToggleKey)) {
+        if (isBuildingMode && InputManager.Instance.GetButtonDown(InputManager.InputAction.ToggleFreePlacement)) {
             ToggleFreePlacementMode();
         }
 
         if (isBuildingMode && currentPieceSO != null) {
             HandlePreviewUpdate();
-            if (Input.GetKeyDown(KeyCode.Q)) {
+            if (InputManager.Instance.GetButtonDown(InputManager.InputAction.RotateLeft)) {
                 RotatePreview(-45f);
             }
-            if (Input.GetKeyDown(KeyCode.E)) {
+            if (InputManager.Instance.GetButtonDown(InputManager.InputAction.RotateRight)) {
                 RotatePreview(45f);
             }
-            if (Input.GetMouseButtonDown(0)) {
+            if (InputManager.Instance.GetButtonDown(InputManager.InputAction.PlaceObject)) {
                 TryPlacePiece();
             }
 
@@ -146,19 +144,19 @@ public class PlayerBuilder : MonoBehaviour {
     private void CheckForCategoryAndPieceSelection() {
         if (!isBuildingMode) return;
 
-        // Kiểm tra phím số để chọn danh mục
-        foreach (var categoryMapping in categoryKeyMapping) {
-            if (Input.GetKeyDown(categoryMapping.Key)) {
+        // Kiểm tra phím tắt cho từng danh mục
+        foreach (var categoryMapping in categoryActionMapping) {
+            if (InputManager.Instance.GetButtonDown(categoryMapping.Key)) {
                 SelectCategory(categoryMapping.Value);
                 return;
             }
         }
 
         // Kiểm tra phím mũi tên để chuyển đổi giữa các pieces
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Period)) {
+        if (InputManager.Instance.GetButtonDown(InputManager.InputAction.NextItem)) {
             SelectNextPiece();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Comma)) {
+        else if (InputManager.Instance.GetButtonDown(InputManager.InputAction.PreviousItem)) {
             SelectPreviousPiece();
         }
     }
