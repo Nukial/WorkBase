@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\BuildingManagerWindow.cs" />
     <Compile Include="Assets\Scripts\Editor\BaseStorageEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\SnapPointEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
