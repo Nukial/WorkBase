@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &139449154486659397
+--- !u!1 &2926803181391687644
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,107 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8802080602653647565}
-  - component: {fileID: 5760426585333616655}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationTopEdge
+  - component: {fileID: 2409775058901894811}
+  - component: {fileID: 6775754005665300236}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopCorner_Up_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8802080602653647565
+--- !u!4 &2409775058901894811
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139449154486659397}
+  m_GameObject: {fileID: 2926803181391687644}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.5, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8428868724543601492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5760426585333616655
+--- !u!114 &6775754005665300236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139449154486659397}
+  m_GameObject: {fileID: 2926803181391687644}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 
+  pointType: 3
+  acceptedTypes: 060000001a000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 2
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 
-  connectionTestRadius: 2
-  drawConnectionTest: 0
---- !u!1 &1317785755562336967
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8421230669000646242}
-  - component: {fileID: 6541356520737606236}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationSide
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &8421230669000646242
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1317785755562336967}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: -0.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8428868724543601492}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6541356520737606236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1317785755562336967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 4
-  acceptedTypes: 04000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 1
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
@@ -118,7 +59,7 @@ MonoBehaviour:
   allowedConnectionTypes: 00000000
   connectionTestRadius: 2
   drawConnectionTest: 0
---- !u!1 &2850571161150244691
+--- !u!1 &3778277477642617264
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,107 +67,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5325228559106586828}
-  - component: {fileID: 6347857258367857924}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationTopEdge
+  - component: {fileID: 6101432600869610607}
+  - component: {fileID: 7379904073763901467}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopCorner_Up_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5325228559106586828
+--- !u!4 &6101432600869610607
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2850571161150244691}
+  m_GameObject: {fileID: 3778277477642617264}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -0.5, y: 0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8428868724543601492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6347857258367857924
+--- !u!114 &7379904073763901467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2850571161150244691}
+  m_GameObject: {fileID: 3778277477642617264}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 2
-  acceptedTypes: 
+  pointType: 3
+  acceptedTypes: 060000001a000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 2
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 
-  connectionTestRadius: 2
-  drawConnectionTest: 0
---- !u!1 &3196021848426437705
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 389545141576769418}
-  - component: {fileID: 8353243839104651043}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationSide
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &389545141576769418
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3196021848426437705}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8428868724543601492}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8353243839104651043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3196021848426437705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 4
-  acceptedTypes: 04000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 4
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
@@ -236,7 +118,7 @@ MonoBehaviour:
   allowedConnectionTypes: 00000000
   connectionTestRadius: 2
   drawConnectionTest: 0
---- !u!1 &4118757261385496805
+--- !u!1 &4279535826632644880
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,55 +126,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5254048968839065493}
-  - component: {fileID: 5431443937646949026}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationTopEdge
+  - component: {fileID: 2880753567628095547}
+  - component: {fileID: 9157822248312487867}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopEdge_Up_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5254048968839065493
+--- !u!4 &2880753567628095547
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4118757261385496805}
+  m_GameObject: {fileID: 4279535826632644880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8428868724543601492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5431443937646949026
+--- !u!114 &9157822248312487867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4118757261385496805}
+  m_GameObject: {fileID: 4279535826632644880}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 2
-  acceptedTypes: 
+  acceptedTypes: 02000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
+  snapDirection: 5
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
-  allowedConnectionTypes: 
+  allowedConnectionTypes: 00000000
   connectionTestRadius: 2
   drawConnectionTest: 0
 --- !u!1 &4637057811929050138
@@ -330,14 +212,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5325228559106586828}
-  - {fileID: 5254048968839065493}
-  - {fileID: 8802080602653647565}
-  - {fileID: 1770566938566939520}
-  - {fileID: 8088729717042602182}
-  - {fileID: 8421230669000646242}
-  - {fileID: 389545141576769418}
-  - {fileID: 2207122819143812256}
+  - {fileID: 4369285521763682278}
+  - {fileID: 7219147387641175409}
+  - {fileID: 6101432600869610607}
+  - {fileID: 2409775058901894811}
+  - {fileID: 5391657678427845398}
+  - {fileID: 2880753567628095547}
+  - {fileID: 2987504546826872188}
+  - {fileID: 339974289540358908}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8720459773981831984
@@ -653,7 +535,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 1, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &3797244565313653541
 MonoBehaviour:
@@ -670,16 +552,16 @@ MonoBehaviour:
   pieceData: {fileID: 11400000, guid: 77fa08e548ccebf41a1d61619a117543, type: 2}
   health: 100
   snapPoints:
-  - {fileID: 6347857258367857924}
-  - {fileID: 5431443937646949026}
-  - {fileID: 5760426585333616655}
-  - {fileID: 2011056928534243044}
-  - {fileID: 1799957489907957976}
-  - {fileID: 6541356520737606236}
-  - {fileID: 8353243839104651043}
-  - {fileID: 6221252577731391961}
+  - {fileID: 5223521905525185805}
+  - {fileID: 845374079993805678}
+  - {fileID: 7379904073763901467}
+  - {fileID: 6775754005665300236}
+  - {fileID: 3395892228810519994}
+  - {fileID: 9157822248312487867}
+  - {fileID: 2910784468533812374}
+  - {fileID: 7655798196177595115}
   isGrounded: 1
---- !u!1 &5814866831388523257
+--- !u!1 &5608232223063726933
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -687,44 +569,221 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8088729717042602182}
-  - component: {fileID: 1799957489907957976}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationSide
+  - component: {fileID: 7219147387641175409}
+  - component: {fileID: 845374079993805678}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopCorner_Up_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8088729717042602182
+--- !u!4 &7219147387641175409
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5814866831388523257}
+  m_GameObject: {fileID: 5608232223063726933}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0.5}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8428868724543601492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1799957489907957976
+--- !u!114 &845374079993805678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5814866831388523257}
+  m_GameObject: {fileID: 5608232223063726933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 4
-  acceptedTypes: 04000000
+  pointType: 3
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 00000000
+  connectionTestRadius: 2
+  drawConnectionTest: 0
+--- !u!1 &5969952581372786458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4369285521763682278}
+  - component: {fileID: 5223521905525185805}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopCorner_Up_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4369285521763682278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5969952581372786458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8428868724543601492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5223521905525185805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5969952581372786458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 3
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 00000000
+  connectionTestRadius: 2
+  drawConnectionTest: 0
+--- !u!1 &6639380906914844223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 339974289540358908}
+  - component: {fileID: 7655798196177595115}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopEdge_Up_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &339974289540358908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639380906914844223}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8428868724543601492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7655798196177595115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639380906914844223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 2
+  acceptedTypes: 02000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 4
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 00000000
+  connectionTestRadius: 2
+  drawConnectionTest: 0
+--- !u!1 &7893792098444117270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5391657678427845398}
+  - component: {fileID: 3395892228810519994}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopEdge_Up_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5391657678427845398
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893792098444117270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8428868724543601492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3395892228810519994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893792098444117270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 2
+  acceptedTypes: 02000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
@@ -738,7 +797,7 @@ MonoBehaviour:
   allowedConnectionTypes: 00000000
   connectionTestRadius: 2
   drawConnectionTest: 0
---- !u!1 &6082100555219543218
+--- !u!1 &9091362868788710666
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -746,107 +805,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1770566938566939520}
-  - component: {fileID: 2011056928534243044}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationTopEdge
+  - component: {fileID: 2987504546826872188}
+  - component: {fileID: 2910784468533812374}
+  m_Layer: 0
+  m_Name: SnapPoint_FoundationTopEdge_Up_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1770566938566939520
+--- !u!4 &2987504546826872188
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082100555219543218}
+  m_GameObject: {fileID: 9091362868788710666}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8428868724543601492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2011056928534243044
+--- !u!114 &2910784468533812374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082100555219543218}
+  m_GameObject: {fileID: 9091362868788710666}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointType: 2
-  acceptedTypes: 
+  acceptedTypes: 02000000
   providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 
-  connectionTestRadius: 2
-  drawConnectionTest: 0
---- !u!1 &8135621427280013190
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2207122819143812256}
-  - component: {fileID: 6221252577731391961}
-  m_Layer: 8
-  m_Name: SnapPoint_FoundationSide
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &2207122819143812256
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8135621427280013190}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8428868724543601492}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6221252577731391961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8135621427280013190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 4
-  acceptedTypes: 04000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 5
+  snapDirection: 1
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
