@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(SnapPoint))]
+[CanEditMultipleObjects]
 public class SnapPointEditor : Editor {
     public override void OnInspectorGUI() {
         // Vẽ các thuộc tính mặc định

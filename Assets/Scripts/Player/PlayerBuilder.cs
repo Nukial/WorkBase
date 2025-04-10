@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using WorkBase.Building;
 
 /// <summary>
 /// Quản lý quá trình xây dựng của người chơi
@@ -549,7 +550,7 @@ public class PlayerBuilder : MonoBehaviour {
                         }
 
                         // Chỉ ưu tiên snap hiện tại nếu chúng ta không đang cố gắng thoát khỏi snap
-                        bool isCurrentSnap = (lastSnapTarget != null && targetSnap.transform == lastSnapTarget);
+                        bool isCurrentSnap = lastSnapTarget != null && targetSnap.transform == lastSnapTarget;
                         bool tryingToBreakSnap = hasValidRaycastHit &&
                                                Vector3.Distance(lastRaycastHitPoint, targetSnap.transform.position) > snapPriorityDistance;
 
