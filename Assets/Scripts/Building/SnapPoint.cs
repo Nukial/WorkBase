@@ -113,6 +113,11 @@ public class SnapPoint : MonoBehaviour {
     [Tooltip("Danh sách các kiểu kết nối được chấp nhận khi tự động điều chỉnh")]
     public List<ConnectionType> allowedConnectionTypes = new List<ConnectionType>();
 
+    [Tooltip("Bán kính kiểm tra kết nối (chỉ dùng trong Editor)")]
+    public float connectionTestRadius = 2.0f;
+    [Tooltip("Bật/vẽ các đường nối kiểm tra kết nối trong Editor")]
+    public bool drawConnectionTest = false;
+
     // Enum xác định hướng của snap point
     public enum SnapDirection {
         Forward,    // +Z: Điểm snap hướng ra trước
@@ -640,18 +645,25 @@ public class SnapPoint : MonoBehaviour {
         
         // Vẽ mũi tên chỉ hướng
         DrawArrow(transform.position, directionVector * arrowSize);
-        
-        // Hiển thị các vector hướng local nếu bật debug
-        if (showDirectionVectors) {
-            Gizmos.color = Color.red;   // X-axis
-            Gizmos.DrawLine(transform.position, transform.position + transform.right * 0.2f);
-            
-            Gizmos.color = Color.green; // Y-axis
-            Gizmos.DrawLine(transform.position, transform.position + transform.up * 0.2f);
-            
-            Gizmos.color = Color.blue;  // Z-axis
-            Gizmos.DrawLine(transform.position, transform.position + transform.forward * 0.2f);
+
+        // Vẽ kết nối kiểm tra (chỉ dùng trong Editor)
+#if UNITY_EDITOR
+        if (drawConnectionTest) {
+            SnapPoint[] allPoints = FindObjectsByType<SnapPoint>(FindObjectsSortMode.None);
+            foreach (var candidate in allPoints) {
+                if (candidate == this) continue;
+                float dist = Vector3.Distance(transform.position, candidate.transform.position);
+                if (dist <= connectionTestRadius) {
+                    bool canConnect = CanSnapTo(candidate);
+                    Gizmos.color = canConnect ? Color.green : Color.red;
+                    Gizmos.DrawLine(transform.position, candidate.transform.position);
+                }
+            }
+            // Vẽ vòng tròn bán kính test
+            UnityEditor.Handles.color = Color.cyan;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, connectionTestRadius);
         }
+#endif
     }
     
     // Vẽ mũi tên giúp trực quan hướng của snap point

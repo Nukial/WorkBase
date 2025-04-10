@@ -91,6 +91,7 @@ public class PlayerBuilder : MonoBehaviour {
     public bool showConnectionTypeInfo = false;
     public float minDirectionDotProduct = -0.7f; // Mới: giá trị dot product tối thiểu để snap (mặc định đòi hỏi khá ngược hướng)
     public bool showSnapDebug = false; // Mới: hiển thị hướng snap khi debug
+    public GameObject gameObjectSpawnerParent; // Mới: nơi chứa các gameObject được tạo ra từ snap
 
     // Thêm chế độ đặt tự do
     [Header("Free Placement")]
@@ -807,7 +808,7 @@ public class PlayerBuilder : MonoBehaviour {
     public void TryPlacePiece() {
         if (canPlaceCurrentPreview && activeBaseStorage != null) {
             if (activeBaseStorage.ConsumeResources(currentPieceSO.requiredResource, currentPieceSO.resourceCost)) {
-                Instantiate(currentPieceSO.prefab, previewInstance.transform.position, previewInstance.transform.rotation);
+                Instantiate(currentPieceSO.prefab, previewInstance.transform.position, previewInstance.transform.rotation, gameObjectSpawnerParent.transform);
             }
         }
     }
