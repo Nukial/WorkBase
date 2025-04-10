@@ -54,7 +54,7 @@ public class PlayerBuilder : MonoBehaviour {
     private SnapPoint lastUsedSourceSnap; // Lưu điểm snap nguồn đã dùng
 
     // Thêm biến mới để kiểm soát ưu tiên snap
-    public float snapPriorityDistance = 2.0f; // Khoảng cách ưu tiên tìm snap trước khi dùng raycast
+    public float snapPriorityDistance = 1.5f; // Khoảng cách ưu tiên tìm snap trước khi dùng raycast
     private float snapStabilityTimer = 0f; // Đếm thời gian từ lần snap cuối
     public float snapStabilityThreshold = 0.5f; // Thời gian (giây) trước khi cho phép bỏ snap
     private bool forceStableSnap = false; // Khi true, sẽ duy trì snap hiện tại cho đến khi có snap tốt hơn

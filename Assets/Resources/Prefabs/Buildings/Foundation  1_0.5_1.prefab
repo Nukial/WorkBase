@@ -57,8 +57,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &3778277477642617264
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,8 +116,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &4279535826632644880
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,8 +175,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &4637057811929050138
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,8 +618,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &5969952581372786458
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,8 +677,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &6639380906914844223
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,8 +736,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &7893792098444117270
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,8 +795,8 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1
 --- !u!1 &9091362868788710666
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,5 +854,5 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
-  connectionTestRadius: 2
-  drawConnectionTest: 0
+  connectionTestRadius: 1.5
+  drawConnectionTest: 1

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d79059c8435c6c549802523674e29130, type: 3}
-  m_Name: Foundation
+  m_Name: Wall 1_1_0.5
   m_EditorClassIdentifier: 
-  pieceName: Foundation  1*0.5*1
-  pieceIcon: {fileID: 1267165344, guid: 13437b418fee6be4786c7865d1a468cf, type: 3}
-  category: 0
-  prefab: {fileID: 4637057811929050138, guid: 8d322a1293ce27b4698c9f488aad887f, type: 3}
+  pieceName: Wall 1_1_0.5
+  pieceIcon: {fileID: -1671952101, guid: 76baeda9d8a010e4eb92aa52df8c16ac, type: 3}
+  category: 1
+  prefab: {fileID: 295902427383247531, guid: 44a08dd306823a94abc88de0ff1b873c, type: 3}
   previewPrefab: {fileID: 0}
   requiredResources:
   - resourceType: {fileID: 11400000, guid: 54309aa9eb1842647876c5f92b32cada, type: 2}

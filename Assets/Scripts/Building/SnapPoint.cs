@@ -114,7 +114,7 @@ public class SnapPoint : MonoBehaviour {
     public List<ConnectionType> allowedConnectionTypes = new List<ConnectionType>();
 
     [Tooltip("Bán kính kiểm tra kết nối (chỉ dùng trong Editor)")]
-    public float connectionTestRadius = 2.0f;
+    public float connectionTestRadius = 1.5f;
     [Tooltip("Bật/vẽ các đường nối kiểm tra kết nối trong Editor")]
     public bool drawConnectionTest = false;
 
