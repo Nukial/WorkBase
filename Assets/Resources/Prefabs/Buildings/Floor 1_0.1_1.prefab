@@ -46,14 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 9
   acceptedTypes: 0900000007000000060000001e0000001f00000019000000
-  providesSupport: 0
+  providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 5
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
-  showConnectionTypeDebug: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 0
@@ -106,14 +104,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 9
   acceptedTypes: 0900000007000000060000001e0000001f00000019000000
-  providesSupport: 0
+  providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 4
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
-  showConnectionTypeDebug: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 0
@@ -546,14 +542,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 9
   acceptedTypes: 0900000007000000060000001e0000001f00000019000000
-  providesSupport: 0
+  providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 1
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
-  showConnectionTypeDebug: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 0
@@ -606,14 +600,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 9
   acceptedTypes: 0900000007000000060000001e0000001f00000019000000
-  providesSupport: 0
+  providesSupport: 1
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
   snapDirection: 0
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 1
-  showConnectionTypeDebug: 1
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 0

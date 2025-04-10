@@ -35,19 +35,19 @@ public class PlayerBuilder : MonoBehaviour {
     public LayerMask placementLayerMask;
     [Tooltip("Layer mask dùng để kiểm tra va chạm khi đặt building. Chỉ định các layer cần kiểm tra va chạm")]
     public LayerMask collisionCheckMask;
-    public bool showCollisionCheck = false;
-    public float snapDetectionRadius = 1f;
-    public float snapMaxDistance = 0.5f;
+    public bool showCollisionCheck = false; // hiển thị raycast va chạm
+    public float snapDetectionRadius = 1f; // bán kính tìm snap
+    public float snapMaxDistance = 0.5f; // khoảng cách tối đa để snap
     public List<BuildingPieceSO> allBuildablePieces;
     public BuildingPieceSO currentPieceSO;
     public GameObject previewInstance;
     public BaseStorage activeBaseStorage;
     public Material validPlacementMaterial;
     public Material invalidPlacementMaterial;
-    public bool isBuildingMode;
-    public bool canPlaceCurrentPreview;
-    public bool isPreviewSnapped;
-    public bool useAdvancedSnap;
+    public bool isBuildingMode; // trạng thái chế độ xây dựngw
+    public bool canPlaceCurrentPreview; // trạng thái có thể đặt preview hiện tại
+    public bool isPreviewSnapped; // trạng thái snap của preview
+    public bool useAdvancedSnap; // Thêm tùy chọn sử dụng snap nâng cao
     public bool applyRotationDuringSnap = false; // Added option to control rotation during snap
     public float snapTolerance = 0.1f; // ngưỡng để giữ snap nếu chưa thay đổi nhiều
     private Transform lastSnapTarget; // Lưu kết quả snap từ frame trước
@@ -542,6 +542,18 @@ public class PlayerBuilder : MonoBehaviour {
                     if (sourceSnap.CanSnapTo(targetSnap)) {
                         float dist = Vector3.Distance(sourceSnap.transform.position, targetSnap.transform.position);
 
+                        // Kiểm tra xem có cần điều chỉnh khoảng cách không
+                        if ((sourceSnap.pointType == SnapType.WallTop && targetSnap.pointType == SnapType.WallBottom) ||
+                            (sourceSnap.pointType == SnapType.WallBottom && targetSnap.pointType == SnapType.WallTop)) {
+                            float horizontalDistance = Vector3.Distance(
+                                new Vector3(sourceSnap.transform.position.x, 0, sourceSnap.transform.position.z),
+                                new Vector3(targetSnap.transform.position.x, 0, targetSnap.transform.position.z)
+                            );
+                            if (horizontalDistance > snapTolerance) {
+                                dist *= 2.0f; // Tăng khoảng cách nếu không thẳng hàng
+                            }
+                        }
+
                         // Hiển thị debug visuals nếu cần
                         if (respectSnapDirection && showSnapDebug && dist < snapMaxDistance) {
                             // Hiển thị kết nối với màu tương ứng theo loại kết nối
@@ -704,7 +716,6 @@ public class PlayerBuilder : MonoBehaviour {
                 result.targetSnap.pointType == SnapType.WallSide && showSnapDebug) {
                 
                 string connectionType = DetectWallConnectionType(result.sourceSnap, result.targetSnap);
-                Debug.Log("Loại kết nối tường: " + connectionType);
             }
         }
     }
