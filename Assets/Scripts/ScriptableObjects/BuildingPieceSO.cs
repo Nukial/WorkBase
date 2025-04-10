@@ -6,6 +6,7 @@ public enum PieceCategory {
     Wall,       // Tường
     Floor,      // Sàn
     Roof,       // Mái nhà
+    Pillar_and_Beam, // Cột và dầm
     Utility     // Tiện ích
 }
 
@@ -35,6 +36,21 @@ public class BuildingPieceSO : ScriptableObject {
     [HideInInspector] public ResourceTypeSO requiredResource;
     [HideInInspector] public int resourceCost;
 
+    // Chuyển đổi từ định dạng cũ sang định dạng mới cho tương thích ngược
+    public void MigrateFromLegacyFormat() {
+        if (requiredResource != null && resourceCost > 0 && requiredResources.Count == 0) {
+            requiredResources.Add(new ResourceRequirement {
+                resourceType = requiredResource,
+                amount = resourceCost
+            });
+        }
+    }
+    
+    // Gọi hàm này trong OnEnable để tự động chuyển đổi
+    private void OnEnable() {
+        MigrateFromLegacyFormat();
+    }
+    
     // Phương thức để lấy prefab phù hợp cho preview
     public GameObject GetPreviewPrefab() {
         return previewPrefab != null ? previewPrefab : prefab;
@@ -73,20 +89,5 @@ public class BuildingPieceSO : ScriptableObject {
         
         // Tương thích ngược với cách cũ
         return storage.ConsumeResources(requiredResource, resourceCost);
-    }
-    
-    // Chuyển đổi từ định dạng cũ sang định dạng mới cho tương thích ngược
-    public void MigrateFromLegacyFormat() {
-        if (requiredResource != null && resourceCost > 0 && requiredResources.Count == 0) {
-            requiredResources.Add(new ResourceRequirement {
-                resourceType = requiredResource,
-                amount = resourceCost
-            });
-        }
-    }
-    
-    // Gọi hàm này trong OnEnable để tự động chuyển đổi
-    private void OnEnable() {
-        MigrateFromLegacyFormat();
     }
 }

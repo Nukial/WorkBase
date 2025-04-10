@@ -83,6 +83,7 @@ public class PlayerBuilder : MonoBehaviour {
         { InputManager.InputAction.CategoryWall, PieceCategory.Wall },
         { InputManager.InputAction.CategoryFloor, PieceCategory.Floor },
         { InputManager.InputAction.CategoryRoof, PieceCategory.Roof },
+        {InputManager.InputAction.CategoryPillarandBeam, PieceCategory.Pillar_and_Beam },
         { InputManager.InputAction.CategoryUtility, PieceCategory.Utility }
     };
 

@@ -1,5 +1,179 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &556209861701351414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9185712607712777374}
+  - component: {fileID: 1737463593198606748}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Down_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &9185712607712777374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556209861701351414}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1737463593198606748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556209861701351414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 0700000019000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 3
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
+--- !u!1 &1456271892949395822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6227381186175050585}
+  - component: {fileID: 7159200248295553709}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Down_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &6227381186175050585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456271892949395822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7159200248295553709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456271892949395822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 0700000019000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 3
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
+--- !u!1 &1626939790378807363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983533034059246210}
+  - component: {fileID: 3535514320784682435}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Up_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1983533034059246210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626939790378807363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3535514320784682435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626939790378807363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
 --- !u!1 &1700916750077573909
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +189,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2840520179542836319
 Transform:
@@ -26,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 1700916750077573909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,7 +247,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1570668944159099037
 Transform:
@@ -84,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 2587624368795585612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,6 +290,64 @@ MonoBehaviour:
   allowedConnectionTypes: 0000000001000000
   connectionTestRadius: 1.5
   drawConnectionTest: 0
+--- !u!1 &2899442334892797930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542919682348463068}
+  - component: {fileID: 6348665045306139950}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Up_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &542919682348463068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899442334892797930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6348665045306139950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899442334892797930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
 --- !u!1 &3313507889600449874
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +368,7 @@ GameObject:
   m_TagString: Buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2255016321524866056
 Transform:
@@ -155,6 +387,14 @@ Transform:
   - {fileID: 3504771445767175936}
   - {fileID: 1570668944159099037}
   - {fileID: 2840520179542836319}
+  - {fileID: 4952867655412600016}
+  - {fileID: 542919682348463068}
+  - {fileID: 1983533034059246210}
+  - {fileID: 4487043357928427351}
+  - {fileID: 9185712607712777374}
+  - {fileID: 6227381186175050585}
+  - {fileID: 5882744609229894534}
+  - {fileID: 5136494735633491740}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7329039058650257288
@@ -491,11 +731,73 @@ MonoBehaviour:
   - {fileID: 3131137774229552108}
   - {fileID: 6332128825454927298}
   - {fileID: 8635450745656737615}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3545605437037713185}
+  - {fileID: 6348665045306139950}
+  - {fileID: 3535514320784682435}
+  - {fileID: 8075020790137569229}
+  - {fileID: 1737463593198606748}
+  - {fileID: 7159200248295553709}
+  - {fileID: 4530951493127582705}
+  - {fileID: 3839668806655741060}
   isGrounded: 0
+--- !u!1 &5114531234926224917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4952867655412600016}
+  - component: {fileID: 3545605437037713185}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Up_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &4952867655412600016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5114531234926224917}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3545605437037713185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5114531234926224917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
 --- !u!1 &5349785981222583560
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +813,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3504771445767175936
 Transform:
@@ -522,7 +824,7 @@ Transform:
   m_GameObject: {fileID: 5349785981222583560}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0.05, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -554,6 +856,122 @@ MonoBehaviour:
   allowedConnectionTypes: 0000000001000000
   connectionTestRadius: 1.5
   drawConnectionTest: 0
+--- !u!1 &5630332336709947116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5136494735633491740}
+  - component: {fileID: 3839668806655741060}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Down_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &5136494735633491740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5630332336709947116}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3839668806655741060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5630332336709947116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 0700000019000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 3
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
+--- !u!1 &6404460873959442463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4487043357928427351}
+  - component: {fileID: 8075020790137569229}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Up_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &4487043357928427351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404460873959442463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8075020790137569229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404460873959442463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 060000001a000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 2
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
 --- !u!1 &6420444296098702248
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +987,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3111870018208274929
 Transform:
@@ -580,7 +998,7 @@ Transform:
   m_GameObject: {fileID: 6420444296098702248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -610,5 +1028,63 @@ MonoBehaviour:
   rotationStep: 45
   autoAdjustConnection: 0
   allowedConnectionTypes: 0000000001000000
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
+--- !u!1 &7854364059221313645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5882744609229894534}
+  - component: {fileID: 4530951493127582705}
+  m_Layer: 0
+  m_Name: SnapPoint_FloorCorner_Down_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &5882744609229894534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7854364059221313645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4530951493127582705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7854364059221313645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 10
+  acceptedTypes: 0700000019000000
+  providesSupport: 1
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 3
+  connectionType: 0
+  arrowSize: 0.25
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 1
+  allowedConnectionTypes: 
   connectionTestRadius: 1.5
   drawConnectionTest: 0

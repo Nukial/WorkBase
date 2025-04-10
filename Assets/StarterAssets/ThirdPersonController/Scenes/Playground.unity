@@ -317,6 +317,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 77fa08e548ccebf41a1d61619a117543, type: 2}
   - {fileID: 11400000, guid: a601b2a9a8639f0468527df40324096c, type: 2}
   - {fileID: 11400000, guid: 30fd26d9ee6e92a459421eaeaeb4bf49, type: 2}
+  - {fileID: 11400000, guid: 970155d34efb1c14c81029e4b9eef29f, type: 2}
   currentPieceSO: {fileID: 11400000, guid: 77fa08e548ccebf41a1d61619a117543, type: 2}
   previewInstance: {fileID: 4637057811929050138, guid: 8d322a1293ce27b4698c9f488aad887f, type: 3}
   activeBaseStorage: {fileID: 1731482395}
@@ -329,7 +330,7 @@ MonoBehaviour:
   applyRotationDuringSnap: 1
   snapTolerance: 0.09
   snapPriorityDistance: 1.5
-  snapStabilityThreshold: 0.3
+  snapStabilityThreshold: 0.2
   maxCacheSize: 5
   respectSnapDirection: 1
   showConnectionTypeInfo: 0
@@ -834,8 +835,8 @@ GameObject:
   - component: {fileID: 1731482399}
   - component: {fileID: 1731482398}
   - component: {fileID: 1731482397}
-  - component: {fileID: 1731482396}
   - component: {fileID: 1731482395}
+  - component: {fileID: 1731482400}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -858,29 +859,6 @@ MonoBehaviour:
   storedResourceEntries:
   - resource: {fileID: 11400000, guid: 54309aa9eb1842647876c5f92b32cada, type: 2}
     amount: 10000
---- !u!136 &1731482396
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731482394}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1731482397
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -904,7 +882,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -949,6 +927,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1731482400
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731482394}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &1762682258
 PrefabInstance:
   m_ObjectHideFlags: 0

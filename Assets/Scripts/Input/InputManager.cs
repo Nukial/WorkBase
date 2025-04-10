@@ -28,6 +28,7 @@ public class InputManager : MonoBehaviour
         CategoryWall,
         CategoryFloor, 
         CategoryRoof,
+        CategoryPillarandBeam,
         CategoryUtility,
         
         // Điều hướng danh mục
@@ -103,7 +104,8 @@ public class InputManager : MonoBehaviour
             keyMappings.Add(new KeyMapping { action = InputAction.CategoryWall, primaryKey = KeyCode.Alpha2 });
             keyMappings.Add(new KeyMapping { action = InputAction.CategoryFloor, primaryKey = KeyCode.Alpha3 });
             keyMappings.Add(new KeyMapping { action = InputAction.CategoryRoof, primaryKey = KeyCode.Alpha4 });
-            keyMappings.Add(new KeyMapping { action = InputAction.CategoryUtility, primaryKey = KeyCode.Alpha5 });
+            keyMappings.Add(new KeyMapping { action = InputAction.CategoryPillarandBeam, primaryKey = KeyCode.Alpha5 });
+            keyMappings.Add(new KeyMapping { action = InputAction.CategoryUtility, primaryKey = KeyCode.Alpha6 });
             
             // Điều hướng danh mục
             keyMappings.Add(new KeyMapping { action = InputAction.NextItem, primaryKey = KeyCode.RightArrow, alternateKey = KeyCode.Period });

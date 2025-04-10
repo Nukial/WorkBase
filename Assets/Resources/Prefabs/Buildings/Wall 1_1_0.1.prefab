@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6244890856046735809}
   - component: {fileID: 4390226431668553711}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallTop_Up_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6244890856046735809
 Transform:
@@ -52,7 +52,6 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
@@ -74,12 +73,12 @@ GameObject:
   - component: {fileID: 8805468746681866059}
   - component: {fileID: 3926941719991130490}
   - component: {fileID: 1450512355886004584}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall 1_1_0.1
-  m_TagString: Untagged
+  m_TagString: Buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &901496638396960865
 Transform:
@@ -449,12 +448,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1246264454601294452}
   - component: {fileID: 3130515593380789699}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallSide_Left_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1246264454601294452
 Transform:
@@ -491,7 +490,6 @@ MonoBehaviour:
   snapDirection: 5
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
@@ -508,12 +506,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3103664544637455091}
   - component: {fileID: 8352764889928677353}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallBottom_Down_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3103664544637455091
 Transform:
@@ -550,7 +548,6 @@ MonoBehaviour:
   snapDirection: 3
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
@@ -567,12 +564,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5785253859393000615}
   - component: {fileID: 5082534955583039334}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallTop_Up_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5785253859393000615
 Transform:
@@ -609,7 +606,6 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
@@ -626,12 +622,12 @@ GameObject:
   m_Component:
   - component: {fileID: 9031467807142900754}
   - component: {fileID: 4261488387334076357}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallSide_Left_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &9031467807142900754
 Transform:
@@ -668,7 +664,6 @@ MonoBehaviour:
   snapDirection: 4
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
@@ -685,12 +680,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5767526164057178157}
   - component: {fileID: 1227183540632969782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SnapPoint_WallBottom_Down_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5767526164057178157
 Transform:
@@ -727,7 +722,6 @@ MonoBehaviour:
   snapDirection: 3
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1

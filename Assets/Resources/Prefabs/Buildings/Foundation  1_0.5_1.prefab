@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2409775058901894811
 Transform:
@@ -52,13 +52,12 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &3778277477642617264
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +73,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6101432600869610607
 Transform:
@@ -111,13 +110,12 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &4279535826632644880
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +131,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2880753567628095547
 Transform:
@@ -170,13 +168,12 @@ MonoBehaviour:
   snapDirection: 5
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &4637057811929050138
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +573,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7219147387641175409
 Transform:
@@ -613,13 +610,12 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &5969952581372786458
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,7 +631,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4369285521763682278
 Transform:
@@ -672,13 +668,12 @@ MonoBehaviour:
   snapDirection: 2
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &6639380906914844223
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +689,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &339974289540358908
 Transform:
@@ -731,13 +726,12 @@ MonoBehaviour:
   snapDirection: 4
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &7893792098444117270
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +747,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5391657678427845398
 Transform:
@@ -790,13 +784,12 @@ MonoBehaviour:
   snapDirection: 0
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &9091362868788710666
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +805,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2987504546826872188
 Transform:
@@ -849,10 +842,9 @@ MonoBehaviour:
   snapDirection: 1
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
   lockRotation: 0
   rotationStep: 45
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
