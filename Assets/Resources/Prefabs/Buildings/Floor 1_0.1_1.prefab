@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &42328025147554628
+--- !u!1 &1700916750077573909
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,58 +8,59 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6244890856046735809}
-  - component: {fileID: 4390226431668553711}
-  m_Layer: 0
-  m_Name: SnapPoint_WallTop_Up_2
+  - component: {fileID: 2840520179542836319}
+  - component: {fileID: 8635450745656737615}
+  m_Layer: 8
+  m_Name: SnapPoint_FloorEdge_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6244890856046735809
+--- !u!4 &2840520179542836319
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42328025147554628}
+  m_GameObject: {fileID: 1700916750077573909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 901496638396960865}
+  m_Father: {fileID: 2255016321524866056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4390226431668553711
+--- !u!114 &8635450745656737615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42328025147554628}
+  m_GameObject: {fileID: 1700916750077573909}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 7
-  acceptedTypes: 060000000e000000090000001b000000
-  providesSupport: 1
+  pointType: 9
+  acceptedTypes: 0900000007000000060000001e0000001f00000019000000
+  providesSupport: 0
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
+  snapDirection: 5
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  showConnectionTypeDebug: 0
   lockRotation: 0
   rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
+  autoAdjustConnection: 0
+  allowedConnectionTypes: 0000000001000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
---- !u!1 &295902427383247531
+  drawConnectionTest: 0
+--- !u!1 &2587624368795585612
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,48 +68,106 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 901496638396960865}
-  - component: {fileID: 5734442609333430680}
-  - component: {fileID: 2316535920067329624}
-  - component: {fileID: 4061970748861859941}
-  - component: {fileID: 8805468746681866059}
-  - component: {fileID: 3926941719991130490}
-  - component: {fileID: 1450512355886004584}
-  m_Layer: 0
-  m_Name: Wall 1_1_0.1
+  - component: {fileID: 1570668944159099037}
+  - component: {fileID: 6332128825454927298}
+  m_Layer: 8
+  m_Name: SnapPoint_FloorEdge_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &901496638396960865
+--- !u!4 &1570668944159099037
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 2587624368795585612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: 0.010999978, z: -3}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5767526164057178157}
-  - {fileID: 3103664544637455091}
-  - {fileID: 5785253859393000615}
-  - {fileID: 6244890856046735809}
-  - {fileID: 1246264454601294452}
-  - {fileID: 9031467807142900754}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 2255016321524866056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5734442609333430680
+--- !u!114 &6332128825454927298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 2587624368795585612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 9
+  acceptedTypes: 0900000007000000060000001e0000001f00000019000000
+  providesSupport: 0
+  visualOffset: {x: 0, y: 0, z: 0}
+  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  snapDirection: 4
+  connectionType: 0
+  arrowSize: 0.25
+  showDirectionVectors: 0
+  showConnectionTypeDebug: 0
+  lockRotation: 0
+  rotationStep: 45
+  autoAdjustConnection: 0
+  allowedConnectionTypes: 0000000001000000
+  connectionTestRadius: 1.5
+  drawConnectionTest: 0
+--- !u!1 &3313507889600449874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2255016321524866056}
+  - component: {fileID: 7329039058650257288}
+  - component: {fileID: 2858588193966175472}
+  - component: {fileID: 7986190819952058361}
+  - component: {fileID: 692756550169776798}
+  - component: {fileID: -6334588785467286111}
+  - component: {fileID: 888579741795991026}
+  m_Layer: 8
+  m_Name: Floor 1_0.1_1
+  m_TagString: Buildings
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2255016321524866056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313507889600449874}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4, y: 0.982, z: -22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3111870018208274929}
+  - {fileID: 3504771445767175936}
+  - {fileID: 1570668944159099037}
+  - {fileID: 2840520179542836319}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7329039058650257288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
@@ -229,53 +288,53 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -0.5, y: 0, z: 0.05}
-  - {x: 0.5, y: 0, z: 0.05}
-  - {x: -0.5, y: 1, z: 0.05}
-  - {x: 0.5, y: 1, z: 0.05}
-  - {x: 0.5, y: 0, z: 0.05}
-  - {x: 0.5, y: 0, z: -0.05}
-  - {x: 0.5, y: 1, z: 0.05}
-  - {x: 0.5, y: 1, z: -0.05}
-  - {x: 0.5, y: 0, z: -0.05}
-  - {x: -0.5, y: 0, z: -0.05}
-  - {x: 0.5, y: 1, z: -0.05}
-  - {x: -0.5, y: 1, z: -0.05}
-  - {x: -0.5, y: 0, z: -0.05}
-  - {x: -0.5, y: 0, z: 0.05}
-  - {x: -0.5, y: 1, z: -0.05}
-  - {x: -0.5, y: 1, z: 0.05}
-  - {x: -0.5, y: 1, z: 0.05}
-  - {x: 0.5, y: 1, z: 0.05}
-  - {x: -0.5, y: 1, z: -0.05}
-  - {x: 0.5, y: 1, z: -0.05}
-  - {x: -0.5, y: 0, z: -0.05}
-  - {x: 0.5, y: 0, z: -0.05}
-  - {x: -0.5, y: 0, z: 0.05}
-  - {x: 0.5, y: 0, z: 0.05}
+  - {x: -0.5, y: 0.000000011175871, z: 0.5}
+  - {x: 0.5, y: 0.000000011175871, z: 0.5}
+  - {x: -0.5, y: 0.10000001, z: 0.5}
+  - {x: 0.5, y: 0.10000001, z: 0.5}
+  - {x: 0.5, y: 0.000000011175871, z: 0.5}
+  - {x: 0.5, y: 0.000000011175871, z: -0.5}
+  - {x: 0.5, y: 0.10000001, z: 0.5}
+  - {x: 0.5, y: 0.10000001, z: -0.5}
+  - {x: 0.5, y: 0.000000011175871, z: -0.5}
+  - {x: -0.5, y: 0.000000011175871, z: -0.5}
+  - {x: 0.5, y: 0.10000001, z: -0.5}
+  - {x: -0.5, y: 0.10000001, z: -0.5}
+  - {x: -0.5, y: 0.000000011175871, z: -0.5}
+  - {x: -0.5, y: 0.000000011175871, z: 0.5}
+  - {x: -0.5, y: 0.10000001, z: -0.5}
+  - {x: -0.5, y: 0.10000001, z: 0.5}
+  - {x: -0.5, y: 0.10000001, z: 0.5}
+  - {x: 0.5, y: 0.10000001, z: 0.5}
+  - {x: -0.5, y: 0.10000001, z: -0.5}
+  - {x: 0.5, y: 0.10000001, z: -0.5}
+  - {x: -0.5, y: 0.000000011175871, z: -0.5}
+  - {x: 0.5, y: 0.000000011175871, z: -0.5}
+  - {x: -0.5, y: 0.000000011175871, z: 0.5}
+  - {x: 0.5, y: 0.000000011175871, z: 0.5}
   m_Textures0:
-  - {x: 1, y: 0}
-  - {x: 0, y: 0}
-  - {x: 1, y: 1}
-  - {x: 0, y: 1}
-  - {x: 0.1, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0.1, y: 1}
-  - {x: 0, y: 1}
-  - {x: 1, y: 0}
-  - {x: 0, y: 0}
-  - {x: 1, y: 1}
-  - {x: 0, y: 1}
-  - {x: 0.1, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0.1, y: 1}
-  - {x: 0, y: 1}
-  - {x: 0, y: 1}
-  - {x: 1, y: 1}
-  - {x: 0, y: 0.9}
-  - {x: 1, y: 0.9}
   - {x: 1, y: 0.9}
   - {x: 0, y: 0.9}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: 1, y: 0.9}
+  - {x: 0, y: 0.9}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: 1, y: 0.9}
+  - {x: 0, y: 0.9}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: 1, y: 0.9}
+  - {x: 0, y: 0.9}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 1}
+  - {x: 1, y: 1}
+  - {x: 0, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 0, y: 0}
   - {x: 1, y: 1}
   - {x: 0, y: 1}
   m_Textures2: []
@@ -314,42 +373,42 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 59
+  m_VersionIndex: 82
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &2316535920067329624
+--- !u!114 &2858588193966175472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Shape:
-    rid: 8185296952831508606
+    rid: 8185296952831508696
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 56
-  m_Size: {x: 1, y: 1, z: 0.1}
+  m_UnmodifiedMeshVersion: 73
+  m_Size: {x: 1, y: 0.1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
-    - rid: 8185296952831508606
+    - rid: 8185296952831508696
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
       data: 
---- !u!23 &4061970748861859941
+--- !u!23 &7986190819952058361
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -388,21 +447,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &8805468746681866059
+--- !u!33 &692756550169776798
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Mesh: {fileID: 0}
---- !u!65 &3926941719991130490
+--- !u!65 &-6334588785467286111
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -415,31 +474,33 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.1}
-  m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &1450512355886004584
+  m_Size: {x: 1, y: 0.099999994, z: 1}
+  m_Center: {x: 0, y: 0.050000012, z: 0}
+--- !u!114 &888579741795991026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295902427383247531}
+  m_GameObject: {fileID: 3313507889600449874}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01482ecda9199a645a05e49710af7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceData: {fileID: 11400000, guid: a601b2a9a8639f0468527df40324096c, type: 2}
+  pieceData: {fileID: 0}
   health: 100
   snapPoints:
-  - {fileID: 1227183540632969782}
-  - {fileID: 8352764889928677353}
-  - {fileID: 5082534955583039334}
-  - {fileID: 4390226431668553711}
-  - {fileID: 3130515593380789699}
-  - {fileID: 4261488387334076357}
+  - {fileID: 5182968882410789322}
+  - {fileID: 3131137774229552108}
+  - {fileID: 6332128825454927298}
+  - {fileID: 8635450745656737615}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   isGrounded: 0
---- !u!1 &2437946452154237519
+--- !u!1 &5349785981222583560
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -447,58 +508,59 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1246264454601294452}
-  - component: {fileID: 3130515593380789699}
-  m_Layer: 0
-  m_Name: SnapPoint_WallSide_Left_1
+  - component: {fileID: 3504771445767175936}
+  - component: {fileID: 3131137774229552108}
+  m_Layer: 8
+  m_Name: SnapPoint_FloorEdge_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1246264454601294452
+--- !u!4 &3504771445767175936
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2437946452154237519}
+  m_GameObject: {fileID: 5349785981222583560}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 901496638396960865}
+  m_Father: {fileID: 2255016321524866056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3130515593380789699
+--- !u!114 &3131137774229552108
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2437946452154237519}
+  m_GameObject: {fileID: 5349785981222583560}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 8
-  acceptedTypes: 080000001b0000001400000017000000
-  providesSupport: 1
+  pointType: 9
+  acceptedTypes: 0900000007000000060000001e0000001f00000019000000
+  providesSupport: 0
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 5
+  snapDirection: 1
   connectionType: 0
   arrowSize: 0.25
   showDirectionVectors: 0
+  showConnectionTypeDebug: 0
   lockRotation: 0
   rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 000000000100000002000000
+  autoAdjustConnection: 0
+  allowedConnectionTypes: 0000000001000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
---- !u!1 &2835360428318352039
+  drawConnectionTest: 0
+--- !u!1 &6420444296098702248
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,231 +568,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3103664544637455091}
-  - component: {fileID: 8352764889928677353}
-  m_Layer: 0
-  m_Name: SnapPoint_WallBottom_Down_2
+  - component: {fileID: 3111870018208274929}
+  - component: {fileID: 5182968882410789322}
+  m_Layer: 8
+  m_Name: SnapPoint_FloorEdge_Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3103664544637455091
+--- !u!4 &3111870018208274929
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2835360428318352039}
+  m_GameObject: {fileID: 6420444296098702248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 901496638396960865}
+  m_Father: {fileID: 2255016321524866056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8352764889928677353
+--- !u!114 &5182968882410789322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2835360428318352039}
+  m_GameObject: {fileID: 6420444296098702248}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 6
-  acceptedTypes: 02000000030000000700000009000000
-  providesSupport: 1
+  pointType: 9
+  acceptedTypes: 0900000007000000060000001e0000001f00000019000000
+  providesSupport: 0
   visualOffset: {x: 0, y: 0, z: 0}
   visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 3
+  snapDirection: 0
   connectionType: 0
   arrowSize: 0.25
-  showDirectionVectors: 0
+  showDirectionVectors: 1
+  showConnectionTypeDebug: 1
   lockRotation: 0
   rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
+  autoAdjustConnection: 0
+  allowedConnectionTypes: 0000000001000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
---- !u!1 &2883643217059967427
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5785253859393000615}
-  - component: {fileID: 5082534955583039334}
-  m_Layer: 0
-  m_Name: SnapPoint_WallTop_Up_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5785253859393000615
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2883643217059967427}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 901496638396960865}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5082534955583039334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2883643217059967427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 7
-  acceptedTypes: 060000000e000000090000001b000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 2
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
-  connectionTestRadius: 1.5
-  drawConnectionTest: 1
---- !u!1 &6825510381307874118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9031467807142900754}
-  - component: {fileID: 4261488387334076357}
-  m_Layer: 0
-  m_Name: SnapPoint_WallSide_Left_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9031467807142900754
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6825510381307874118}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 901496638396960865}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4261488387334076357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6825510381307874118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 8
-  acceptedTypes: 080000001b0000001400000017000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 4
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 000000000100000002000000
-  connectionTestRadius: 1.5
-  drawConnectionTest: 1
---- !u!1 &7898662405201151438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5767526164057178157}
-  - component: {fileID: 1227183540632969782}
-  m_Layer: 0
-  m_Name: SnapPoint_WallBottom_Down_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5767526164057178157
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7898662405201151438}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 901496638396960865}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1227183540632969782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7898662405201151438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a0a657252e3274080f7b937e7caa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 6
-  acceptedTypes: 02000000030000000700000009000000
-  providesSupport: 1
-  visualOffset: {x: 0, y: 0, z: 0}
-  visualRotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  snapDirection: 3
-  connectionType: 0
-  arrowSize: 0.25
-  showDirectionVectors: 0
-  lockRotation: 0
-  rotationStep: 45
-  autoAdjustConnection: 1
-  allowedConnectionTypes: 00000000
-  connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0

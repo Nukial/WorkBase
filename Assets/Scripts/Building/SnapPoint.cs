@@ -97,9 +97,6 @@ public class SnapPoint : MonoBehaviour {
     [Tooltip("Kích thước mũi tên hiển thị trong editor")]
     public float arrowSize = 0.25f;
 
-    [Tooltip("Hiển thị các vector hướng (debug)")]
-    public bool showDirectionVectors = false;
-
     [Header("Thiết lập góc xoay")]
     [Tooltip("Cho phép khóa góc xoay khi snap vào điểm này")]
     public bool lockRotation = false;
