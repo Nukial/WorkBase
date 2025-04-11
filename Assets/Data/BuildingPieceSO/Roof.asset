@@ -15,7 +15,7 @@ MonoBehaviour:
   pieceName: Roof
   pieceIcon: {fileID: -1671952101, guid: 76baeda9d8a010e4eb92aa52df8c16ac, type: 3}
   category: 3
-  prefab: {fileID: 5487103713950919912, guid: 70d30d7647cae6647a113ceb8f3df046, type: 3}
+  prefab: {fileID: 8304786953000635017, guid: fcc5f2ed24ba79c409c7b6d96045a0d5, type: 3}
   previewPrefab: {fileID: 0}
   requiredResources:
   - resourceType: {fileID: 11400000, guid: 54309aa9eb1842647876c5f92b32cada, type: 2}

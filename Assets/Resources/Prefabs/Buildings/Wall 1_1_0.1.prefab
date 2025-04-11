@@ -57,7 +57,7 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &295902427383247531
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 000000000100000002000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &2835360428318352039
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &2883643217059967427
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &6825510381307874118
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +669,7 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 000000000100000002000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
 --- !u!1 &7898662405201151438
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,4 +727,4 @@ MonoBehaviour:
   autoAdjustConnection: 1
   allowedConnectionTypes: 00000000
   connectionTestRadius: 1.5
-  drawConnectionTest: 1
+  drawConnectionTest: 0
