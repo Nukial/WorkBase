@@ -10,13 +10,12 @@ WorkBase là một dự án Unity về hệ thống xây dựng với khả năn
 - **Snap System**: Hệ thống kết nối thông minh giữa các thành phần building
 - **Đa dạng thành phần**: Nền móng, tường, sàn, mái nhà, cột dầm và tiện ích
 - **Kết nối linh hoạt**: Hỗ trợ kết nối thẳng, góc 90°, góc 45°
-![alt text](image-1.png)
+![alt text](image-1.png) ![alt text](image-3.png)
 
 ### 📦 Quản lý tài nguyên
 - **Resource System**: Hệ thống quản lý tài nguyên với ScriptableObjects
 - **Storage Management**: Lưu trữ và quản lý tài nguyên trong kho
 - **Resource Requirements**: Yêu cầu tài nguyên cho từng thành phần xây dựng
-![alt text](image-2.png)
 
 ### 🎮 Giao diện và điều khiển
 - **Custom Editor**: Editor tùy chỉnh cho quản lý storage
