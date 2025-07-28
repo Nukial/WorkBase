@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -272,15 +272,15 @@ MonoBehaviour:
     y: 0
     width: 423
     height: 933
-  m_MinSize: {x: 276, y: 76}
+  m_MinSize: {x: 101, y: 126}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 79
     width: 872
     height: 907
   m_SerializedDataModeController:
@@ -1242,8 +1242,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1
-    y: 24
+    x: 873
+    y: 79
     width: 622
     height: 482
   m_SerializedDataModeController:
@@ -1260,9 +1260,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: a8b70000
       m_LastClickedID: 0
-      m_ExpandedIDs: fefaffff
+      m_ExpandedIDs: e88effff5690ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1308,8 +1308,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1
-    y: 532
+    x: 873
+    y: 587
     width: 622
     height: 399
   m_SerializedDataModeController:
@@ -1334,7 +1334,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/Buildings
+    - Assets/Scripts/Editor
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1344,16 +1344,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 53
   m_LastFolders:
-  - Assets/Resources/Prefabs/Buildings
+  - Assets/Scripts/Editor
   m_LastFoldersGridSize: 53
   m_LastProjectPath: C:\Users\luany\Project\WorkBase
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 41}
-    m_SelectedIDs: 44c80000
-    m_LastClickedID: 51268
-    m_ExpandedIDs: 000000008a0101008c0101008e0101009001010092010100940101009601010098010100
+    scrollPos: {x: 0, y: 201}
+    m_SelectedIDs: 44020100
+    m_LastClickedID: 66116
+    m_ExpandedIDs: 000000008a0101008c0101008e01010090010100920101009401010096010100980101003e02010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000022c5000032770000b0ea01003298000060cd00003e9000001290000016e000002a8f00003cab0000309e0000649e0000c4a90000c0a90000b2a90000d4a90000bca900008e291e006c320100e88ffbff100c01000eb2000016b200001ab2000012b200001eb2000022b200002ab2000026b200002eb20000deb70000e2b70000e6b70000f8b80000fcb800002caf000028af000024af000020af00001caf000018af000014af000010af00000caf0000d8a400005e7f0400787f050086d90400eaa2000086aa000024cc000050cc00001ccc000000000000a0f600009ec30000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1461,8 +1461,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1498
-    y: 24
+    x: 1497
+    y: 79
     width: 422
     height: 907
   m_SerializedDataModeController:

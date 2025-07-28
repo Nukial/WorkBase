@@ -136,11 +136,11 @@ Chào mừng các đóng góp cho dự án! Vui lòng:
 
 ## License
 
-[Specify your license here]
+
 
 ## Liên hệ
 
-[Thêm thông tin liên hệ của bạn]
+luanyeua0@gmail.com
 
 ---
 
